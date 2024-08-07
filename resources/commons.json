@@ -1,0 +1,76 @@
+{
+    "raw": {
+        "foreground": "$keys.raw-fore"
+    },
+    "label": {
+        "foreground": "$keys.ref-and-label-fore"
+    },
+    "markup": {
+        "reference": {
+            "foreground": "$keys.ref-and-label-fore"
+        },
+        "link": {
+            "foreground": "$keys.link-fore",
+            "effect-color": "$keys.link-fore",
+            "effect-type": 1
+        },
+        "emphasis": {
+            "font-type": 2,
+            "foreground": "$keys.emph-fore"
+        },
+        "strong": {
+            "font-type": 1,
+            "foreground": "$keys.strong-fore"
+        },
+        "emphasis-and-strong": {
+            "font-type": 3,
+            "foreground": "$keys.emph-strong-fore"
+        },
+        "heading": {
+            "font-type": 1,
+            "effect-type": 4,
+            "foreground": "$keys.foreground",
+            "effect-color": "$keys.foreground"
+        },
+        "emphasis-and-heading": {
+            "effect-type": "$markup.heading.effect-type",
+            "effect-color": "$markup.heading.effect-color"
+        },
+        "strong-and-heading": {
+            "effect-type": "$markup.heading.effect-type",
+            "effect-color": "$markup.heading.effect-color"
+        },
+        "emphasis-and-strong-and-heading": {
+            "effect-type": "$markup.heading.effect-type",
+            "effect-color": "$markup.heading.effect-color"
+        },
+        "term": {
+            "font-type": 1,
+            "foreground": "$keys.foreground",
+            "effect-type": 5,
+            "effect-color": "$keys.foreground"
+        },
+        "emphasis-and-term": {
+            "font-type": 3,
+            "foreground": "$markup.emphasis.foreground",
+            "effect-type": "$markup.term.effect-type",
+            "effect-color": "$markup.term.effect-color"
+        },
+        "strong-and-term": {
+            "font-type": 1,
+            "foreground": "$markup.strong.foreground",
+            "effect-type": "$markup.term.effect-type",
+            "effect-color": "$markup.term.effect-color"
+        },
+        "emphasis-and-strong-and-term": {
+            "font-type": 3,
+            "foreground": "$markup.emphasis-and-strong.foreground",
+            "effect-type": "$markup.term.effect-type",
+            "effect-color": "$markup.term.effect-color"
+        }
+    },
+    "rainbow": {
+        "background-strong-saturation": 1.0,
+        "background-strong-brightness": 1.0
+    }
+}

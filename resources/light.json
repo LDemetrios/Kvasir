@@ -1,0 +1,35 @@
+{
+    "keys": {
+        "ref-and-label-fore": "67493b",
+        "emph-fore": "00a000",
+        "strong-fore": "0000a0",
+        "emph-strong-fore": "00806a",
+        "foreground": "000000",
+        "raw-fore" :"333333",
+        "link-fore": "574a90"
+    },
+    "markup": {
+        "heading": {
+            "font-type": 1,
+            "foreground": "a00000"
+        },
+        "emphasis-and-heading": {
+            "font-type": 3,
+            "foreground": "a06a00"
+        },
+        "strong-and-heading": {
+            "font-type": 1,
+            "foreground": "6a006a"
+        },
+        "emphasis-and-strong-and-heading": {
+            "font-type": 1,
+            "foreground": "8a6a80"
+        }
+    },
+    "rainbow": {
+        "foreground-saturation": 1.0,
+        "foreground-brightness": 0.65,
+        "background-weak-saturation": 0.3,
+        "background-weak-brightness": 1.0
+    }
+}

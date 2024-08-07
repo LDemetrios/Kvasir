@@ -1,0 +1,208 @@
+{
+//  generate=[psi="no"]
+  parserClass="org.ldemetrios.kvasir.syntax.TypstParser"
+  elementTypeClass="org.ldemetrios.kvasir.syntax.TypstElementType"
+  tokenTypeClass="org.ldemetrios.kvasir.syntax.TypstTokenType"
+  elementTypeHolderClass="org.ldemetrios.kvasir.syntax.TypstTypes"
+
+  psiClassPrefix="Typst"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.ldemetrios.kvasir.syntax.psi"
+  psiImplPackage="org.ldemetrios.kvasir.syntax.psi"
+}
+
+root ::= markup_sequence
+
+// MARKUP MODE
+
+markup_sequence ::= (paragraph | PARBREAK)*
+
+paragraph ::= marker markup_expression_disjoint* (COLON markup_expression_disjoint*)? | markup_expression_disjoint+
+private marker ::= (HEADING_MARKER | ENUM_MARKER | LIST_MARKER | TERM_MARKER)
+
+fake markup_expression ::=
+
+private markup_expression_disjoint ::=
+    markup_expression_except_emph_strong | emph | strong
+private markup_expression_except_emph_strong ::=
+    just_text | embedded_code | raw | markup_expression_atom | reference | equation
+
+private markup_expression_atom ::=
+    SPACE | LINEBREAK | ESCAPE | SHORTHAND | SMART_QUOTE | LINK | NEW_LINE | LABEL
+//    { implements=markup_expression }
+
+just_text ::= (TEXT | SEMICOLON)+ ((SPACE+) (TEXT | SEMICOLON)+)* {implements=markup_expression} // Semicolons are quite crutchy
+
+emph ::= UNDERSCORE (markup_expression_except_emph_strong | strong)* UNDERSCORE? { pin=1; implements=markup_expression }
+
+strong ::= STAR (markup_expression_except_emph_strong | emph)* STAR?  { pin=1; implements=markup_expression }
+
+reference ::= REF_MARKER content_block? { implements=markup_expression }
+
+embedded_code ::= HASH emb_code_line { pin=1; implements=[markup_expression math_expression] }
+
+// CODE MODE
+
+wspace ::= (CODE_SPACE)*
+multiline_wspace ::= (CODE_SPACE | CODE_NEW_LINE_SPACE)*
+
+code_sequence ::= code_line* code_expr?
+
+code_line ::= (code_expr_inside | wspace)? code_line_sep
+code_expr ::= code_expr_inside { extends=code_line }
+private code_expr_inside ::= wspace (stmt_disjoint | expr | context_expr) wspace
+private code_line_sep ::= CODE_NEW_LINE_SPACE | SEMICOLON
+
+fake stmt ::= { extends=primary /* Yeah, that's kinda wrong, but whatever */ }
+private stmt_disjoint ::= let_stmt | show_stmt | set_stmt | import_stmt | include_stmt | context_expr
+
+let_stmt ::= LET wspace let_binding (wspace EQ wspace expr wspace)? { pin=1; implements=stmt }
+let_binding ::= UNDERSCORE | varname parenthesized_disjoint? | parenthesized_disjoint
+
+varname ::= IDENT
+
+show_stmt ::= SHOW wspace expr? wspace COLON wspace expr { pin=1; implements=stmt }
+
+set_stmt ::= SET wspace chained_ident wspace parenthesized_disjoint wspace (IF wspace expr)? { pin=1; implements=stmt }
+
+import_stmt ::= IMPORT wspace expr (wspace AS wspace IDENT)? wspace (import_all | import_items)? { pin=1; implements=stmt }
+import_all ::= COLON wspace STAR
+import_items ::= COLON wspace renamed_ident wspace (COMMA wspace renamed_ident)* (wspace COMMA)?
+renamed_ident ::= chained_ident (wspace AS wspace IDENT)?
+
+include_stmt ::= INCLUDE wspace expr { pin=1; implements=stmt }
+
+context_expr ::= CONTEXT wspace expr { pin=1; implements=stmt }
+
+return_expr ::= RETURN wspace expr? { pin=1; implements=primary }
+
+atomic ::= primary_disjoint (method_call | field_access | function_call)* { pin=1; extends=expr }
+
+fake primary ::=
+private primary_disjoint ::= single_arg_closure | code_block | content_block | expr_with_parens | raw | equation | conditional |
+    while_expr | return_expr | for_expr | identifier | primary_literal | stmt_disjoint
+
+identifier ::= IDENT | UNDERSCORE { implements=primary }
+primary_literal ::= IDENT | BREAK | CONTINUE | NONE | AUTO | INT | FLOAT | NUMERIC | STRING | LABEL | BOOL { implements=primary }
+
+left closure ::= (wspace ARROW wspace expr) { implements=primary }
+private expr_with_parens ::= parenthesized_disjoint closure?
+
+single_arg_closure ::= (IDENT | UNDERSCORE) wspace ARROW wspace expr { pin=3; implements=primary }
+
+code_block ::= LEFT_BRACE code_sequence wspace RIGHT_BRACE { pin=1; implements=primary }
+
+content_block ::= LEFT_BRACKET markup_sequence RIGHT_BRACKET { pin=1; implements=primary }
+
+while_expr ::= WHILE wspace expr wspace (code_block | content_block) { pin=1; implements=primary }
+
+conditional ::= IF wspace expr wspace (code_block | content_block) (multiline_wspace else_expr)? { pin=1; implements=primary }
+else_expr ::= ELSE wspace (conditional | code_block | content_block) {pin=1}
+
+for_expr ::= FOR wspace for_binding wspace IN wspace expr wspace (code_block | content_block) { pin=1; implements=primary }
+for_binding ::= (parenthesized_disjoint | IDENT | UNDERSCORE)
+chained_ident ::= IDENT (DOT IDENT)*
+
+raw ::= RAW_DELIM (RAW_CODE | BLOCKY_RAW_CODE)* RAW_DELIM { pin=1; implements=[primary markup_expression] }
+
+fake parenthesized ::= { implements=primary }
+private parenthesized_disjoint ::= empty_parens | empty_dict | parenthesized_thing
+empty_parens ::= LEFT_PAREN wspace RIGHT_PAREN { extends=parenthesized }
+empty_dict ::= LEFT_PAREN wspace COLON wspace RIGHT_PAREN { extends=parenthesized }
+parenthesized_thing ::= LEFT_PAREN parenthesized_element (COMMA parenthesized_element)* COMMA? wspace RIGHT_PAREN { pin=1; extends=parenthesized }
+parenthesized_element ::= wspace (COLON? DOTS? expr entry? | DOTS) wspace
+left entry ::= wspace COLON wspace expr {pin=2}
+
+method_call ::= multiline_wspace (method_call_regular | method_call_content_only)
+method_call_regular ::= DOT wspace IDENT parenthesized_disjoint content_block*
+method_call_content_only ::= DOT wspace IDENT content_block+
+
+field_access ::= multiline_wspace DOT wspace soft_ident
+
+function_call ::= function_call_regular | function_call_content_only
+function_call_regular ::= parenthesized_disjoint content_block*
+function_call_content_only ::= content_block+
+
+soft_ident ::= IDENT | NONE | AUTO | BOOL | NOT | AND | OR | LET | SET | SHOW | CONTEXT | IF | ELSE | FOR | IN | WHILE | BREAK | CONTINUE | RETURN | IMPORT | INCLUDE | AS
+
+// EMBEDDED CODE
+
+emb_code_line ::= (stmt_disjoint | emb_atomic)? (wspace SEMICOLON)? { extends=code_line}
+
+emb_atomic ::= emb_primary (emb_method_call | emb_field_access | emb_function_call)* { pin=1; extends=atomic }
+
+private emb_primary ::= code_block | content_block | parenthesized_disjoint | raw | equation | emb_conditional |
+    while_expr | return_expr | context_expr | for_expr | primary_literal
+
+emb_conditional ::= IF wspace expr wspace (code_block | content_block) wspace emb_else_expr? {pin=1; extends=conditional}
+emb_else_expr ::= ELSE wspace (emb_conditional | code_block | content_block) {pin=1; extends=else_expr}
+
+emb_method_call ::= multiline_wspace (emb_method_call_regular | emb_method_call_content_only) {extends=method_call}
+private emb_method_call_regular ::= DOT IDENT parenthesized_disjoint content_block*
+private emb_method_call_content_only ::= DOT IDENT content_block+
+
+emb_field_access ::= wspace DOT soft_ident { extends=field_access }
+
+emb_function_call ::= emb_function_call_regular | emb_function_call_content_only { extends=function_call }
+private emb_function_call_regular ::= parenthesized_disjoint content_block*
+private emb_function_call_content_only ::= content_block+
+
+// Operators
+
+expr ::= assign_group
+  | or_expr
+  | and_expr
+  | comp_group // This actually creates a bit of confusion with unary `not` and comparison operators.
+  // However, it is always a bad idea to write expressions like `a == not b == c`.
+  // Typst parses is it like a == not (b == c), i do as (a == not b) == c. Which is the same by logic, but I'll put warning anyway.
+  | add_group
+  | mul_group
+  | unary_group
+  | atomic
+
+private assign_group ::= assign_expr | add_assign_expr | sub_assign_expr | mul_assign_expr | div_assign_expr
+private comp_group ::= not_expr | equals_expr | unequals_expr | less_expr | less_or_eq_expr | greater_expr | greater_or_eq_expr | in_expr | not_in_expr
+private add_group ::= add_expr | sub_expr
+private mul_group ::= mul_expr | div_expr
+private unary_group ::= plus_expr | minus_expr
+
+assign_expr        ::= expr wspace EQ            wspace expr { rightAssociative = true; extends=binary_expr }
+add_assign_expr    ::= expr wspace PLUS_EQ       wspace expr { rightAssociative = true; extends=binary_expr }
+sub_assign_expr    ::= expr wspace HYPH_EQ       wspace expr { rightAssociative = true; extends=binary_expr }
+mul_assign_expr    ::= expr wspace STAR_EQ       wspace expr { rightAssociative = true; extends=binary_expr }
+div_assign_expr    ::= expr wspace SLASH_EQ      wspace expr { rightAssociative = true; extends=binary_expr }
+
+or_expr            ::= expr wspace OR            wspace expr { extends=binary_expr }
+
+and_expr           ::= expr wspace AND           wspace expr { extends=binary_expr }
+
+equals_expr        ::= expr wspace EQ_EQ         wspace expr { extends=binary_expr }
+unequals_expr      ::= expr wspace EXCL_EQ       wspace expr { extends=binary_expr }
+less_expr          ::= expr wspace LT            wspace expr { extends=binary_expr }
+less_or_eq_expr    ::= expr wspace LT_EQ         wspace expr { extends=binary_expr }
+greater_expr       ::= expr wspace GT            wspace expr { extends=binary_expr }
+greater_or_eq_expr ::= expr wspace GT_EQ         wspace expr { extends=binary_expr }
+in_expr            ::= expr wspace IN            wspace expr { extends=binary_expr }
+not_in_expr        ::= expr wspace NOT wspace IN wspace expr { extends=binary_expr }
+not_expr           ::=             NOT           wspace expr { extends=unary_expr }
+
+add_expr           ::= expr wspace PLUS          wspace expr { extends=binary_expr }
+sub_expr           ::= expr wspace MINUS         wspace expr { extends=binary_expr }
+mul_expr           ::= expr wspace STAR          wspace expr { extends=binary_expr }
+div_expr           ::= expr wspace SLASH         wspace expr { extends=binary_expr }
+
+plus_expr          ::=             PLUS          wspace expr { extends=unary_expr }
+minus_expr         ::=             MINUS         wspace expr { extends=unary_expr }
+
+fake unary_expr ::= { extends=expr }
+fake binary_expr ::= { extends=expr }
+
+// MATH TODO probably more support
+
+fake math_expression ::=
+
+equation ::= DOLLAR (math_expression_literal | embedded_code )* DOLLAR { implements=[markup_expression primary] }
+math_expression_literal ::=
+    CODE_SPACE | TEXT | SLASH | UNDERSCORE | HAT | MATH_SHORTHAND | PRIME | MATH_ALIGN_POINT | ROOT | MATH_IDENT | STRING
+     { implements=math_expression }
+

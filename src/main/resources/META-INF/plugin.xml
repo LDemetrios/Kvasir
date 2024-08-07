@@ -1,0 +1,63 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>org.ldemetrios.kvasir</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Kvasir</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="ldemetrios@yandex.ru">LDemetrios</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        Adds support for the <a href="https://typst.app/docs">Typst</a> language.
+        The following features are available now:
+        <ul>
+        <li>Syntax highlight</li>
+        </ul>
+
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Typst File"
+                implementationClass="org.ldemetrios.kvasir.language.TypstFileType"
+                fieldName="INSTANCE"
+                language="Typst"
+                extensions="typ"/>
+        <lang.parserDefinition
+                language="Typst"
+                implementationClass="org.ldemetrios.kvasir.syntax.TypstParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="Typst"
+                implementationClass="org.ldemetrios.kvasir.highlight.TypstLexicalHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="org.ldemetrios.kvasir.highlight.HighlightSettingsPage"/>
+        <additionalTextAttributes
+                scheme="High contrast"
+                file="kvasir-color-schemes/high-contrast.xml"/>
+        <additionalTextAttributes
+                scheme="Light"
+                file="kvasir-color-schemes/light.xml"/>
+<!--        Just duplicating for now -->
+        <additionalTextAttributes
+                scheme="Dark"
+                file="kvasir-color-schemes/light.xml"/>
+        <additionalTextAttributes
+                scheme="Darcula"
+                file="kvasir-color-schemes/darcula.xml"/>
+        <annotator
+                language="Typst"
+                implementationClass="org.ldemetrios.kvasir.highlight.TypstAnnotator"/>
+    </extensions>
+</idea-plugin>
