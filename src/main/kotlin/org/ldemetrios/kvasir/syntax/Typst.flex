@@ -659,7 +659,7 @@ MATH_SHORTHANDS="->>" | "->" | "-->" | ":=" | "::=" | "!=" | "..." |
     {MATH_ID_START} {MATH_ID_CONTINUE}*                                 { return MATH_IDENT; }
     [0-9]+(\.[0-9]+)?                                                   { return TEXT; }
     {STRING}                                                            { return STRING; }
-    // The fuck. Graphemes. TODO.
+    // The hell. Graphemes. TODO.
     [^]                                                                 { return TEXT; }
 }
 

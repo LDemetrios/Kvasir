@@ -46,3 +46,4 @@ src/test/output/
 
 ### Security ###
 credentials/
+.run

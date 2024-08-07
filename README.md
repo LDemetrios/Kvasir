@@ -1,6 +1,6 @@
 # Kvasir
 
-Kvasir is an (unofficial) Intellij IDEa plugin adding support for [Typst](https://typst.app/docs) language.
+Kvasir (/kwɑ'zer/) is an (unofficial) Intellij IDEa plugin adding support for [Typst](https://typst.app/docs) language.
 
 ![screenshot.png](screenshot.png)
 
