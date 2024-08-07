@@ -8,14 +8,14 @@ Kvasir is an (unofficial) Intellij IDEa plugin adding support for [Typst](https:
 
 - Customizable syntax highlight
 
-The plugin is in beta stage, a lot of features are yet to come. 
+The plugin is in the beta stage, a lot of features are yet to come. 
 See _Roadmap_ for the information about planned features, 
 and _Nearest plans_ for those which are currently in development. 
 Feel free to open issues and pull requests.
 
 ## Installation
 
-The plugin can be manually installed from disk [archive](distributions/Kvasir-a.1.0-signed.zip), 
+The plugin can be manually installed from disk [archive](distributions/Kvasir-0.1.0-signed.zip), 
 or from JetBrains Marketplace by name.
 
 ## Roadmap

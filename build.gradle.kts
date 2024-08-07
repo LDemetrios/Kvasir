@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "org.ldemetrios"
-version = "a.1.0"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -26,7 +26,6 @@ intellij {
 }
 
 dependencies {
-    implementation("com.github.ajalt.colormath:colormath:3.6.0")
 }
 
 task("prepareColors") {
@@ -72,9 +71,6 @@ tasks {
     }
 
     publishPlugin {
-        doFirst{
-            throw AssertionError("Publish Plugin task is forbidden")
-        }
         dependsOn("prepareColors")
         token.set(System.getenv("PUBLISH_TOKEN"))
     }

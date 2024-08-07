@@ -19,7 +19,11 @@
         <ul>
         <li>Syntax highlight</li>
         </ul>
-
+        <br>
+        The plugin is in the beta stage, a lot of features are yet to come.
+        Visit <a href="https://github.com/LDemetrios/Kvasir">the repo</a> to see our plans.
+        The first priority is to support the live preview.
+        <br>
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
