@@ -6,6 +6,7 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.elementType
+import org.ldemetrios.kvasir.syntax.TypstFile
 import org.ldemetrios.kvasir.syntax.TypstTypes.*
 import org.ldemetrios.kvasir.syntax.psi.*
 import org.ldemetrios.kvasir.syntax.psiExt.*

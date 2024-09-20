@@ -1,0 +1,87 @@
+++++++++++++++++++++++++++++
+watching short.typ
+writing to short.pdf
+
+[22:44:16] compiling ...
+watching short.typ
+writing to short.pdf
+
+[22:44:17] compiled successfully in 8.89ms
+++++++++++++++++++++++++++++
+watching short.typ
+writing to short.pdf
+
+[22:45:06] compiling ...
+watching short.typ
+writing to short.pdf
+
+[22:45:06] compiled with errors
+
+error: unexpected end of block comment
+  ┌─ short.typ:1:1
+  │
+1 │ 1*/
+  │  ^^
++++++++++++++++++++++++++++++++++++++++++++++++++
+watching short.typ
+writing to short.pdf
+
+[22:45:54] compiling ...
+watching short.typ
+writing to short.pdf
+
+[22:45:54] compiled with errors
+
+error: number must be at least zero
+  ┌─ short.typ:1:18
+  │
+1 │ #let f(x) = lorem(x)
+  │                   ^
+
+help: error occurred in this call of function `f`
+  ┌─ short.typ:2:1
+  │
+2 │ #f(-1)
+  │  ^^^^^
++++++++++++++++++++++++++++++++++++++++++++++++++
+watching short.typ
+writing to short.pdf
+
+[22:46:24] compiling ...
+watching short.typ
+writing to short.pdf
+
+[22:46:24] compiled with errors
+
+error: number must be at least zero
+  ┌─ short.typ:1:18
+  │
+1 │ #let f(x) = lorem(x)
+  │                   ^
+
+help: error occurred in this call of function `f`
+  ┌─ short.typ:2:1
+  │
+2 │   #f(
+  │ ╭──^
+3 │ │
+4 │ │ -1
+5 │ │
+6 │ │ )
+  │ ╰─^
++++++++++++++++++++++++++++++++++++++++++++++++++
+watching short.typ
+writing to short.pdf
+
+[22:52:22] compiling ...
+watching short.typ
+writing to short.pdf
+
+[22:52:22] compiled with errors
+
+error: unclosed delimiter
+  ┌─ short.typ:2:9
+  │
+2 │ #set page(f
+  │          ^
+

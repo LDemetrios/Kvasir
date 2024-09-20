@@ -29,6 +29,7 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -53,9 +54,11 @@
         <additionalTextAttributes
                 scheme="Light"
                 file="kvasir-color-schemes/light.xml"/>
+
+
 <!--        Just duplicating for now -->
         <additionalTextAttributes
-                scheme="Dark"
+                scheme="Intellij Light"
                 file="kvasir-color-schemes/light.xml"/>
         <additionalTextAttributes
                 scheme="Darcula"
@@ -63,5 +66,16 @@
         <annotator
                 language="Typst"
                 implementationClass="org.ldemetrios.kvasir.highlight.TypstAnnotator"/>
+        <fileEditorProvider
+                implementation="org.ldemetrios.kvasir.preview.TestProvider"/>
+        <externalAnnotator
+                language="Typst"
+                implementationClass="org.ldemetrios.kvasir.preview.CompilationErrorAnnotator"/>
     </extensions>
+
+<!--    <projectListeners>-->
+<!--        <listener-->
+<!--                class="org.ldemetrios.kvasir.preview.DocReloader"-->
+<!--                topic="com.intellij.openapi.editor.event.DocumentListener"/>-->
+<!--    </projectListeners>-->
 </idea-plugin>

@@ -26,6 +26,16 @@ intellij {
 }
 
 dependencies {
+//    implementation("org.apache.xmlgraphics:batik-swing:1.17") /*{
+//        exclude("org.apache.xmlgraphics", "xml-apis")
+//    }
+//*/
+    implementation("com.github.weisj:jsvg:1.6.0")
+
+//    implementation("org.apache.xmlgraphics:batik-dom:+")
+//    implementation("org.apache.xmlgraphics:batik-svg-dom:+")
+//    implementation("org.apache.xmlgraphics:batik-parser:+")
+//    implementation("org.apache.xmlgraphics:batik-bridge:+")
 }
 
 task("prepareColors") {
@@ -47,6 +57,27 @@ tasks {
         sourceCompatibility = "17"
         targetCompatibility = "17"
     }
+
+    /*withType<JavaExec>*/ runIde {
+        val list = listOf(
+            "java.base/java.lang",
+            "java.base/java.util",
+            "java.base/jdk.internal.misc",
+            "java.base/java.security",
+            "java.desktop/javax.swing.event",
+            "java.base/java.util.concurrent",
+            "java.base/java.util.concurrent.locks",
+            "java.base/sun.reflect.annotation",
+            "java.datatransfer/java.awt.datatransfer",
+            "java.desktop/sun.java2d.xr",
+            "java.base/jdk.internal.ref",
+                    "java.base/java.util.concurrent.locks",
+        )
+        for (el in list) {
+            jvmArgs("--add-opens", "$el=ALL-UNNAMED")
+        }
+    }
+
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "17"
     }
