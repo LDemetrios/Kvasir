@@ -10,6 +10,7 @@ Kvasir (/kwɑ'zer/) is an (unofficial) Intellij IDEa plugin adding support for [
 - Customizable syntax highlight
 - Instant preview (Uses `typst watch` for now)
 - Compilation errors display
+- Theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively, as a rgb hex string)
 
 The plugin is in the beta stage, a lot of features are yet to come. 
 See _Roadmap_ for the information about planned features, 

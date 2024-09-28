@@ -20,6 +20,8 @@
         <li>Syntax highlight</li>
         <li>Instant preview (Uses `typst watch` for now)</li>
         <li>Compilation errors display</li>
+        <li>Theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively, as a rgb hex string)</li>
+        </ul>
         <br>
         The plugin is in the beta stage, a lot of features are yet to come.
         Visit <a href="https://github.com/LDemetrios/Kvasir">the repo</a> to see our plans, known bugs, report an issue, make pull request.
