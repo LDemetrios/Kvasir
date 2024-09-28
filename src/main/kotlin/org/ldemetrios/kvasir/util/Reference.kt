@@ -54,7 +54,7 @@ class CachedReference<T : Any>(val supplier: () -> T, createHard: Boolean = fals
         ref.soften()
     }
 
-    fun deref(): T = /*ref.deref() ?:*/ supplier()
+    fun deref(): T = ref.deref() ?: supplier()
 }
 
 class Rc<T : Closeable>(val value: T, val notify: T.() -> Unit = {}) : AutoCloseable by value {

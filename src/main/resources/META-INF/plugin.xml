@@ -18,11 +18,11 @@
         The following features are available now:
         <ul>
         <li>Syntax highlight</li>
-        </ul>
+        <li>Instant preview (Uses `typst watch` for now)</li>
+        <li>Compilation errors display</li>
         <br>
         The plugin is in the beta stage, a lot of features are yet to come.
-        Visit <a href="https://github.com/LDemetrios/Kvasir">the repo</a> to see our plans.
-        The first priority is to support the live preview.
+        Visit <a href="https://github.com/LDemetrios/Kvasir">the repo</a> to see our plans, known bugs, report an issue, make pull request.
         <br>
     ]]></description>
 

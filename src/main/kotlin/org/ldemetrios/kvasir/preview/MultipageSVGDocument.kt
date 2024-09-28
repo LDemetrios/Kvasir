@@ -1,6 +1,44 @@
 package org.ldemetrios.kvasir.preview
+/*
+import com.github.weisj.jsvg.attributes.ViewBox
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory
+import org.apache.batik.bridge.BridgeContext
+import org.apache.batik.bridge.GVTBuilder
+import org.apache.batik.bridge.UserAgentAdapter
+import org.apache.batik.util.XMLResourceDescriptor
+import org.ldemetrios.kvasir.util.CachedReference
+import java.awt.Component
+import java.awt.Graphics2D
+import java.io.File
 
-import com.github.weisj.jsvg.SVGDocument
+class SVGPage(val file: File, val loader: SAXSVGDocumentFactory, createHard: Boolean = true) {
+    fun harden() = content.harden()
+    fun soften() = content.soften()
+
+    fun render(component: Component, g: Graphics2D, viewBox: ViewBox) {
+        val transformWas = g.transform
+        g.translate(viewBox.x.toInt(), viewBox.y.toInt()) // Enough?
+        content.deref().second.paint(g)
+        g.transform = transformWas
+    }
+
+    val content = CachedReference({
+        val document = loader.createSVGDocument(file.toURI().toString())
+        val renderer = GVTBuilder().build(BridgeContext(UserAgentAdapter()), document)
+        document to renderer
+    }, createHard)
+
+    val vb = content.deref().first.rootElement.viewport.run { width to height }
+
+    val width get() = vb.first.toDouble()
+    val height get() = vb.second.toDouble()
+}
+
+class MultipageSVGDocument(val folder: File, val pageGap: Double) {
+    val loader = SAXSVGDocumentFactory(XMLResourceDescriptor.getXMLParserClassName())
+* */
+
+
 import com.github.weisj.jsvg.attributes.ViewBox
 import com.github.weisj.jsvg.parser.SVGLoader
 import org.ldemetrios.kvasir.util.CachedReference
@@ -9,6 +47,7 @@ import java.awt.Graphics2D
 import java.io.File
 
 class SVGPage(val file: File, val loader: SVGLoader, createHard: Boolean = true) {
+//    val file = File("/home/ldemetrios/Workspace/TypstNKotlin/Kvasir/short.svg")
     fun harden() = content.harden()
     fun soften() = content.soften()
 
@@ -51,7 +90,7 @@ class MultipageSVGDocument(val folder: File, val pageGap: Double) {
         val l = pageStarts.binarySearch(lower).let {
             when {
                 it > 0 -> it
-                (pageStarts.getOrElse(-it) { .0 }) - lower > PAGE_GAP -> -it - 2
+                (pageStarts.getOrElse(-it) { .0 }) - lower >= PAGE_GAP /2 -> -it - 2
                 else -> -it - 1
             }
         }
@@ -68,7 +107,7 @@ class MultipageSVGDocument(val folder: File, val pageGap: Double) {
         )
     }
 
-    private fun stabilize(newLowerPage: Int, newUpperPage:Int) {
+    private fun stabilize(newLowerPage: Int, newUpperPage: Int) {
         // Harden and soften whatever needed first
 
         if (lowerPage != -1) {

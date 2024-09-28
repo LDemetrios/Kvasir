@@ -1,8 +1,12 @@
 package org.ldemetrios.kvasir.preview.watch
 
+import com.intellij.ui.JBColor
+import com.intellij.util.ui.JBUI.CurrentTheme
 import org.ldemetrios.kvasir.util.InputStreamNBReader
+import java.awt.Color
 import java.io.Closeable
 import java.io.File
+import java.io.IOException
 import kotlin.io.path.createTempDirectory
 
 
@@ -15,6 +19,13 @@ data class Switchable<T>(val a: T, val b: T, var selected: Boolean = true) {
     }
 }
 
+fun colorAsTypst(c: Color) = listOf(
+    c.red, c.green, c.blue, c.alpha
+).joinToString("", "#") { it.toString(16).run { "0".repeat(2 - length) + this } }
+
+val foregroundColorAsTypst get() = colorAsTypst(CurrentTheme.List.FOREGROUND)
+val backgroundColorAsTypst get() = colorAsTypst(CurrentTheme.List.BACKGROUND)
+
 class FileWatch(private val input: File, private val root: File) : Closeable {
     private val onSuccess = mutableListOf<(FileWatch) -> Unit>()
     private val onError = mutableListOf<(FileWatch) -> Unit>()
@@ -22,6 +33,7 @@ class FileWatch(private val input: File, private val root: File) : Closeable {
     fun onSuccessDo(action: (FileWatch) -> Unit) {
         onSuccess.add(action)
     }
+
     fun onErrorDo(action: (FileWatch) -> Unit) {
         onError.add(action)
     }
@@ -33,13 +45,19 @@ class FileWatch(private val input: File, private val root: File) : Closeable {
         createTempDirectory(prefix = "kvasir-preview-" + input.nameWithoutExtension).toString(),
     )
 
-    private val watchProcess = ProcessBuilder(
-        "typst", "watch",
-        "--root", root.absolutePath,
-        input.absolutePath,
-        "$closed/out-{n}.svg",
-        "--format", "svg"
-    ).start()
+    private val watchProcess = try {
+        ProcessBuilder(
+            "typst", "watch",
+            "--root", root.absolutePath,
+            input.absolutePath,
+            "$closed/out-{n}.svg",
+            "--format", "svg",
+            "--input", "kvasir-preview-background=$backgroundColorAsTypst",
+            "--input", "kvasir-preview-foreground=$foregroundColorAsTypst",
+        ).start()
+    } catch (e: IOException) {
+        null
+    }
 
     val svgFolder get() = File(opened.current)
 
@@ -50,24 +68,25 @@ class FileWatch(private val input: File, private val root: File) : Closeable {
     @Volatile
     var lastCompilationReport: CompilationReport? = null
         private set(value) {
-            value?.trace?.firstOrNull()?.extend(RuntimeException())?.printStackTrace()
+//            value?.trace?.firstOrNull()?.extend(RuntimeException())?.printStackTrace()
             field = value
         }
 
     private val pendingReport: MutableList<String> = mutableListOf()
 
-    private val stream = InputStreamNBReader(watchProcess.errorStream)
+    private val stream = watchProcess?.let { InputStreamNBReader(it.errorStream) }
 
-    private var pendingSucceeded: Boolean? = null
+    private var pendingSucceeded: State? = null
 
     fun update() {
+        if (stream == null) return
         val changes = stream.readAvailable {
-            println("line: $it")
+//            println("line: $it")
             if (it.isBlank()) return@readAvailable
 
             when {
                 it.matches(filler) -> {
-                    println("Filler, pendingReport is " + (if (pendingReport.isEmpty()) "empty" else "not empty, reparsing, success: $pendingSucceeded"))
+//                    println("Filler, pendingReport is " + (if (pendingReport.isEmpty()) "empty" else "not empty, reparsing, success: $pendingSucceeded"))
                     if (pendingReport.isNotEmpty()) {
                         println("Report\n" + pendingReport.joinToString("\n") { "\t$it" })
                         reparseReport()
@@ -75,65 +94,71 @@ class FileWatch(private val input: File, private val root: File) : Closeable {
                 }
                 it.matches(compiledSuccessfully) -> {
                     println("Compiled successfully")
-                    pendingSucceeded = true
+                    pendingSucceeded = State.Success
                     pendingReport.add(it)
                 }
                 it.matches(compiledWithErrors) -> {
                     println("Compiled with errors")
-                    pendingSucceeded = false
+                    pendingSucceeded = State.Error
+                    pendingReport.add(it)
+                }
+                it.matches(compiledWithWarnings) -> {
+                    println("Compiled with warnings")
+                    pendingSucceeded = State.Warnings
                     pendingReport.add(it)
                 }
                 else -> {
-                    println("Just adding")
+//                    println("Just adding")
                     pendingReport.add(it)
                 }
             }
         }
 
         if (changes && pendingSucceeded != null && pendingReport.isNotEmpty()) {
-            println("Finished reading, changes present, success: $pendingSucceeded")
-            println("Report\n" + pendingReport.joinToString("\n") { "\t$it" })
+//            println("Finished reading, changes present, success: $pendingSucceeded")
+//            println("Report\n" + pendingReport.joinToString("\n") { "\t$it" })
 
             val success = pendingSucceeded
             reparseReport()
-            when(success){
-                true -> onSuccess.forEach { it(this) }
-                false -> onError.forEach { it(this) }
+            when (success) {
+                State.Success, State.Warnings -> onSuccess.forEach { it(this) }
+                State.Error -> onError.forEach { it(this) }
                 null -> {}
             }
         }
     }
 
     private fun reparseReport() {
-        val report = pendingSucceeded!!.let {
-            CompilationReport(
-                input,
-                root,
-                if (it) null else parseTypstStacktrace(input, root, pendingReport),
-                it
-            )
-        }
-        if (pendingSucceeded == true) {
-            val switch = File(opened.current).listFiles()!!.isNotEmpty()
-            println("Reloading $input, switch: $switch")
-            val cl = File(closed)
-            val to = if (switch) File(opened.waiting) else File(opened.current)
-            for (page in cl.listFiles()!!) {
-                page.renameTo(to.resolve(page.relativeTo(cl)))
+        try {
+            val pendingSucceeded = pendingSucceeded
+            val report = pendingSucceeded!!.let {
+                CompilationReport(
+                    input,
+                    root,
+                    if (it == State.Success) null else parseTypstStacktrace(input, root, pendingReport),
+                    it
+                )
             }
-            if (switch) opened.switch()
+            if (pendingSucceeded != State.Error) {
+                val switch = File(opened.current).listFiles()!!.isNotEmpty()
+//            println("Reloading $input, switch: $switch")
+                val cl = File(closed)
+                val to = if (switch) File(opened.waiting) else File(opened.current)
+                for (page in cl.listFiles()!!) {
+                    page.renameTo(to.resolve(page.relativeTo(cl)))
+                }
+                if (switch) opened.switch()
+                File(opened.waiting).listFiles()!!.forEach(File::delete)
+            }
+            lastCompilationReport = report
+        } finally {
+            pendingReport.clear()
+            pendingSucceeded = null
         }
-        pendingReport.clear()
-        lastCompilationReport = report
-        pendingSucceeded = null
-    }
-
-    private fun printState() {
-        println("lastSucceeded: $pendingSucceeded\npendingReport:\n" + pendingReport.joinToString("\n") { "\t$it" } + "\n")
     }
 
     override fun close() {
-        watchProcess.destroy()
+        watchProcess?.destroy()
         File(opened.waiting).deleteRecursively()
         File(opened.waiting).deleteRecursively()
         File(closed).deleteRecursively()
@@ -143,11 +168,13 @@ class FileWatch(private val input: File, private val root: File) : Closeable {
 val filler = Regex("watching .*|writing to .*|\\[..:..:..] compiling \\.\\.\\.")
 val compiledSuccessfully = Regex("\\[..:..:..] compiled successfully in .*")
 val compiledWithErrors = Regex("\\[..:..:..] compiled with errors")
+val compiledWithWarnings = Regex("\\[..:..:..] compiled with warnings in .*")
 
+enum class State { Success, Warnings, Error }
 
 data class CompilationReport(
     val input: File,
     val root: File,
     val trace: List<TypstStacktrace>?,
-    val success: Boolean
+    val success: State
 )

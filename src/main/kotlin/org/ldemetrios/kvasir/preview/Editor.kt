@@ -19,25 +19,27 @@ class TestProvider : FileEditorProvider, DumbAware {
 
     override fun createEditor(project: Project, file: VirtualFile): FileEditor {
         try {
-            val ed = TextEditorProvider.getInstance().createEditor(project, file);
-            return TextEditorWithPreview(ed as TextEditor, TestFileEditor(file, project))
+            val base = TextEditorProvider.getInstance().createEditor(project, file) as TextEditor;
+            val preview = TypstPreviewFileEditor(file, project)
+//            base.component.addKeyListener(preview.COMPONENT)
+            return TextEditorWithPreview(base, preview).also{
+                it.component.addKeyListener(preview.COMPONENT)
+            }
         } catch (e: Throwable) {
             e.printStackTrace()
             throw e
         }
     }
 
-    override fun getEditorTypeId(): String = "KVASIR_TEST_EDITOR_BLAH_BLAH"
+    override fun getEditorTypeId(): String = "KVASIR_TEST_EDITOR_WITH_PREVIEW"
 
-    override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.PLACE_AFTER_DEFAULT_EDITOR
+    override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 }
 
-
-
-class TestFileEditor(val f: VirtualFile, val project: Project) : FileEditor {
+class TypstPreviewFileEditor(val f: VirtualFile, val project: Project) : FileEditor {
     val watch = WatchServer.register(f.path, project.basePath!!)
     val RENDERER = SvgViewerPanel(watch)
-    val COMPONENT = ZoomablePanel(RENDERER, JBColor.WHITE, JBColor.BLACK, 10)
+    val COMPONENT = ZoomablePanel(RENDERER /*TestPanel(700, 1600)*/)
 
     init {
         watch.deref().onSuccessDo {
@@ -51,18 +53,17 @@ class TestFileEditor(val f: VirtualFile, val project: Project) : FileEditor {
     }
 
     init {
-        PsiManager.getInstance(project).findFile(f)?.viewProvider?.document?.addDocumentListener(DocReloader)
-            ?: println("AAAH NULL")
+        PsiManager.getInstance(project).findFile(f)?.viewProvider?.document?.addDocumentListener(DocReloader)!!
     }
 
     val map = mutableMapOf<Key<*>, Any?>()
     override fun <T : Any?> getUserData(key: Key<T>): T? {
-        println("Get $key")
+//        println("Get $key")
         return map.get(key) as T?
     }
 
     override fun <T : Any?> putUserData(key: Key<T>, value: T?) {
-        println("Put $key = $value")
+//        println("Put $key = $value")
         map[key] = value
     }
 
@@ -80,11 +81,11 @@ class TestFileEditor(val f: VirtualFile, val project: Project) : FileEditor {
     }
 
     override fun getName(): String {
-        return "Test Fucking Editor"
+        return "TypstPreviewFileEditor"
     }
 
     override fun setState(state: FileEditorState) {
-        println("Set State $state")
+//        println("Set State $state")
     }
 
     override fun isModified(): Boolean = false
@@ -92,11 +93,11 @@ class TestFileEditor(val f: VirtualFile, val project: Project) : FileEditor {
     override fun isValid(): Boolean = true
 
     override fun addPropertyChangeListener(listener: PropertyChangeListener) {
-        println("Add listener $listener")
+//        println("Add listener $listener")
     }
 
     override fun removePropertyChangeListener(listener: PropertyChangeListener) {
-        println("Remove listener $listener")
+//        println("Remove listener $listener")
     }
 
     override fun getFile(): VirtualFile {

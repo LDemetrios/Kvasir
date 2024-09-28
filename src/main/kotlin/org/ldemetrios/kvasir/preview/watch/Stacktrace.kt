@@ -1,6 +1,5 @@
 package org.ldemetrios.kvasir.preview.watch
 
-import com.intellij.openapi.editor.colors.EditorColorsManager
 import org.ldemetrios.kvasir.util.removePrefixOrThrow
 import org.ldemetrios.kvasir.util.removeSuffixOrThrow
 import java.io.File
@@ -123,7 +122,7 @@ fun parseTypstStacktrace(input: File, root: File, log: List<String>): List<Typst
         traces.firstOrNull { it.first().first == ErrorSeverity.ERROR }?.let { findPrefix(relative, it[0].second) }
 
     return traces.map {
-        val part = it.map { parseTraceEntry(pathPrefix, it.second) }
+        val part = it.map { parseTraceEntry(pathPrefix, input.relativeTo(root).path, it.second) }
         TypstStacktrace(part.first().severity, part)
     }
 }
@@ -133,9 +132,10 @@ fun findPrefix(relative: String, part: List<String>): String {
     return declaration.removeSuffixOrThrow(relative)
 }
 
-fun parseTraceEntry(pathPrefix: String?, part: List<String>): TraceEntry {
-    println(EditorColorsManager.getInstance().globalScheme.defaultForeground)
+fun parseTraceEntry(pathPrefix: String?, realFile: String, part: List<String>): TraceEntry {
     val (severity, message) = part[0].split(":", limit = 2).map { it.trim() }
+    if (severity == "warning") return TraceEntry(ErrorSeverity.WARNING, realFile, 0, 0, 0, 0, message)
+
     val (file, line, char) = part[1].dropWhile { it in " ┌─" }.split(":").also { require(it.size == 3) }
 
     val last = Regex(" *[\\│|] ( *\\^*) *").matchEntire(part.last())
@@ -170,6 +170,6 @@ fun parseSeverity(severity: String): ErrorSeverity {
         "help" -> ErrorSeverity.INFO
         "warning" -> ErrorSeverity.WARNING
         "error" -> ErrorSeverity.ERROR
-        else -> throw AssertionError()
+        else -> throw AssertionError(severity)
     }
 }

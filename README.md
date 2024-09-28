@@ -3,10 +3,13 @@
 Kvasir (/kwɑ'zer/) is an (unofficial) Intellij IDEa plugin adding support for [Typst](https://typst.app/docs) language.
 
 ![screenshot.png](screenshot.png)
+![preview.png](preview.png)
 
 ## Features
 
 - Customizable syntax highlight
+- Instant preview (Uses `typst watch` for now)
+- Compilation errors display
 
 The plugin is in the beta stage, a lot of features are yet to come. 
 See _Roadmap_ for the information about planned features, 
@@ -15,7 +18,7 @@ Feel free to open issues and pull requests.
 
 ## Installation
 
-The plugin can be manually installed from disk [archive](distributions/Kvasir-0.1.0-signed.zip), 
+The plugin can be manually installed from disk with [archive](distributions/Kvasir-0.2.0-signed.zip), 
 or from JetBrains Marketplace by name.
 
 ## Roadmap
@@ -29,7 +32,9 @@ Listed by group, not by priority (see _Nearest plans_ for those)
   - [ ] Math support
   - [ ] Error recovery (one error shouldn't bust highlighting for the rest of the file)
   - [ ] Language injections: highlight raw code due to its actual language
-- Preview and Compiler errors (integrate Typst-Preview)
+- Preview and Compiler errors
+  - [X] Basic (typst watch)
+  - [ ] Integrate tinymist
 - Formatter
   - [ ] Sketch formatter (integrate typstfmt or typstyle)
   - [ ] Intellij-based, configurable formatter
@@ -54,8 +59,18 @@ Listed by group, not by priority (see _Nearest plans_ for those)
 
 ## Nearest plans
 
-- Error recovery
 - Sketch formatter
-- Preview and Compiler errors
+- More settings
+- Error recovery
 - Go to definition, renaming, find usages
 
+## Known bugs
+
+- Shorthands inside headings aren't highlighted properly.
+- If `page.fill` is not `set` explicitly, the picture may appear transparent. `#set page(fill:white)` (or another color) helps.
+- Errors in the `File Errors` are shown in the order of how they are located in the document, not in order of the stacktrace. I'm not sure if it's even possible, but I'm working on it.
+
+## Contacts
+
+Telegram: @LDemetrios
+Mail: ldemetrios@yandex.ru
