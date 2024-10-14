@@ -1,6 +1,6 @@
 package org.ldemetrios.kvasir.util
 
-import com.intellij.reference.SoftReference
+import java.lang.ref.SoftReference
 import java.io.Closeable
 import java.util.concurrent.atomic.AtomicInteger
 

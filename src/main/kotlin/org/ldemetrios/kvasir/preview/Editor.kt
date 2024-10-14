@@ -1,6 +1,7 @@
 package org.ldemetrios.kvasir.preview
 
 import com.intellij.openapi.fileEditor.*
+import com.intellij.openapi.fileEditor.TextEditorWithPreview.Layout
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
@@ -8,6 +9,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.ui.JBColor
+import org.jetbrains.annotations.Nls
 import org.ldemetrios.kvasir.preview.watch.WatchServer
 import java.beans.PropertyChangeListener
 import javax.swing.*
@@ -22,7 +24,9 @@ class TestProvider : FileEditorProvider, DumbAware {
             val base = TextEditorProvider.getInstance().createEditor(project, file) as TextEditor;
             val preview = TypstPreviewFileEditor(file, project)
 //            base.component.addKeyListener(preview.COMPONENT)
-            return TextEditorWithPreview(base, preview).also{
+            return TextEditorWithPreview(
+                base, preview,
+            ).also {
                 it.component.addKeyListener(preview.COMPONENT)
             }
         } catch (e: Throwable) {
