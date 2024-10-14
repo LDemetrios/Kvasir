@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "org.ldemetrios"
-version = "0.2.0"
+version = "0.2.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ sourceSets["main"].java.srcDirs("src/main/gen")
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2024.1")
+    version.set("2024.2.1")
     type.set("IC") // Target IDE Platform
 
     plugins.set(listOf(/* Plugin Dependencies */))
