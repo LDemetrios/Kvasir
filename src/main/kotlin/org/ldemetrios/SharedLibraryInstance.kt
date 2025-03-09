@@ -31,12 +31,16 @@ private val folder = run {
     } + "-" + Platform.ARCH
 }
 
+
+object Here
+
 //val instance = TypstSharedLibrary.instance(Path("/home/ldemetrios/Workspace/TypstNKotlinInterop/typst-custom-serialize/target/release/libtypst_shared.so"))
 val instance = run {
+    val name = System.mapLibraryName("typst_shared");
     try {
-        TypstSharedLibrary.instance(Path(folder, "libtypst_shared.so"))
+//        val url = Here::class.java.classLoader.getResource(folder + "/" + System.mapLibraryName("typst_shared"))
+        TypstSharedLibrary.instance(Path(folder, name))
     } catch (e: UnsatisfiedLinkError) {
-        val name = System.mapLibraryName("typst_shared");
         val path = System.getenv("PATH")
 
         path?.split(File.pathSeparator)
@@ -57,7 +61,7 @@ val instance = run {
 //val instance = Native.load("typst_shared", TypstSharedLibrary::class.java)!!
 //val x = println("PATH: ${System.getenv("PATH")};")
 
-fun askForShutdown(project: Project) {
+fun askForShutdown(project: Project?) {
     val errorMessage = """
         Fatal error occurred in Kvasir: shared library not found. Probably, your architecture and OS combination is not usual.
         (OS: $osName, Arch: $archName, inferred target: $folder). 

@@ -19,17 +19,17 @@ open class TypstFileCommon(viewProvider: FileViewProvider, language: Language, v
 }
 
 class TypstMarkupFile(viewProvider: FileViewProvider) : TypstFileCommon(
-    viewProvider, TypstMarkupLanguage.INSTANCE, TypstMarkupFileType.INSTANCE, "Typst File"
+    viewProvider, TypstMarkupLanguage.INSTANCE, TypstMarkupFileType.INSTANCE, "Typst"
 )
 
 
 class TypstCodeFile(viewProvider: FileViewProvider) : TypstFileCommon(
-    viewProvider, TypstCodeLanguage.INSTANCE, TypstCodeFileType.INSTANCE, "Typst Code File"
+    viewProvider, TypstCodeLanguage.INSTANCE, TypstCodeFileType.INSTANCE, "Typst Code"
 )
 
 
 class TypstMathFile(viewProvider: FileViewProvider) : TypstFileCommon(
-    viewProvider, TypstMathLanguage.INSTANCE, TypstMathFileType.INSTANCE, "Typst Math File"
+    viewProvider, TypstMathLanguage.INSTANCE, TypstMathFileType.INSTANCE, "Typst Math"
 )
 
 class TypstTokenType(val kind: SyntaxKind?, name: String = kind!!.name) : IElementType(name, TypstMarkupLanguage.INSTANCE) {
