@@ -11,18 +11,11 @@
     "markup": {
         "heading": {
             "font-type": 1
-        },
-        "emphasis-and-heading": {
-            "font-type": 3,
-            "foreground": "$markup.emphasis.foreground"
-        },
-        "strong-and-heading": {
-            "font-type": 1,
-            "foreground": "$markup.strong.foreground"
-        },
-        "emphasis-and-strong-and-heading": {
-            "font-type": 1,
-            "foreground": "$markup.emphasis-and-strong.foreground"
+        }
+    },
+    "math": {
+        "math": {
+            "background": "153801"
         }
     },
     "rainbow": {

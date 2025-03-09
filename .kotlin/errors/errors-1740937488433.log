@@ -1,0 +1,967 @@
+kotlin version: 2.1.0
+error message: org.jetbrains.kotlin.codegen.CompilationException: Back-end (JVM) Internal error: Couldn't transform method node:
+<clinit> ()V:
+   L0
+    NEW org/ldemetrios/tyko/model/TTable$Companion
+    DUP
+    INVOKESPECIAL org/ldemetrios/tyko/model/TTable$Companion.<init> ()V
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.$$INSTANCE : Lorg/ldemetrios/tyko/model/TTable$Companion;
+   L1
+    LINENUMBER 47 L1
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "content"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.childrenType : Lorg/ldemetrios/tyko/model/InternalType;
+   L2
+    LINENUMBER 49 L2
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+   L3
+    LINENUMBER 50 L3
+    ICONST_4
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 1
+    ALOAD 1
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_1
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_2
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_3
+   L4
+    LINENUMBER 51 L4
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L5
+    LINENUMBER 50 L5
+    ALOAD 1
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+   L6
+    LINENUMBER 49 L6
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L7
+    LINENUMBER 51 L7
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L8
+    LINENUMBER 49 L8
+    ALOAD 0
+    ICONST_2
+   L9
+    LINENUMBER 51 L9
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L10
+    LINENUMBER 49 L10
+    ALOAD 0
+    ICONST_3
+   L11
+    LINENUMBER 52 L11
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L12
+    LINENUMBER 49 L12
+    ALOAD 0
+    ICONST_4
+   L13
+    LINENUMBER 52 L13
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L14
+    LINENUMBER 49 L14
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.columnsType : Lorg/ldemetrios/tyko/model/InternalType;
+   L15
+    LINENUMBER 54 L15
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L16
+    LINENUMBER 55 L16
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L17
+    LINENUMBER 54 L17
+    ALOAD 0
+    ICONST_2
+   L18
+    LINENUMBER 55 L18
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L19
+    LINENUMBER 54 L19
+    ALOAD 0
+    ICONST_3
+   L20
+    LINENUMBER 55 L20
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L21
+    LINENUMBER 54 L21
+    ALOAD 0
+    ICONST_4
+   L22
+    LINENUMBER 56 L22
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L23
+    LINENUMBER 54 L23
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.rowsType : Lorg/ldemetrios/tyko/model/InternalType;
+   L24
+    LINENUMBER 58 L24
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L25
+    LINENUMBER 59 L25
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L26
+    LINENUMBER 58 L26
+    ALOAD 0
+    ICONST_2
+   L27
+    LINENUMBER 59 L27
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L28
+    LINENUMBER 58 L28
+    ALOAD 0
+    ICONST_3
+   L29
+    LINENUMBER 59 L29
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L30
+    LINENUMBER 58 L30
+    ALOAD 0
+    ICONST_4
+   L31
+    LINENUMBER 60 L31
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L32
+    LINENUMBER 58 L32
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.gutterType : Lorg/ldemetrios/tyko/model/InternalType;
+   L33
+    LINENUMBER 62 L33
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L34
+    LINENUMBER 63 L34
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L35
+    LINENUMBER 62 L35
+    ALOAD 0
+    ICONST_2
+   L36
+    LINENUMBER 63 L36
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L37
+    LINENUMBER 62 L37
+    ALOAD 0
+    ICONST_3
+   L38
+    LINENUMBER 63 L38
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L39
+    LINENUMBER 62 L39
+    ALOAD 0
+    ICONST_4
+   L40
+    LINENUMBER 64 L40
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L41
+    LINENUMBER 62 L41
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.columnGutterType : Lorg/ldemetrios/tyko/model/InternalType;
+   L42
+    LINENUMBER 66 L42
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L43
+    LINENUMBER 67 L43
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L44
+    LINENUMBER 66 L44
+    ALOAD 0
+    ICONST_2
+   L45
+    LINENUMBER 67 L45
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L46
+    LINENUMBER 66 L46
+    ALOAD 0
+    ICONST_3
+   L47
+    LINENUMBER 67 L47
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "int"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L48
+    LINENUMBER 66 L48
+    ALOAD 0
+    ICONST_4
+   L49
+    LINENUMBER 68 L49
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L50
+    LINENUMBER 66 L50
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.rowGutterType : Lorg/ldemetrios/tyko/model/InternalType;
+   L51
+    LINENUMBER 70 L51
+    BIPUSH 6
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L52
+    LINENUMBER 71 L52
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "color"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L53
+    LINENUMBER 70 L53
+    ALOAD 0
+    ICONST_2
+   L54
+    LINENUMBER 71 L54
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "function"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L55
+    LINENUMBER 70 L55
+    ALOAD 0
+    ICONST_3
+   L56
+    LINENUMBER 71 L56
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "gradient"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L57
+    LINENUMBER 70 L57
+    ALOAD 0
+    ICONST_4
+   L58
+    LINENUMBER 72 L58
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "none"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L59
+    LINENUMBER 70 L59
+    ALOAD 0
+    ICONST_5
+   L60
+    LINENUMBER 72 L60
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "tiling"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L61
+    LINENUMBER 70 L61
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.fillType : Lorg/ldemetrios/tyko/model/InternalType;
+   L62
+    LINENUMBER 74 L62
+    ICONST_4
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "alignment"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L63
+    LINENUMBER 75 L63
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "alignment"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+   L64
+    LINENUMBER 74 L64
+    ALOAD 0
+    ICONST_2
+   L65
+    LINENUMBER 75 L65
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "auto"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L66
+    LINENUMBER 74 L66
+    ALOAD 0
+    ICONST_3
+   L67
+    LINENUMBER 76 L67
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "function"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L68
+    LINENUMBER 74 L68
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.alignType : Lorg/ldemetrios/tyko/model/InternalType;
+   L69
+    LINENUMBER 78 L69
+    BIPUSH 9
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L70
+    LINENUMBER 79 L70
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "color"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L71
+    LINENUMBER 78 L71
+    ALOAD 0
+    ICONST_2
+   L72
+    LINENUMBER 79 L72
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "dictionary"
+    GETSTATIC org/ldemetrios/tyko/model/AnyType.INSTANCE : Lorg/ldemetrios/tyko/model/AnyType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+   L73
+    LINENUMBER 78 L73
+    ALOAD 0
+    ICONST_3
+   L74
+    LINENUMBER 80 L74
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "function"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L75
+    LINENUMBER 78 L75
+    ALOAD 0
+    ICONST_4
+   L76
+    LINENUMBER 80 L76
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "gradient"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L77
+    LINENUMBER 78 L77
+    ALOAD 0
+    ICONST_5
+   L78
+    LINENUMBER 80 L78
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "length"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L79
+    LINENUMBER 78 L79
+    ALOAD 0
+    BIPUSH 6
+   L80
+    LINENUMBER 81 L80
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "none"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L81
+    LINENUMBER 78 L81
+    ALOAD 0
+    BIPUSH 7
+   L82
+    LINENUMBER 81 L82
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "stroke"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L83
+    LINENUMBER 78 L83
+    ALOAD 0
+    BIPUSH 8
+   L84
+    LINENUMBER 81 L84
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "tiling"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L85
+    LINENUMBER 78 L85
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.strokeType : Lorg/ldemetrios/tyko/model/InternalType;
+   L86
+    LINENUMBER 83 L86
+    ICONST_5
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 0
+    ALOAD 0
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "array"
+   L87
+    LINENUMBER 84 L87
+    ICONST_2
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 1
+    ALOAD 1
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_1
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+   L88
+    LINENUMBER 83 L88
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+    ALOAD 0
+    ICONST_1
+   L89
+    LINENUMBER 85 L89
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L90
+    LINENUMBER 83 L90
+    ALOAD 0
+    ICONST_2
+   L91
+    LINENUMBER 85 L91
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "function"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L92
+    LINENUMBER 83 L92
+    ALOAD 0
+    ICONST_3
+   L93
+    LINENUMBER 85 L93
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L94
+    LINENUMBER 83 L94
+    ALOAD 0
+    ICONST_4
+   L95
+    LINENUMBER 86 L95
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "sides"
+    ICONST_3
+    ANEWARRAY org/ldemetrios/tyko/model/ConcreteType
+    ASTORE 1
+    ALOAD 1
+    ICONST_0
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "fraction"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_1
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "none"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+    ALOAD 1
+    ICONST_2
+   L96
+    LINENUMBER 87 L96
+    NEW org/ldemetrios/tyko/model/ConcreteType
+    DUP
+    LDC "relative"
+    ACONST_NULL
+    ICONST_2
+    ACONST_NULL
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+    AASTORE
+   L97
+    LINENUMBER 86 L97
+    ALOAD 1
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    INVOKESTATIC kotlin/collections/CollectionsKt.listOf (Ljava/lang/Object;)Ljava/util/List;
+    INVOKESPECIAL org/ldemetrios/tyko/model/ConcreteType.<init> (Ljava/lang/String;Ljava/util/List;)V
+    AASTORE
+   L98
+    LINENUMBER 83 L98
+    ALOAD 0
+    INVOKESTATIC org/ldemetrios/tyko/model/InternalTypesKt.UnionType ([Lorg/ldemetrios/tyko/model/ConcreteType;)Lorg/ldemetrios/tyko/model/UnionType;
+    CHECKCAST org/ldemetrios/tyko/model/InternalType
+    PUTSTATIC org/ldemetrios/tyko/model/TTable$Companion.insetType : Lorg/ldemetrios/tyko/model/InternalType;
+    RETURN
+   L99
+    MAXSTACK = 13
+    MAXLOCALS = 2
+
+File is unknown
+The root cause java.lang.OutOfMemoryError was thrown at: org.jetbrains.org.objectweb.asm.tree.analysis.Frame.executeInvokeInsn(Frame.java:638)
+	at org.jetbrains.kotlin.codegen.TransformationMethodVisitor.visitEnd(TransformationMethodVisitor.kt:89)
+	at org.jetbrains.org.objectweb.asm.MethodVisitor.visitEnd(MethodVisitor.java:783)
+	at org.jetbrains.org.objectweb.asm.tree.MethodNode.accept(MethodNode.java:772)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generateMethod(ClassCodegen.kt:454)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generate(ClassCodegen.kt:173)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generate(ClassCodegen.kt:182)
+	at org.jetbrains.kotlin.backend.jvm.FileCodegen.lower(JvmPhases.kt:39)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseFactoriesKt.createFilePhase$lambda$4(PhaseFactories.kt:71)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseBuildersKt$createSimpleNamedCompilerPhase$1.phaseBody(PhaseBuilders.kt:69)
+	at org.jetbrains.kotlin.backend.common.phaser.SimpleNamedCompilerPhase.phaseBody(CompilerPhase.kt:226)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invokeSequential(performByIrFile.kt:52)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:42)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:28)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:27)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:14)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompilerPhaseKt.invokeToplevel(CompilerPhase.kt:62)
+	at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory.invokeCodegen(JvmIrCodegenFactory.kt:371)
+	at org.jetbrains.kotlin.codegen.CodegenFactory.generateModule(CodegenFactory.kt:47)
+	at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory.generateModuleInFrontendIRMode(JvmIrCodegenFactory.kt:433)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.generateCodeFromIr(jvmCompilerPipeline.kt:192)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineKt.runBackend(jvmCompilerPipeline.kt:80)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineLightTreeKt.compileModule(jvmCompilerPipelineLightTree.kt:264)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineLightTreeKt.compileSingleModuleUsingFrontendIrAndLightTree(jvmCompilerPipelineLightTree.kt:231)
+	at org.jetbrains.kotlin.cli.jvm.compiler.pipeline.JvmCompilerPipelineLightTreeKt.compileModulesUsingFrontendIrAndLightTree(jvmCompilerPipelineLightTree.kt:86)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:146)
+	at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler.doExecute(K2JVMCompiler.kt:43)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.execImpl(CLICompiler.kt:102)
+	at org.jetbrains.kotlin.cli.common.CLICompiler.exec(CLICompiler.kt:316)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:464)
+	at org.jetbrains.kotlin.incremental.IncrementalJvmCompilerRunner.runCompiler(IncrementalJvmCompilerRunner.kt:73)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.doCompile(IncrementalCompilerRunner.kt:506)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileImpl(IncrementalCompilerRunner.kt:423)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compileNonIncrementally(IncrementalCompilerRunner.kt:301)
+	at org.jetbrains.kotlin.incremental.IncrementalCompilerRunner.compile(IncrementalCompilerRunner.kt:129)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.execIncrementalCompiler(CompileServiceImpl.kt:674)
+	at org.jetbrains.kotlin.daemon.CompileServiceImplBase.access$execIncrementalCompiler(CompileServiceImpl.kt:91)
+	at org.jetbrains.kotlin.daemon.CompileServiceImpl.compile(CompileServiceImpl.kt:1659)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:360)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:714)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:598)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:844)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:721)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:720)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1575)
+Caused by: java.lang.OutOfMemoryError: GC overhead limit exceeded
+	at org.jetbrains.org.objectweb.asm.tree.analysis.Frame.executeInvokeInsn(Frame.java:638)
+	at org.jetbrains.org.objectweb.asm.tree.analysis.Frame.execute(Frame.java:573)
+	at org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer.analyzeInstruction(FastAnalyzer.kt:111)
+	at org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer.analyzeMainLoop(FastAnalyzer.kt:74)
+	at org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer.analyze(FastAnalyzer.kt:53)
+	at org.jetbrains.kotlin.codegen.optimization.boxing.PopBackwardPropagationTransformer$Transformer.transform(PopBackwardPropagationTransformer.kt:58)
+	at org.jetbrains.kotlin.codegen.optimization.boxing.PopBackwardPropagationTransformer.transform(PopBackwardPropagationTransformer.kt:41)
+	at org.jetbrains.kotlin.codegen.optimization.transformer.CompositeMethodTransformer.transform(CompositeMethodTransformer.kt:25)
+	at org.jetbrains.kotlin.codegen.optimization.OptimizationMethodVisitor.performTransformations(OptimizationMethodVisitor.kt:74)
+	at org.jetbrains.kotlin.codegen.TransformationMethodVisitor.visitEnd(TransformationMethodVisitor.kt:67)
+	at org.jetbrains.org.objectweb.asm.MethodVisitor.visitEnd(MethodVisitor.java:783)
+	at org.jetbrains.org.objectweb.asm.tree.MethodNode.accept(MethodNode.java:772)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generateMethod(ClassCodegen.kt:454)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generate(ClassCodegen.kt:173)
+	at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen.generate(ClassCodegen.kt:182)
+	at org.jetbrains.kotlin.backend.jvm.FileCodegen.lower(JvmPhases.kt:39)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseFactoriesKt.createFilePhase$lambda$4(PhaseFactories.kt:71)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseFactoriesKt$$Lambda/0x000073a10b3967e8.invoke(Unknown Source)
+	at org.jetbrains.kotlin.backend.common.phaser.PhaseBuildersKt$createSimpleNamedCompilerPhase$1.phaseBody(PhaseBuilders.kt:69)
+	at org.jetbrains.kotlin.backend.common.phaser.SimpleNamedCompilerPhase.phaseBody(CompilerPhase.kt:226)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invokeSequential(performByIrFile.kt:52)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:42)
+	at org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase.invoke(performByIrFile.kt:28)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:27)
+	at org.jetbrains.kotlin.backend.common.phaser.CompositePhase.invoke(PhaseBuilders.kt:14)
+	at org.jetbrains.kotlin.backend.common.phaser.NamedCompilerPhase.phaseBody(CompilerPhase.kt:166)
+	at org.jetbrains.kotlin.backend.common.phaser.AbstractNamedCompilerPhase.invoke(CompilerPhase.kt:113)
+	at org.jetbrains.kotlin.backend.common.phaser.CompilerPhaseKt.invokeToplevel(CompilerPhase.kt:62)
+	at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory.invokeCodegen(JvmIrCodegenFactory.kt:371)
+
+

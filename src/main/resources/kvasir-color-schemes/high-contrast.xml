@@ -34,39 +34,9 @@
             <option name="FONT_TYPE" value="1"/>
         </value>
     </option>
-    <option name="KVASIR_MARKUP__EMPHASIS_AND_STRONG">
-        <value>
-            <option name="FOREGROUND" value="01ff07"/>
-            <option name="FONT_TYPE" value="3"/>
-        </value>
-    </option>
     <option name="KVASIR_MARKUP__HEADING">
         <value>
             <option name="FOREGROUND" value="ffffff"/>
-            <option name="EFFECT_TYPE" value="4"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="1"/>
-        </value>
-    </option>
-    <option name="KVASIR_MARKUP__EMPHASIS_AND_HEADING">
-        <value>
-            <option name="FOREGROUND" value="ffd201"/>
-            <option name="EFFECT_TYPE" value="4"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="3"/>
-        </value>
-    </option>
-    <option name="KVASIR_MARKUP__STRONG_AND_HEADING">
-        <value>
-            <option name="FOREGROUND" value="01c6ff"/>
-            <option name="EFFECT_TYPE" value="4"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="1"/>
-        </value>
-    </option>
-    <option name="KVASIR_MARKUP__EMPHASIS_AND_STRONG_AND_HEADING">
-        <value>
-            <option name="FOREGROUND" value="01ff07"/>
             <option name="EFFECT_TYPE" value="4"/>
             <option name="EFFECT_COLOR" value="ffffff"/>
             <option name="FONT_TYPE" value="1"/>
@@ -80,28 +50,9 @@
             <option name="FONT_TYPE" value="1"/>
         </value>
     </option>
-    <option name="KVASIR_MARKUP__EMPHASIS_AND_TERM">
+    <option name="KVASIR_MATH__MATH">
         <value>
-            <option name="FOREGROUND" value="ffd201"/>
-            <option name="EFFECT_TYPE" value="5"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="3"/>
-        </value>
-    </option>
-    <option name="KVASIR_MARKUP__STRONG_AND_TERM">
-        <value>
-            <option name="FOREGROUND" value="01c6ff"/>
-            <option name="EFFECT_TYPE" value="5"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="1"/>
-        </value>
-    </option>
-    <option name="KVASIR_MARKUP__EMPHASIS_AND_STRONG_AND_TERM">
-        <value>
-            <option name="FOREGROUND" value="01ff07"/>
-            <option name="EFFECT_TYPE" value="5"/>
-            <option name="EFFECT_COLOR" value="ffffff"/>
-            <option name="FONT_TYPE" value="3"/>
+            <option name="BACKGROUND" value="153801"/>
         </value>
     </option>
     <option name="KVASIR_RAINBOW__COLOR_1">

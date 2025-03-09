@@ -74,3 +74,5 @@ class Rc<T : Closeable>(val value: T, val notify: T.() -> Unit = {}) : AutoClose
 
     fun deref(): T = value
 }
+
+

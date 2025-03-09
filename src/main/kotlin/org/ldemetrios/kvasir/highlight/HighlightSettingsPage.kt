@@ -1,77 +1,105 @@
 package org.ldemetrios.kvasir.highlight
 
+import com.intellij.codeInsight.template.impl.MacroTokenType.STRING_LITERAL
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
-import org.ldemetrios.kvasir.language.TypstFileType.Companion.T_ICON
+import org.ldemetrios.kvasir.language.T_ICON
+import org.ldemetrios.tyko.compiler.SyntaxMode
 import javax.swing.Icon
 
+class HighlightSettingsPage : HighlightSettingsPageCommon(SyntaxMode.Markup)
 
-class HighlightSettingsPage : ColorSettingsPage {
+open class HighlightSettingsPageCommon(val mode: SyntaxMode) : ColorSettingsPage {
     override fun getIcon(): Icon {
         return T_ICON
     }
 
     override fun getHighlighter(): SyntaxHighlighter {
-        return TypstLexicalHighlighter()
+        return TypstLexicalHighlighter(mode)
     }
 
     override fun getDemoText(): String {
         return """
         This <strong>*is*</strong> just <em>_formatting_</em>. It's <strong>*</strong><emst>_composable_</emst><strong>*</strong>.
+        
+        <h>= Headings</h>
+        
+        <t>/ Term:</t> this is.
 
-        <h>= Heading </h><emh>_with </emh><emsth>*additional*</emsth><emh> formatting_</emh>
-
-        <t>/ This is term:</t> just go with it.
-        <t>/ </t><emt>_Formatted_</emt><t> </t><stt>*term*</stt><t>, if </t><emt>_</emt><emstt>*you*</emstt><emt>_</emt><t> need:</t> also works.
-
-        That's pretty much all with markup, #strike[but there are plans.]
-
+        (Unfortunately, color settings page doesn't support custom effects mixing)
+        
         There are <label><labels></label> and <reference>@references</reference>. Shorthands are highlighted <shorthand>---</shorthand> like this.
-
-        <rc3>-</rc3> Resistance?
-            <rc5>-</rc5> From my own warship!
-          <rc5>-</rc5> Demon hordes, take flight. And *eviscerate* them!
-            <rc7>-</rc7> Whom to root for. The lines have certainly blured.
-               <rc9>+</rc9> List markers
-             <rc9>+</rc9> are
-        <rc3>+</rc3> colored
-            <rc5>-</rc5> based on relative indents
-
-        <kw>#</kw>let f = 1
-        <rc3>#[</rc3>Color of the hash depends on the context!<rc3>]</rc3>
-
-        // There seems to be no exponential overhead, but be careful
-        #<rc3>(</rc3>x: <rc5>(</rc5>x: <rc7>(</rc7>x: <rc9>(</rc9>x: <rc11>(</rc11>x: <rc1>(</rc1>x: <rc3>(</rc3>x: <rc5>(</rc5>x: <rc7>(</rc7>x: <rc9>(</rc9>x: <rc11>(</rc11>x: <rc1>(</rc1>x: <rc3>(</rc3>x: <rc5>(</rc5>x: <rc7>(</rc7>x: <rc9>(</rc9>x: <rc11>(</rc11>x: <rc1>(</rc1>x: <rc3>(</rc3>x: <rc5>(</rc5>x: <rc7>(</rc7>x: <rc9>(</rc9>x: <rc11>(</rc11>x: <rc1>(</rc1>x: <rc3>(</rc3>x: <rc5>(</rc5>x<rc5>) =></rc5> y<rc3>) =></rc3> y<rc1>) =></rc1> y<rc11>) =></rc11> y<rc9>) =></rc9> y<rc7>) =></rc7> y<rc5>) =></rc5> y<rc3>) =></rc3> y<rc1>) =></rc1> y<rc11>) =></rc11> y<rc9>) =></rc9> y<rc7>) =></rc7> y<rc5>) =></rc5> y<rc3>) =></rc3> y<rc1>) =></rc1> y<rc11>) =></rc11> y<rc9>) =></rc9> y<rc7>) =></rc7> y<rc5>) =></rc5> y<rc3>) =></rc3> y<rc1>) =></rc1> y<rc11>) =></rc11> y<rc9>) =></rc9> y<rc7>) =></rc7> y<rc5>) =></rc5> y<rc3>)</rc3>
+        
+        <rc8>-</rc8> List
+            <rc4>-</rc4> markers,
+          <rc4>-</rc4> as well as
+            <rc11>+</rc11> enum
+          <rc4>+</rc4> markers,
+            <rc11>+</rc11> are highlighted
+              <rc7>+</rc7> based on their level
+        
+        <kw>#let</kw> f = <num>1</num>
+        <rc7>#[</rc7>The color of the hashes depends on the context<rc7>];</rc7> and so is the color of the semicolons.
+        
+        // These are comments.
         /*
-            Besides, these are comments
+            These are as well.
         */
-
-        <kw>#</kw>let f<rc1>(</rc1>stuff<rc1>)</rc1> = not stuff
-
+        
+        Rainbowifying can be disabled in plugin's settings.
+        
+        (This demonstrates the colors, not the highlighting.)
+        <rc1>1</rc1> <rc2>2</rc2> <rc3>3</rc3> <rc4>4</rc4> <rc5>5</rc5> <rc6>6</rc6> <rc7>7</rc7> <rc8>8</rc8> <rc9>9</rc9> <rc10>10</rc10> <rc11>11</rc11> <rc12>12</rc12>
+        
         Кириллица тоже прекрасно работает!
-        <kw>#</kw>let и-юникод-идентификаторы =  <rc3>[</rc3>seem to work as well <rc3>]</rc3>
+        <kw>#</kw>let и-юникод-идентификаторы = [seem to work as well ]
 
-        لااㅤأستطيعㅤالتحققㅤمماㅤإذاㅤكانㅤيعملㅤبلغاتㅤأخرى.
-
-        #method.call<rc1>[][]</rc1>.chain<rc3>()[]</rc3>.are-colored<rc5>()[][]</rc5>.as-well-as<rc7>[]</rc7>.functions<rc9>()[]</rc9><rc11>()[][]</rc11><rc1>()()[]</rc1><rc3>()</rc3><rc5>()</rc5>
-
-        <kw>#</kw>for i in range<rc1>(</rc1>5<rc1>)</rc1> <rc3>{</rc3>
-            for x in range<rc3>(</rc3>i<rc3>)</rc3> <rc5>{</rc5>
-                for x in range<rc5>(</rc5>i<rc5>)</rc5> <rc7>{</rc7>
-                    1
+        <kw>#</kw>for i in range<rc7>(</rc7><num>5</num><rc7>)</rc7> <rc3>{</rc3>
+            for x in range<rc9>(</rc9>i<rc9>)</rc9> <rc5>{</rc5>
+                for y in range<rc11>(</rc11>x<rc11>)</rc11> <rc7>{</rc7>
+                    <rc2>[</rc2>1<rc2>]</rc2>
                 <rc7>}</rc7>
             <rc5>}</rc5>
         <rc3>}</rc3>
-
-        <math>${'$'}"There is no" m_u^c(h) support.for math btw, but </math><rc3>#[</rc3>Embedded <em>_expressions_</em> are supported here as well<rc3>]</rc3><math> ${'$'}</math>
+        
+        <string>#"string with <escape>\n</escape> escapes"</string>, links: <link>https://typst.app/</link>
+        
+        <math>${'$'} A_n^d m a t h${'$'}</math>
         """.trimIndent()
     }
 
+    fun mix(vararg keys: TextAttributeHelper) = TextAttributesKey.createTextAttributesKey(
+        "tmp${System.nanoTime()}",
+        DelegatingAttributes {
+            mergeAttributes(*keys.reversed().map { it.key.resolve() }.toTypedArray())!!
+        }
+    )
+
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> {
-        return additional
+        return mapOf(
+            "strong" to STRONG.key,
+            "em" to EMPH.key,
+//            "emst" to mix(STRONG, EMPH),
+            "h" to HEADING.key,
+//            "emh" to mix(EMPH, HEADING),
+//            "emsth" to mix(EMPH, STRONG, HEADING),
+            "t" to TERM.key,
+//            "emt" to mix(EMPH, TERM),
+//            "stt" to mix(STRONG, TERM),
+//            "emstt" to mix(TERM, EMPH, STRONG),
+            "label" to LABELS.key,
+            "reference" to REFERENCES.key,
+            "shorthand" to SHORTHANDS.key,
+            "kw" to KEYWORD.key,
+            "math" to MATHS.key,
+            "num" to NUMERIC_LITERAL.key,
+            "string" to STRINGS.key,
+            "escape" to ESCAPES.key,
+            "link" to LINKS.key
+        ) + (1..12).associate { "rc$it" to RAINBOW[it - 1].key }
     }
 
     override fun getAttributeDescriptors(): Array<out AttributesDescriptor> {

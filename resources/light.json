@@ -12,18 +12,11 @@
         "heading": {
             "font-type": 1,
             "foreground": "a00000"
-        },
-        "emphasis-and-heading": {
-            "font-type": 3,
-            "foreground": "a06a00"
-        },
-        "strong-and-heading": {
-            "font-type": 1,
-            "foreground": "6a006a"
-        },
-        "emphasis-and-strong-and-heading": {
-            "font-type": 1,
-            "foreground": "8a6a80"
+        }
+    },
+    "math": {
+        "math": {
+            "background": "d9ffc5"
         }
     },
     "rainbow": {

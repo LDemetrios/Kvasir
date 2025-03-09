@@ -132,15 +132,9 @@ fun writeColorsXml(commonJson: File, specificJson: File, outputXml: File) {
         "markup.link",
         "markup.emphasis",
         "markup.strong",
-        "markup.emphasis-and-strong",
         "markup.heading",
-        "markup.emphasis-and-heading",
-        "markup.strong-and-heading",
-        "markup.emphasis-and-strong-and-heading",
         "markup.term",
-        "markup.emphasis-and-term",
-        "markup.strong-and-term",
-        "markup.emphasis-and-strong-and-term",
+        "math.math",
     ).forEach(::option)
 
 

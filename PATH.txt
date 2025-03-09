@@ -1,0 +1,25 @@
+(linux-x86-64/libtypst_shared.so) not found in resource path (/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/platform-loader.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/util-8.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/util.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/app-client.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/util_rt.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/opentelemetry.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/app.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/lib-client.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/stats.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/jps-model.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/external-system-rt.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/rd.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/bouncy-castle.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/protobuf.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/intellij-test-discovery.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/forms_rt.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/lib.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/externalProcess-rt.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/groovy.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/annotations.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/idea_rt.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/jsch-agent.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/kotlinx-coroutines-slf4j-1.8.0-intellij.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/nio-fs.jar:
+/home/ldemetrios/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2024.3.2/2fcecf62ad405e134737f48273093c5938c8425d/ideaIC-2024.3.2/lib/trove.jar

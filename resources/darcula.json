@@ -11,24 +11,17 @@
     "markup": {
         "heading": {
             "font-type": 1
-        },
-        "emphasis-and-heading": {
-            "font-type": 3,
-            "foreground": "$markup.emphasis.foreground"
-        },
-        "strong-and-heading": {
-            "font-type": 1,
-            "foreground": "$markup.strong.foreground"
-        },
-        "emphasis-and-strong-and-heading": {
-            "font-type": 1,
-            "foreground": "$markup.emphasis-and-strong.foreground"
+        }
+    },
+    "math": {
+        "math": {
+            "background": "153801"
         }
     },
     "rainbow": {
         "foreground-saturation": 0.9,
         "foreground-brightness": 1.0,
         "background-weak-saturation": 1.0,
-        "background-weak-brightness": 0.25
+        "background-weak-brightness": 0.2
     }
 }

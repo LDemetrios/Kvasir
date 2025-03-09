@@ -1,6 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <idea-version since-build="232"/>   <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <idea-version
+            since-build="243"/>   <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>org.ldemetrios.kvasir</id>
 
     <!-- Public plugin name should be written in Title Case.
@@ -33,51 +34,89 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
 
+    <!--    <depends>com.intellij.modules.lang</depends>-->
+
+
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <fileType
                 name="Typst File"
-                implementationClass="org.ldemetrios.kvasir.language.TypstFileType"
+                implementationClass="org.ldemetrios.kvasir.language.TypstMarkupFileType"
                 fieldName="INSTANCE"
                 language="Typst"
                 extensions="typ"/>
+        <fileType
+                name="Typst Code File"
+                implementationClass="org.ldemetrios.kvasir.language.TypstCodeFileType"
+                fieldName="INSTANCE"
+                language="TypstCode"
+                extensions="typc"/>
+        <fileType
+                name="Typst Math File"
+                implementationClass="org.ldemetrios.kvasir.language.TypstMathFileType"
+                fieldName="INSTANCE"
+                language="TypstMath"
+                extensions="typm"/>
+
+
         <lang.parserDefinition
                 language="Typst"
-                implementationClass="org.ldemetrios.kvasir.syntax.TypstParserDefinition"/>
-        <lang.syntaxHighlighterFactory
-                language="Typst"
-                implementationClass="org.ldemetrios.kvasir.highlight.TypstLexicalHighlighterFactory"/>
+                implementationClass="org.ldemetrios.kvasir.syntax.TypstMarkupParserDefinition"/>
+        <lang.parserDefinition
+                language="TypstCode"
+                implementationClass="org.ldemetrios.kvasir.syntax.TypstCodeParserDefinition"/>
+        <lang.parserDefinition
+                language="TypstMath"
+                implementationClass="org.ldemetrios.kvasir.syntax.TypstMathParserDefinition"/>
+
+
+<!--        <lang.syntaxHighlighterFactory-->
+<!--                language="Typst"-->
+<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstMarkupLexicalHighlighterFactory"/>-->
+<!--        <lang.syntaxHighlighterFactory-->
+<!--                language="TypstCode"-->
+<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstCodeLexicalHighlighterFactory"/>-->
+<!--        <lang.syntaxHighlighterFactory-->
+<!--                language="TypstMath"-->
+<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstMathLexicalHighlighterFactory"/>-->
         <colorSettingsPage
                 implementation="org.ldemetrios.kvasir.highlight.HighlightSettingsPage"/>
-        <additionalTextAttributes
-                scheme="High contrast"
-                file="kvasir-color-schemes/high-contrast.xml"/>
-        <additionalTextAttributes
-                scheme="Light"
-                file="kvasir-color-schemes/light.xml"/>
+        <additionalTextAttributes scheme="High contrast" file="kvasir-color-schemes/high-contrast.xml"/>
+        <additionalTextAttributes scheme="Light" file="kvasir-color-schemes/light.xml"/>
+        <additionalTextAttributes scheme="Intellij Light" file="kvasir-color-schemes/light.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="kvasir-color-schemes/darcula.xml"/>
 
+        <annotator language="Typst" implementationClass="org.ldemetrios.kvasir.highlight.SyntaxHighlighter"/>
+        <annotator language="TypstCode" implementationClass="org.ldemetrios.kvasir.highlight.SyntaxHighlighter"/>
+        <annotator language="TypstMath" implementationClass="org.ldemetrios.kvasir.highlight.SyntaxHighlighter"/>
 
-<!--        Just duplicating for now -->
-        <additionalTextAttributes
-                scheme="Intellij Light"
-                file="kvasir-color-schemes/light.xml"/>
-        <additionalTextAttributes
-                scheme="Darcula"
-                file="kvasir-color-schemes/darcula.xml"/>
-        <annotator
-                language="Typst"
-                implementationClass="org.ldemetrios.kvasir.highlight.TypstAnnotator"/>
-        <fileEditorProvider
-                implementation="org.ldemetrios.kvasir.preview.TestProvider"/>
-        <externalAnnotator
-                language="Typst"
-                implementationClass="org.ldemetrios.kvasir.preview.CompilationErrorAnnotator"/>
+        <fileEditorProvider implementation="org.ldemetrios.kvasir.preview.ui.TypstWithPreviewProvider"/>
+
+        <externalAnnotator language="Typst"
+                           implementationClass="org.ldemetrios.kvasir.preview.data.CompilationErrorAnnotator"/>
+        <externalAnnotator language="TypstCode"
+                           implementationClass="org.ldemetrios.kvasir.preview.data.CompilationErrorAnnotator"/>
+        <externalAnnotator language="TypstMath"
+                           implementationClass="org.ldemetrios.kvasir.preview.data.CompilationErrorAnnotator"/>
+
+        <typedHandler implementation="org.ldemetrios.kvasir.misc.Surrounder"/>
+
+        <formattingService implementation="org.ldemetrios.kvasir.formatting.TypstMarkupFormatter"/>
+        <formattingService implementation="org.ldemetrios.kvasir.formatting.TypstCodeFormatter"/>
+        <formattingService implementation="org.ldemetrios.kvasir.formatting.TypstMathFormatter"/>
+
+        <lang.commenter language="Typst" implementationClass="org.ldemetrios.kvasir.misc.TypstCommenter"/>
+        <lang.commenter language="TypstCode" implementationClass="org.ldemetrios.kvasir.misc.TypstCommenter"/>
+        <lang.commenter language="TypstMath" implementationClass="org.ldemetrios.kvasir.misc.TypstCommenter"/>
+
+        <applicationService serviceImplementation="org.ldemetrios.kvasir.settings.AppSettings"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="org.ldemetrios.kvasir.settings.AppSettingsConfigurable"
+                id="org.ldemetrios.kvasir.settings.AppSettingsConfigurable"
+                displayName="Kvasir"/>
+
+        <multiHostInjector implementation="org.ldemetrios.kvasir.misc.MyLanguageInjector"/>
     </extensions>
-
-<!--    <projectListeners>-->
-<!--        <listener-->
-<!--                class="org.ldemetrios.kvasir.preview.DocReloader"-->
-<!--                topic="com.intellij.openapi.editor.event.DocumentListener"/>-->
-<!--    </projectListeners>-->
 </idea-plugin>

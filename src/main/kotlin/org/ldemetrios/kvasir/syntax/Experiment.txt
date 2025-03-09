@@ -1,0 +1,813 @@
+Node Markup:
+    Node Shebang: #!/usr/bin/shebang
+    Node Parbreak: \n\n
+    Node LineComment: // Comment
+    Node Space: \n
+    Node Hash: #
+    Node LetBinding:
+        Node Let: let
+        Node Space:
+        Node Ident: x
+        Node Space:
+        Node Eq: =
+        Node Space:
+        Node BlockComment: /* Another comment */
+        Node Space:
+        Node Int: 1
+    Node Parbreak: \n\n
+    Node Text: This is regular
+    Node Space: \n
+    Node Text: text
+    Node Parbreak: \n\n
+    Node Text: with
+    Node Space:
+    Node Linebreak: \
+    Node Space:
+    Node Text: linebreaks and
+    Node Parbreak: \n\n
+    Node Text: parbreaks
+    Node Parbreak: \n\n
+    Node Escape: \\
+    Node Space:
+    Node Escape: \u{2399}
+    Node Space: \n
+    Node Equation:
+        Node Dollar: $
+        Node Math:
+            Node Escape: \$
+        Node Dollar: $
+    Node Parbreak: \n\n
+    Node SmartQuote: "
+    Node Text: smart
+    Node SmartQuote: "
+    Node Space:
+    Node SmartQuote: '
+    Node Text: quotes
+    Node SmartQuote: '
+    Node Parbreak: \n\n
+    Node Text: This
+    Node Space:
+    Node Strong:
+        Node Star: *
+        Node Markup:
+            Node Text: is
+        Node Star: *
+    Node Space:
+    Node Emph:
+        Node Underscore: _
+        Node Markup:
+            Node Text: strong
+        Node Underscore: _
+    Node Space:
+    Node Strong:
+        Node Star: *
+        Node Markup:
+            Node Text: em
+            Node Space:
+            Node Emph:
+                Node Underscore: _
+                Node Markup:
+                    Node Text: pha
+                Node Underscore: _
+            Node Space:
+            Node Text: sized
+        Node Star: *
+    Node Space: \n
+    Node Raw:
+        Node RawDelim: ```
+        Node RawLang: kt
+        Node RawTrimmed: \n
+        Node Text: fun main() {
+        Node RawTrimmed: \n
+        Node Text:     println("Hello")
+        Node RawTrimmed: \n
+        Node Text: }
+        Node RawTrimmed: \n
+        Node RawDelim: ```
+    Node Space: \n
+    Node Link: https://typst.org
+    Node Space:
+    Node Label: <label>
+    Node Space:
+    Node Ref:
+        Node RefMarker: @ref
+    Node Space:
+    Node Ref:
+        Node RefMarker: @ref
+        Node ContentBlock:
+            Node LeftBracket: [
+            Node Markup:
+                Node Text: smth
+                Node Space:
+                Node Emph:
+                    Node Underscore: _
+                    Node Markup:
+                        Node Text: lol
+                    Node Underscore: _
+            Node RightBracket: ]
+    Node Parbreak: \n\n
+    Node Heading:
+        Node HeadingMarker: =
+        Node Space:
+        Node Markup:
+            Node Text: Headings
+    Node Space: \n
+    Node Heading:
+        Node HeadingMarker: ==
+        Node Space:
+        Node Markup:
+            Node Text: Different headings
+    Node Space: \n
+    Node ListItem:
+        Node ListMarker: -
+        Node Space:
+        Node Markup:
+            Node Text: Items
+            Node Space: \n
+            Node ListItem:
+                Node ListMarker: -
+                Node Space:
+                Node Markup:
+                    Node Text: In
+            Node Space:  \n
+            Node ListItem:
+                Node ListMarker: -
+                Node Space:
+                Node Markup:
+                    Node Text: Lists
+                    Node Space: \n
+                    Node ListItem:
+                        Node ListMarker: -
+                        Node Space:
+                        Node Markup:
+                            Node Text: And
+                    Node Space: \n
+                    Node ListItem:
+                        Node ListMarker: -
+                        Node Space:
+                        Node Markup:
+                            Node Text: some
+                    Node Space: \n
+                    Node ListItem:
+                        Node ListMarker: -
+                        Node Space:
+                        Node Markup:
+                            Node Text: strange
+            Node Space: \n
+            Node EnumItem:
+                Node EnumMarker: +
+                Node Space:
+                Node Markup:
+                    Node Text: Stuff
+    Node Space: \n
+    Node EnumItem:
+        Node EnumMarker: 1.
+        Node Space:
+        Node Markup:
+            Node Text: Going on
+    Node Parbreak: \n\n
+    Node TermItem:
+        Node TermMarker: /
+        Node Space:
+        Node Markup:
+            Node Text: Term
+        Node Colon: :
+        Node Space:
+        Node Markup:
+            Node Text: this is
+    Node Space: \n
+    Node Equation:
+        Node Dollar: $
+        Node Space:
+        Node Math:
+            Node MathText: E
+            Node Space:
+            Node MathText: q
+            Node Space:
+            Node MathText: u
+            Node Space:
+            Node MathText: a
+            Node Space:
+            Node Str: "tion"
+        Node Space:
+        Node Dollar: $
+    Node Space:
+    Node Equation:
+        Node Dollar: $
+        Node Space:
+        Node Math:
+            Node MathText: a
+            Node Space:
+            Node MathText: n
+            Node Space:
+            Node MathText: d
+        Node Dollar: $
+    Node Space: \n
+    Node Equation:
+        Node Dollar: $
+        Node Space:
+        Node Math:
+            Node MathIdent: pi
+            Node Space:
+            Node MathShorthand: <=
+            Node Space:
+            Node MathAlignPoint: &
+            Node Space:
+            Node MathDelimited:
+                Node MathText: [
+                Node Math:
+                    Node MathText: x
+                    Node Space:
+                    Node MathText: +
+                    Node Space:
+                    Node MathText: y
+                Node MathText: ]
+            Node Space:
+            Node MathAttach:
+                Node MathText: a
+                Node Underscore: _
+                Node Math:
+                    Node LeftParen: (
+                    Node Math:
+                        Node MathText: 1
+                        Node MathText: +
+                        Node MathText: 2
+                    Node RightParen: )
+                Node Hat: ^
+                Node MathAttach:
+                    Node MathText: 3
+                    Node Underscore: _
+                    Node MathText: 4
+                    Node Hat: ^
+                    Node MathText: 5
+            Node Space:
+            Node MathAttach:
+                Node MathText: a
+                Node MathPrimes:
+                    Node Prime: '
+                    Node Prime: '
+                    Node Prime: '
+            Node Space:
+            Node MathFrac:
+                Node MathText: x
+                Node Slash: /
+                Node MathText: 2
+            Node Space:
+            Node MathFrac:
+                Node Math:
+                    Node LeftParen: (
+                    Node Math:
+                        Node MathText: x
+                        Node MathText: +
+                        Node MathText: 2
+                    Node RightParen: )
+                Node Slash: /
+                Node MathText: 2
+            Node Space:
+            Node MathRoot:
+                Node Root: √
+                Node MathText: x
+            Node Space:
+            Node MathRoot:
+                Node Root: ∛
+                Node Math:
+                    Node LeftParen: (
+                    Node Math:
+                        Node MathText: x
+                        Node MathText: +
+                        Node MathText: y
+                    Node RightParen: )
+            Node Space:
+            Node Hash: #
+            Node ContentBlock:
+                Node LeftBracket: [
+                Node Markup:
+                    Node Text: lol
+                Node RightBracket: ]
+        Node Space:
+        Node Dollar: $
+    Node Space: \n
+    Node Equation:
+        Node Dollar: $
+        Node Space:
+        Node Math:
+            Node FuncCall:
+                Node MathIdent: lr
+                Node Args:
+                    Node LeftParen: (
+                    Node Math:
+                        Node MathText: |
+                        Node MathText: x
+                        Node MathText: |
+                    Node RightParen: )
+            Node Space:
+            Node MathText: |
+            Node MathText: x
+            Node MathText: |
+        Node Dollar: $
+    Node Space: \n
+    Node Equation:
+        Node Dollar: $
+        Node Math:
+            Node MathAttach:
+                Node MathAttach:
+                    Node MathText: 1
+                    Node MathPrimes:
+                        Node Prime: '
+                        Node Prime: '
+                    Node Hat: ^
+                    Node MathText: 2
+                    Node Underscore: _
+                    Node MathText: 3
+        Node Dollar: $
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node FuncCall:
+        Node CodeBlock:
+            Node LeftBrace: {
+            Node Space: \n
+            Node Code:
+                Node LetBinding:
+                    Node Let: let
+                    Node Space:
+                    Node Ident: x
+                    Node Space:
+                    Node Eq: =
+                    Node Space:
+                    Node Closure:
+                        Node Params:
+                            Node LeftParen: (
+                            Node Ident: y
+                            Node Comma: ,
+                            Node Space:
+                            Node Ident: z
+                            Node RightParen: )
+                        Node Space:
+                        Node Arrow: =>
+                        Node Space:
+                        Node Binary:
+                            Node Binary:
+                                Node Binary:
+                                    Node Binary:
+                                        Node Ident: y
+                                        Node Space:
+                                        Node Plus: +
+                                        Node Space:
+                                        Node Binary:
+                                            Node Ident: z
+                                            Node Space:
+                                            Node Star: *
+                                            Node Space:
+                                            Node Ident: y
+                                    Node Space:
+                                    Node Minus: -
+                                    Node Space:
+                                    Node Unary:
+                                        Node Minus: -
+                                        Node Ident: y
+                                Node Space:
+                                Node Plus: +
+                                Node Space:
+                                Node Int: 1
+                            Node Space:
+                            Node Not: not
+                            Node Space:
+                            Node In: in
+                            Node Space:
+                            Node Int: 2
+                Node Space: \n
+                Node Int: 1
+                Node Semicolon: ;
+                Node Space:
+                Node Ident: x
+            Node Space: \n
+            Node RightBrace: }
+        Node Args:
+            Node LeftParen: (
+            Node Int: 1
+            Node Comma: ,
+            Node Space:
+            Node Int: 2
+            Node RightParen: )
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node FuncCall:
+        Node FieldAccess:
+            Node FuncCall:
+                Node FieldAccess:
+                    Node FieldAccess:
+                        Node Ident: f
+                        Node Dot: .
+                        Node Ident: field
+                    Node Dot: .
+                    Node Ident: method
+                Node Args:
+                    Node LeftParen: (
+                    Node Int: 1
+                    Node Comma: ,
+                    Node Space:
+                    Node Int: 2
+                    Node RightParen: )
+            Node Dot: .
+            Node Ident: multiple
+        Node Args:
+            Node LeftParen: (
+            Node RightParen: )
+            Node ContentBlock:
+                Node LeftBracket: [
+                Node Markup:
+                Node RightBracket: ]
+            Node ContentBlock:
+                Node LeftBracket: [
+                Node Markup:
+                Node RightBracket: ]
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node Dict:
+        Node LeftParen: (
+        Node Named:
+            Node Ident: x
+            Node Colon: :
+            Node Space:
+            Node Int: 3
+        Node Comma: ,
+        Node Space:
+        Node Named:
+            Node Ident: y
+            Node Colon: :
+            Node Space:
+            Node Int: 5
+        Node RightParen: )
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node Contextual:
+        Node Context: context
+        Node Space:
+        Node FieldAccess:
+            Node Ident: text
+            Node Dot: .
+            Node Ident: fill
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node SetRule:
+        Node Set: set
+        Node Space:
+        Node Ident: text
+        Node Args:
+            Node LeftParen: (
+            Node Named:
+                Node Ident: fill
+                Node Colon: :
+                Node Space:
+                Node Ident: red
+            Node RightParen: )
+    Node Space: \n
+    Node Hash: #
+    Node ShowRule:
+        Node Show: show
+        Node Space:
+        Node FuncCall:
+            Node Ident: regex
+            Node Args:
+                Node LeftParen: (
+                Node Str: "."
+                Node RightParen: )
+        Node Colon: :
+        Node Space:
+        Node Closure:
+            Node Params:
+                Node Ident: it
+            Node Space:
+            Node Arrow: =>
+            Node Space:
+            Node Ident: it
+    Node Space: \n
+    Node Hash: #
+    Node ShowRule:
+        Node Show: show
+        Node Colon: :
+        Node Space:
+        Node Closure:
+            Node Params:
+                Node Ident: it
+            Node Space:
+            Node Arrow: =>
+            Node Space:
+            Node Ident: it
+    Node Space: \n
+    Node Hash: #
+    Node ShowRule:
+        Node Show: show
+        Node Space:
+        Node FuncCall:
+            Node FieldAccess:
+                Node Ident: element
+                Node Dot: .
+                Node Ident: with
+            Node Args:
+                Node LeftParen: (
+                Node Named:
+                    Node Ident: some
+                    Node Colon: :
+                    Node Ident: thing
+                Node RightParen: )
+        Node Colon: :
+        Node Space:
+        Node Ident: box
+    Node Space: \n
+    Node Hash: #
+    Node ForLoop:
+        Node For: for
+        Node Space:
+        Node Ident: x
+        Node Space:
+        Node In: in
+        Node Space:
+        Node FuncCall:
+            Node Ident: range
+            Node Args:
+                Node LeftParen: (
+                Node Int: 0
+                Node Comma: ,
+                Node Space:
+                Node Int: 5
+                Node RightParen: )
+        Node Space:
+        Node ContentBlock:
+            Node LeftBracket: [
+            Node Markup:
+                Node Space: \n
+                Node Text: lol
+                Node Space: \n
+            Node RightBracket: ]
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node Conditional:
+        Node If: if
+        Node Space:
+        Node Bool: true
+        Node Space:
+        Node CodeBlock:
+            Node LeftBrace: {
+            Node Space:
+            Node Code:
+                Node Ident: x
+            Node Space:
+            Node RightBrace: }
+        Node Space:
+        Node Else: else
+        Node Space:
+        Node Conditional:
+            Node If: if
+            Node Space:
+            Node Parenthesized:
+                Node LeftParen: (
+                Node Binary:
+                    Node Int: 2
+                    Node Space:
+                    Node Plus: +
+                    Node Space:
+                    Node Int: 3
+                Node RightParen: )
+            Node Space:
+            Node CodeBlock:
+                Node LeftBrace: {
+                Node Space: \n
+                Node Code:
+                    Node LoopBreak:
+                        Node Break: break
+                    Node Space: \n
+                    Node LoopContinue:
+                        Node Continue: continue
+                    Node Space: \n
+                    Node FuncReturn:
+                        Node Return: return
+                        Node Space:
+                        Node Array:
+                            Node LeftParen: (
+                            Node Int: 1
+                            Node Comma: ,
+                            Node Space:
+                            Node Str: "hi"
+                            Node Comma: ,
+                            Node Space:
+                            Node Numeric: 12cm
+                            Node RightParen: )
+                Node Space: \n
+                Node RightBrace: }
+            Node Space:
+            Node Else: else
+            Node Space:
+            Node ContentBlock:
+                Node LeftBracket: [
+                Node Markup:
+                    Node Strong:
+                        Node Star: *
+                        Node Markup:
+                            Node Text: Hi
+                        Node Star: *
+                    Node Space:
+                    Node Text: there!
+                Node RightBracket: ]
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node Parenthesized:
+        Node LeftParen: (
+        Node Binary:
+            Node Dict:
+                Node LeftParen: (
+                Node Keyed:
+                    Node Str: "spacy key"
+                    Node Colon: :
+                    Node Space:
+                    Node Bool: true
+                Node RightParen: )
+            Node Space:
+            Node Plus: +
+            Node Space:
+            Node Int: 3
+        Node RightParen: )
+    Node Space: \n
+    Node Hash: #
+    Node ModuleImport:
+        Node Import: import
+        Error expected expression 980..980:
+    Node Parbreak:  \n\n
+    Node Hash: #
+    Node FuncCall:
+        Node Ident: f
+        Node Args:
+            Node LeftParen: (
+            Node Numeric: 12pt
+            Node Comma: ,
+            Node Space:
+            Node Ident: y
+            Node Comma: ,
+            Node Space:
+            Node Spread:
+                Node Dots: ..
+                Node Ident: sink
+            Node RightParen: )
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node Parenthesized:
+        Node LeftParen: (
+        Node Closure:
+            Node Params:
+                Node LeftParen: (
+                Node Ident: x
+                Node Comma: ,
+                Node Space:
+                Node Ident: y
+                Node Comma: ,
+                Node Space:
+                Node Underscore: _
+                Node Comma: ,
+                Node Space:
+                Node Spread:
+                    Node Dots: ..
+                    Node Ident: sink
+                Node RightParen: )
+            Node Space:
+            Node Arrow: =>
+            Node Space:
+            Node Ident: z
+        Node RightParen: )
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node LetBinding:
+        Node Let: let
+        Node Space:
+        Node Destructuring:
+            Node LeftParen: (
+            Node Ident: x
+            Node Comma: ,
+            Node Space:
+            Node Ident: y
+            Node RightParen: )
+        Node Space:
+        Node Eq: =
+        Node Space:
+        Node Array:
+            Node LeftParen: (
+            Node Int: 1
+            Node Comma: ,
+            Node Space:
+            Node Int: 2
+            Node RightParen: )
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node LetBinding:
+        Node Let: let
+        Node Space:
+        Node Closure:
+            Node Ident: f
+            Node Params:
+                Node LeftParen: (
+                Node Ident: x
+                Node RightParen: )
+            Node Space:
+            Node Eq: =
+            Node Space:
+            Node Ident: x
+    Node Space: \n
+    Node Hash: #
+    Node WhileLoop:
+        Node While: while
+        Node Space:
+        Node Ident: x
+        Node Space:
+        Node CodeBlock:
+            Node LeftBrace: {
+            Node Space:
+            Node Code:
+                Node Ident: y
+            Node Space:
+            Node RightBrace: }
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node ModuleImport:
+        Node Import: import
+        Node Space:
+        Node Str: "utils.typ"
+        Node Colon: :
+        Node Space:
+        Node ImportItems:
+            Node ImportItemPath:
+                Node Ident: a
+            Node Comma: ,
+            Node Space:
+            Node ImportItemPath:
+                Node Ident: b
+            Node Comma: ,
+            Node Space:
+            Node ImportItemPath:
+                Node Ident: c
+                Node Dot: .
+                Node Ident: d
+                Node Dot: .
+                Node Ident: e
+            Node Comma: ,
+            Node Space:
+            Node RenamedImportItem:
+                Node ImportItemPath:
+                    Node Ident: f
+                Node Space:
+                Node As: as
+                Node Space:
+                Node Ident: g
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node ModuleInclude:
+        Node Include: include
+        Node Space:
+        Node Str: "chapter1.typ"
+    Node Parbreak: \n\n
+    Node Hash: #
+    Node ShowRule:
+        Node Show: show
+        Node Space:
+        Node Ident: heading
+        Node Colon: :
+        Node Space:
+        Node SetRule:
+            Node Set: set
+            Node Space:
+            Node Ident: text
+            Node Args:
+                Node LeftParen: (
+                Node Named:
+                    Node Ident: size
+                    Node Colon: :
+                    Node Space:
+                    Node Numeric: 12pt
+                Node RightParen: )
+    Node Space: \n
+    Node Hash: #
+    Node SetRule:
+        Node Set: set
+        Node Space:
+        Node Ident: text
+        Node Args:
+            Node LeftParen: (
+            Node Named:
+                Node Ident: fill
+                Node Colon: :
+                Node Space:
+                Node Ident: red
+            Node RightParen: )
+        Node Space:
+        Node If: if
+        Node Space:
+        Node Binary:
+            Node Binary:
+                Node Int: 1
+                Node Space:
+                Node Plus: +
+                Node Space:
+                Node Int: 2
+            Node Space:
+            Node EqEq: ==
+            Node Space:
+            Node Int: 3
+
