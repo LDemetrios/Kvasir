@@ -457,6 +457,7 @@ fun TypstSharedLibrary.parseSource(string: String, mode: SyntaxMode): FlattenedS
 fun TypstSharedLibrary.format(string: String, column: Int, tab: Int): String {
     val thick = ThickBytePtr.fromString(string)
     val result = format_source(thick, column, tab)
+    result.read()
     thick.close()
     val resultStr = result.readString()
     free_thick_byte_ptr(result)
@@ -464,5 +465,6 @@ fun TypstSharedLibrary.format(string: String, column: Int, tab: Int): String {
 }
 
 fun main () {
-    println(instance!!.format("#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}", 80, 4))
+    println(instance!!.parseSource("#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}", SyntaxMode.Markup))
+//    println(instance!!.format("#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}", 80, 4))
 }

@@ -10,6 +10,7 @@ import org.ldemetrios.kvasir.language.TypstFileTypeCommon
 import org.ldemetrios.kvasir.language.TypstMarkupFileType
 import org.ldemetrios.kvasir.language.TypstMathFileType
 import org.ldemetrios.kvasir.settings.AppSettings
+import org.ldemetrios.kvasir.util.*
 import org.ldemetrios.tyko.compiler.format
 import java.util.*
 
@@ -51,43 +52,29 @@ class TypstMarkupFormatter : TypstFormatterCommon() {
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMarkupFileType
 }
 
-class TypstCodeFormatter : TypstFormatterCommon() {
+abstract class SurroundingFormatter(val prefix: String, val suffix: String) : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int): String {
         val prepared = "#{\n$text\n}"
         val result = instance?.format(prepared, textWidth + tabSize, tabSize)?.trim() ?: return text
         if (result.lines().size == 1) {
-            return result.removePrefix("#{").removeSuffix("}").trim() + "\n"
+            return result.removePrefix(prefix).removeSuffix(suffix).trim() + LINESEP
         } else {
             val tab = " ".repeat(tabSize)
             return result
-                .removePrefix("#{").removeSuffix("}")
+                .removePrefix(prefix).removeSuffix(suffix)
                 .lines()
                 .dropWhile { it.isBlank() }
                 .dropLastWhile { it.isBlank() }
                 .map { it.removePrefix(tab) }
-                .joinToString("") { it + "\n" }
+                .joinToString("") { it + LINESEP }
         }
     }
+}
 
+class TypstCodeFormatter : SurroundingFormatter(CODE_PREFIX.trim(), CODE_SUFFIX.trim()) {
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstCodeFileType
 }
 
-class TypstMathFormatter : TypstFormatterCommon() {
-    override fun format(text: String, textWidth: Int, tabSize: Int) : String {
-        val prepared = "$\n$text\n$"
-        val result = instance?.format(prepared, textWidth + tabSize, tabSize)?.trim() ?: return text
-        if (result.lines().size == 1) {
-            return result.removePrefix("$").removeSuffix("$").trim() + "\n"
-        } else {
-            val tab = " ".repeat(tabSize)
-            return result
-                .removePrefix("$").removeSuffix("$")
-                .lines()
-                .dropWhile { it.isBlank() }
-                .dropLastWhile { it.isBlank() }
-                .map { it.removePrefix(tab) }
-                .joinToString("") { it + "\n" }
-        }
-    }
+class TypstMathFormatter : SurroundingFormatter(MATH_PREFIX.trim(), MATH_SUFFIX.trim()) {
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMathFileType
 }

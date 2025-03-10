@@ -16,9 +16,8 @@ import com.intellij.openapi.vfs.readBytes
 import org.ldemetrios.instance
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
-import org.ldemetrios.kvasir.util.ConcurrentHashSet
+import org.ldemetrios.kvasir.util.*
 import org.ldemetrios.tyko.compiler.*
-import org.ldemetrios.tyko.ffi.TypstSharedLibrary
 import org.ldemetrios.tyko.model.TDictionary
 import org.ldemetrios.tyko.model.TValue
 import org.ldemetrios.tyko.model.t
@@ -31,7 +30,7 @@ import kotlin.concurrent.withLock
 
 class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : VirtualFileListener {
     override fun contentsChanged(event: VirtualFileEvent) {
-        if (event.file.extension != "typ") return
+        if (event.file.extension !in extensions) return
 
         //We'll need something more robust later
         val project = ProjectLocator.getInstance().guessProjectForFile(event.file)!!
@@ -39,7 +38,7 @@ class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : 
         val editorManager = FileEditorManager.getInstance(project)
         val openEditors = editorManager.allEditors
 
-        val files = FileEditorManager.getInstance(project).selectedFiles.filter { it.extension == "typ" }
+        val files = FileEditorManager.getInstance(project).selectedFiles.filter { it.extension in extensions }
             .mapNotNull { f -> openEditors.singleOrNull { it.file == f }?.let { f to it } }
             .toMap()
 
@@ -136,7 +135,7 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                         }.toByteArray()
                     )
                 } else {
-                    val absolutePath: String = project.basePath + "/" + file.path
+                    val absolutePath: String = project.basePath + file.path
                     val projectFile = LocalFileSystem.getInstance().findFileByPath(absolutePath)
                     when {
                         projectFile == null || !projectFile.exists() -> {
@@ -153,8 +152,8 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                                 if (file == this.mainFile()) {
                                     when (mode) {
                                         SyntaxMode.Markup -> text
-                                        SyntaxMode.Code -> "#{\n".toByteArray() + text + "\n}".toByteArray()
-                                        SyntaxMode.Math -> "$\n".toByteArray() + text + "\n$".toByteArray()
+                                        SyntaxMode.Code -> CODE_PREFIX_BARR + text + CODE_SUFFIX_BARR
+                                        SyntaxMode.Math -> MATH_PREFIX_BARR + text + MATH_SUFFIX_BARR
                                     }
                                 } else {
                                     projectFile.readBytes()
