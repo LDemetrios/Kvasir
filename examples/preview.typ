@@ -2,7 +2,7 @@
 #set page(fill: sys.inputs.kvasir-preview-background)
 
 #set heading(numbering: "1.1")
-#set text(lang: "ru")
+#set text(lang: "ru", size: 1.2em)
 
 #show math.equation.where(block: false): box
 
@@ -10,7 +10,7 @@
 
 ==
 
-Let ${e_k}^oo_(k=1)$ --- be an OS in $cal(H)$. Then the following statements are equivalent.
+Let ${e_k}^oo_(k=1)$ --- be an OS in $cal(H)$. Then the following statements are _equivalent_.
 
 #let ek = ${e_k}$
 
@@ -35,6 +35,8 @@ $ forall x, y in cal(H) quad lr(angle.l x, y angle.r) = sum_(k=1)^oo c_k (x) ove
 Let $k in [1 : n]$, $r in NN union {oo}$. A set $M subset RR^n$ is called a *smooth $k$-dimensional manifold of class $C^((r))$* or an *$r$-smooth $k$-dimensional manifold* if for all $x in M$ there exists a neighborhood $V_x^M$ and a regular homomorphism $phi : Pi_k -> V_x^M$ of class $C^((r))$, such that $phi(OO_k) = x$.
 
 
+
+/*
 = Total Store Order
 
 #import "@preview/fletcher:0.5.5" as fletcher: diagram as dia, node, edge
@@ -71,6 +73,7 @@ Let $k in [1 : n]$, $r in NN union {oo}$. A set $M subset RR^n$ is called a *smo
     edge(<buf1>, "u", "<{-", label-side: center, [write]),
     edge(<buf2>, "u", "<{-", label-side: center, [write]),
     edge(<buf1>, "d", "-}>", label-side: center),
-    edge(<buf2>, "d", "-}>", label-side: center, [write back]),
+    edge(<buf2>, "d", "-}>", label-side: right, [write back]),
 )
 
+*/

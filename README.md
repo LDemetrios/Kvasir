@@ -2,15 +2,18 @@
 
 Kvasir (/kwɑ'zer/) is an (unofficial) Intellij IDEa plugin adding support for [Typst](https://typst.app/docs) language.
 
-![screenshot.png](screenshot.png)
-![preview.png](preview.png)
+![screenshot.png](screenshot1.png)
+![screenshot.png](screenshot2.png)
 
 ## Features
 
 - Customizable syntax highlight
-- Instant preview (Uses `typst watch` for now)
-- Compilation errors display
-- Theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively, as a rgb hex string)
+- Code injections (code in raw blocks is highlighted according to its language)
+- Instant theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively)
+- Compilation errors and warnings display
+- Simple code actions (comment out code, surround-with)
+- Formatter (based on [typstyle](https://github.com/Enter-tainer/typstyle))
+- `typc` (for code) and `typm` (for math) are supported as well as `typ`, with all the aforementioned features.
 
 The plugin is in the beta stage, a lot of features are yet to come. 
 See _Roadmap_ for the information about planned features, 
@@ -19,57 +22,44 @@ Feel free to open issues and pull requests.
 
 ## Installation
 
-The plugin can be manually installed from disk with [archive](distributions/Kvasir-0.2.0-signed.zip), 
-or from JetBrains Marketplace by name.
+The plugin can be manually installed from disk with [archive](distributions/Kvasir-0.3.0-signed.zip), 
+or from JetBrains Marketplace by name. Out of the box it supports only four platforms at the time:
 
-## Roadmap
-(Before opening a feature request make sure it's not already planned)
+- x86-64, Windows
+- x86-64, Linux
+- x86-64, Darwin (MacOS, iOS, etc.)
+- AArch64 (ARM64), Darwin
 
-Listed by group, not by priority (see _Nearest plans_ for those)
+If you have another combination of OS and Architecture, you'll need additional setup:
 
-- Highlighting
-  - [X] Basic Typst formatting
-  - [X] Rainbow brackets
-  - [ ] Math support
-  - [ ] Error recovery (one error shouldn't bust highlighting for the rest of the file)
-  - [ ] Language injections: highlight raw code due to its actual language
-- Preview and Compiler errors
-  - [X] Basic (typst watch)
-  - [ ] Integrate tinymist
-- Formatter
-  - [ ] Sketch formatter (integrate typstfmt or typstyle)
-  - [ ] Intellij-based, configurable formatter
-- Indexing
-  - [ ] Go to definition, renaming, find usages
-  - [ ] Hover tips
-  - [ ] Inlay hints
-  - [ ] Documentation pop-ups
-- Scope recognition
-  - [ ] Folding ranges
-  - [ ] Highlighting current scope
-  - [ ] Colored guides
-- Code Actions
-  - [ ] Commenter
-  - [ ] "Surround with" (shortcuts for making text italic, bold, etc)
-  - [ ] Introduce variable
-  - [ ] Pattern recognition (how am I gonna do that? omg)
-- Project-level support
-  - [ ] Gradle plugin
-  - [ ] IDEa project template
-  - [ ] Typst project template
+1. [Install cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html), if you don't have it
 
-## Nearest plans
+1. Download and build shared library:
+    ```sh
+    git clone https://github.com/LDemetrios/typst-shared-library
+    cd typst-shared-library
+    cargo build --release
+    ```
+1. Copy the resulting library (will be in `target/release/`) anywhere into your PATH.
+   The file should be named `libtypst_shared.so` for Linux, `typst_shared.dll` for Windows, 
+   `libtypstr_shared.dylib` for Darwin, for other OSes it can be checked with `System.mapLibraryName("typst_shared")` from Java.
 
-- Sketch formatter
-- More settings
-- Error recovery
-- Go to definition, renaming, find usages
+1. Restart IDE, possibly reenable or reinstall Kvasir.
+
+If after this you still get an error when opening Typst files, feel free to open an issue. 
+
+You can also contribute to the [shared-library repo](https://github.com/LDemetrios/typst-shared-library) 
+by either editing `compile.sh` or `.github/workflows/release.yml`, so I will be able to include support 
+for your platform in future releases. Unfortunately, using my poor x86 processor and GitHub ci,  
+I failed to compile to anything except these four targets.
+
+## Roadmap, Plans, Changelog
+
+See [Roadmap](Roadmap) and Changelog
 
 ## Known bugs
 
-- Shorthands inside headings aren't highlighted properly.
-- If `page.fill` is not `set` explicitly, the picture may appear transparent. `#set page(fill:white)` (or another color) helps.
-- Errors in the `File Errors` are shown in the order of how they are located in the document, not in order of the stacktrace. I'm not sure if it's even possible, but I'm working on it.
+- `inputs`, provided by Kvasir, don't change when theme is changed, until IDE restart.
 
 ## Contacts
 

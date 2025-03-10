@@ -1,5 +1,9 @@
 import "@preview/fletcher:0.5.5" as fletcher: diagram as dia, node, edge
 
+[
+    = Total Store Order
+]
+
 let diagram(..args) = align(center)[
     \
     #context dia(
@@ -25,6 +29,6 @@ diagram(
 
     edge(<buf1>, "u", "<{-", label-side: center, [write]),
     edge(<buf2>, "u", "<{-", label-side: center, [write]),
-    edge(<buf1>, "d", "-}>", label-side: center),
-    edge(<buf2>, "d", "-}>", label-side: center, [write back]),
+    edge(<buf1>, "d", "-}>"),
+    edge(<buf2>, "d", "-}>", label-side: right, [write back]),
 )

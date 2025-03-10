@@ -381,6 +381,7 @@ class SyntaxHighlighter : Annotator {
             is EscapePsiElement -> ESCAPES
             is BinOp, is UnOp, is AssignOp -> OPERATOR
             is RawPart -> RAWS
+            is LabelPsiElement -> LABELS
             else -> null
         }?.key
     }
