@@ -38,8 +38,6 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.7.0")
     testImplementation("io.kotest:kotest-property:5.7.0")
 
-    implementation("org.apache.commons:commons-compress:1.26.0")
-//
 //    implementation("net.java.dev.jna:jna:5.13.0")
 //    implementation("net.java.dev.jna:jna-platform:5.13.0")
 ////    implementation("org.ldemetrios:tyko:0.4.0")

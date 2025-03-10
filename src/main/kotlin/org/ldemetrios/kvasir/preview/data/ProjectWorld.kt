@@ -164,10 +164,6 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                 }
             }
 
-            "preview" -> {
-                packageFromCentral(file)
-            }
-
             else -> {
                 // Probably add some built-in files
                 RResult.Err(FileError.Package(PackageError.NotFound(file.pack!!)))
