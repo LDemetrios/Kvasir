@@ -16,6 +16,7 @@ import org.ldemetrios.kvasir.preview.data.KvasirVFSListener
 import org.ldemetrios.kvasir.preview.data.ProjectCompilerService
 import org.ldemetrios.tyko.compiler.SyntaxMode
 import java.beans.PropertyChangeListener
+import java.io.File
 import java.nio.file.Path
 import javax.swing.*
 
@@ -27,8 +28,7 @@ class TypstWithPreviewProvider : FileEditorProvider, DumbAware {
     override fun createEditor(project: Project, file: VirtualFile): FileEditor {
         if (sharedLib == null) {
             askForShutdown(project)
-        } else
-            println(sharedLib)
+        }
 
         try {
             val base = TextEditorProvider.getInstance().createEditor(project, file) as TextEditor;
@@ -66,7 +66,7 @@ class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, v
         if (doc != null) {
             doc.addDocumentListener(this)
             ProjectCompilerService.getInstance(project).registerDoc(
-                "/" + Path.of(project.basePath).relativize(file.toNioPath()).toString(),
+                File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString(),
                 doc
             )
         }
@@ -78,7 +78,7 @@ class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, v
         val doc = FileDocumentManager.getInstance().getDocument(f)
         if (doc != null) {
             ProjectCompilerService.getInstance(project).unregisterDoc(
-                "/" + Path.of(project.basePath).relativize(file.toNioPath()).toString()
+                File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString()
             )
         }
     }

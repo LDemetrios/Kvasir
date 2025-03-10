@@ -70,10 +70,10 @@ abstract class SurroundingFormatter(val prefix: String, val suffix: String) : Ty
     }
 }
 
-class TypstCodeFormatter : SurroundingFormatter(CODE_PREFIX.trim(), CODE_SUFFIX.trim()) {
+class TypstCodeFormatter : SurroundingFormatter("#{", "}") {
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstCodeFileType
 }
 
-class TypstMathFormatter : SurroundingFormatter(MATH_PREFIX.trim(), MATH_SUFFIX.trim()) {
+class TypstMathFormatter : SurroundingFormatter("$", "$") {
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMathFileType
 }

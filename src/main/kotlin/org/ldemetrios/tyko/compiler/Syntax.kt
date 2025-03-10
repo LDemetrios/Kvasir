@@ -456,7 +456,6 @@ fun TypstSharedLibrary.parseSource(string: String, mode: SyntaxMode): FlattenedS
 @OptIn(TyKoFFIEntity::class)
 fun TypstSharedLibrary.format(string: String, column: Int, tab: Int): String {
     val thick = ThickBytePtr.fromString(string)
-    println(thick)
     thick.write()
     val result = format_source(thick, column, tab)
     result.read()

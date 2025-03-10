@@ -64,7 +64,7 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
         val map = byteIndices.indices.associate { i -> byteIndices[i] to charIndices[i] }
 
         fun Long.resolve() = map[this.toInt()]!!.clip(from, to - 1)
-        val filePath = ("/" + Path.of(file.project.basePath).relativize(file.virtualFile.toNioPath()).toString()).split("/")
+        val filePath = (File.separator + Path.of(file.project.basePath).relativize(file.virtualFile.toNioPath()).toString()).split(File.separator)
         val errors = annotationResult.flatMap { it.errors }.sumOf { it.trace.size + 1 }
 
         fun annotate(error: Boolean, idx: Int, span: Span, message: String) {

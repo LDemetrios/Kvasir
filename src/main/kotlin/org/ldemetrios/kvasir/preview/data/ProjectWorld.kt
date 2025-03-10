@@ -117,7 +117,7 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
         return when (file.pack?.namespace) {
             null -> {
                 // File in project
-                val cached = edited[file.path.replace(File.separator, "/")]
+                val cached = edited[file.path]
                 if (cached != null) {
                     val text = cached.text
                     RResult.Ok(

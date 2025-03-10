@@ -202,7 +202,7 @@ class RawPsiElement(node: ASTNode) : ATypstPsiElement(node), MarkupPart, CodePar
     }
 
     override fun updateText(text: String): PsiLanguageInjectionHost? {
-        println("updateText($text)")
+//        println("updateText($text)")
         return this
     }
 
