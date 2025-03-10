@@ -4,9 +4,8 @@ import com.intellij.formatting.service.AsyncDocumentFormattingService
 import com.intellij.formatting.service.AsyncFormattingRequest
 import com.intellij.formatting.service.FormattingService
 import com.intellij.psi.PsiFile
-import org.ldemetrios.instance
+import org.ldemetrios.sharedLib
 import org.ldemetrios.kvasir.language.TypstCodeFileType
-import org.ldemetrios.kvasir.language.TypstFileTypeCommon
 import org.ldemetrios.kvasir.language.TypstMarkupFileType
 import org.ldemetrios.kvasir.language.TypstMathFileType
 import org.ldemetrios.kvasir.settings.AppSettings
@@ -48,16 +47,16 @@ private val FEATURES: MutableSet<FormattingService.Feature> =
     EnumSet.noneOf(FormattingService.Feature::class.java)
 
 class TypstMarkupFormatter : TypstFormatterCommon() {
-    override fun format(text: String, textWidth: Int, tabSize: Int) = instance?.format(text, textWidth, tabSize) ?: text
+    override fun format(text: String, textWidth: Int, tabSize: Int) = sharedLib?.format(text, textWidth, tabSize) ?: text
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMarkupFileType
 }
 
 abstract class SurroundingFormatter(val prefix: String, val suffix: String) : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int): String {
         val prepared = "#{\n$text\n}"
-        val result = instance?.format(prepared, textWidth + tabSize, tabSize)?.trim() ?: return text
+        val result = sharedLib?.format(prepared, textWidth + tabSize, tabSize)?.trim() ?: return text
         if (result.lines().size == 1) {
-            return result.removePrefix(prefix).removeSuffix(suffix).trim() + LINESEP
+            return result.removePrefix(prefix).removeSuffix(suffix).trim() + "\n"
         } else {
             val tab = " ".repeat(tabSize)
             return result
@@ -66,7 +65,7 @@ abstract class SurroundingFormatter(val prefix: String, val suffix: String) : Ty
                 .dropWhile { it.isBlank() }
                 .dropLastWhile { it.isBlank() }
                 .map { it.removePrefix(tab) }
-                .joinToString("") { it + LINESEP }
+                .joinToString("") { it + "\n" }
         }
     }
 }

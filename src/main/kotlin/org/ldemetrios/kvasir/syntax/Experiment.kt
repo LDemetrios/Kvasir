@@ -1,6 +1,6 @@
 package org.ldemetrios.kvasir.syntax
 
-import org.ldemetrios.instance
+import org.ldemetrios.sharedLib
 import org.ldemetrios.tyko.compiler.SyntaxMark
 import org.ldemetrios.tyko.compiler.SyntaxMode
 import org.ldemetrios.tyko.compiler.parseSource
@@ -94,7 +94,7 @@ fun main() {
             #show heading: set text(size: 12pt)
             #set text(fill: red) if 1 + 2 == 3
         """.trimIndent()
-    val syntax = instance!!.parseSource(source, SyntaxMode.Markup).marks
+    val syntax = sharedLib!!.parseSource(source, SyntaxMode.Markup).marks
     var depth = 0
     for (i in syntax.indices) {
         val from = syntax[i].index

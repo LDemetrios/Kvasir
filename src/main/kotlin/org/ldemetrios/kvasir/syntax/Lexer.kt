@@ -1,9 +1,8 @@
 package org.ldemetrios.kvasir.syntax
 
-import com.intellij.lang.PsiBuilder
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
-import org.ldemetrios.instance
+import org.ldemetrios.sharedLib
 import org.ldemetrios.tyko.compiler.*
 import org.ldemetrios.utilities.cast
 
@@ -31,7 +30,7 @@ class TypstLexer(val mode: SyntaxMode) : LexerBase() {
         bufferEnd = endOffset
         tokenType = null
         stack = mutableListOf()
-        marks = instance!!.parseSource(buffer.subSequence(startOffset, endOffset).toString(), mode).marks
+        marks = sharedLib!!.parseSource(buffer.subSequence(startOffset, endOffset).toString(), mode).marks
         curMark = 0
         myState = if (initialState == 0) 0 else throw UnsupportedOperationException("Couldn't restart")
     }

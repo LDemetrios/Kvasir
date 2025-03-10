@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiFile
+import org.apache.commons.lang3.SystemProperties
 import org.ldemetrios.kvasir.language.TypstCodeFileType
 import org.ldemetrios.kvasir.language.TypstFileTypeCommon
 import org.ldemetrios.kvasir.language.TypstMathFileType
@@ -18,6 +19,7 @@ import org.ldemetrios.kvasir.syntax.TypstMathFile
 import org.ldemetrios.tyko.compiler.Span
 import org.ldemetrios.tyko.compiler.Tracepoint
 import org.ldemetrios.tyko.mapByteIndicesToCharIndices
+import java.io.File
 import java.nio.file.Path
 
 
@@ -62,11 +64,11 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
         val map = byteIndices.indices.associate { i -> byteIndices[i] to charIndices[i] }
 
         fun Long.resolve() = map[this.toInt()]!!.clip(from, to - 1)
-        val filePath = "/" + Path.of(file.project.basePath).relativize(file.virtualFile.toNioPath()).toString()
+        val filePath = ("/" + Path.of(file.project.basePath).relativize(file.virtualFile.toNioPath()).toString()).split("/")
         val errors = annotationResult.flatMap { it.errors }.sumOf { it.trace.size + 1 }
 
         fun annotate(error: Boolean, idx: Int, span: Span, message: String) {
-            val thisFile = span.file?.pack == null && span.file?.path == filePath
+            val thisFile = span.file?.pack == null && span.file?.path?.split(File.separator) == filePath
             val range = if (thisFile) {
                 TextRange((span.startInd - shift).resolve(), (span.endInd - shift).resolve())
             } else {

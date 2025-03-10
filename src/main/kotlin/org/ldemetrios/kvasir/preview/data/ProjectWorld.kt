@@ -8,12 +8,8 @@ import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.TextEditorWithPreview
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
-import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileEvent
-import com.intellij.openapi.vfs.VirtualFileListener
-import com.intellij.openapi.vfs.readBytes
-import org.ldemetrios.instance
+import com.intellij.openapi.vfs.*
+import org.ldemetrios.sharedLib
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
 import org.ldemetrios.kvasir.util.*
@@ -21,6 +17,7 @@ import org.ldemetrios.tyko.compiler.*
 import org.ldemetrios.tyko.model.TDictionary
 import org.ldemetrios.tyko.model.TValue
 import org.ldemetrios.tyko.model.t
+import java.io.File
 import java.io.IOException
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
@@ -68,7 +65,7 @@ fun getCompiled(file: VirtualFile) = compiled[file]?.toMap() ?: mapOf()
 
 @Service(Service.Level.PROJECT)
 class ProjectCompilerService(val project: Project) : World, Disposable {
-    val compiler = instance?.let { WorldBasedTypstCompiler(it, this) }
+    val compiler = sharedLib?.let { WorldBasedTypstCompiler(it, this) }
 
     private var currentMain: String? = null
     private val lock = ReentrantLock()
@@ -87,7 +84,7 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
             val result = lock.withLock {
                 this.mode = mode
                 compiler?.reset()
-                currentMain = "/" + Path.of(project.basePath).relativize(file.toNioPath()).toString()
+                currentMain = File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString()
                 compiler?.compileSvgRaw(0, Int.MAX_VALUE)
             } ?: return@executeOnPooledThread
             val warnings = result.warnings
@@ -120,15 +117,15 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
         return when (file.pack?.namespace) {
             null -> {
                 // File in project
-                val cached = edited[file.path]
+                val cached = edited[file.path.replace(File.separator, "/")]
                 if (cached != null) {
                     val text = cached.text
                     RResult.Ok(
                         if (file == this.mainFile()) {
                             when (mode) {
                                 SyntaxMode.Markup -> text
-                                SyntaxMode.Code -> "#{\n" + text + "\n}"
-                                SyntaxMode.Math -> "$\n" + text + "\n$"
+                                SyntaxMode.Code -> "#{\n$text\n}"
+                                SyntaxMode.Math -> "$\n$text\n$"
                             }
                         } else {
                             text
@@ -152,8 +149,8 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                                 if (file == this.mainFile()) {
                                     when (mode) {
                                         SyntaxMode.Markup -> text
-                                        SyntaxMode.Code -> CODE_PREFIX_BARR + text + CODE_SUFFIX_BARR
-                                        SyntaxMode.Math -> MATH_PREFIX_BARR + text + MATH_SUFFIX_BARR
+                                        SyntaxMode.Code -> ("#{\n").toByteArray() + text + ("\n}").toByteArray()
+                                        SyntaxMode.Math -> ("$\n").toByteArray() + text + ("\n$").toByteArray()
                                     }
                                 } else {
                                     projectFile.readBytes()

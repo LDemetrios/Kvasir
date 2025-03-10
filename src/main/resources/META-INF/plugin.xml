@@ -41,19 +41,19 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <fileType
-                name="Typst File"
+                name="Typst"
                 implementationClass="org.ldemetrios.kvasir.language.TypstMarkupFileType"
                 fieldName="INSTANCE"
                 language="Typst"
                 extensions="typ"/>
         <fileType
-                name="Typst Code File"
+                name="Typst Code"
                 implementationClass="org.ldemetrios.kvasir.language.TypstCodeFileType"
                 fieldName="INSTANCE"
                 language="TypstCode"
                 extensions="typc"/>
         <fileType
-                name="Typst Math File"
+                name="Typst Math"
                 implementationClass="org.ldemetrios.kvasir.language.TypstMathFileType"
                 fieldName="INSTANCE"
                 language="TypstMath"

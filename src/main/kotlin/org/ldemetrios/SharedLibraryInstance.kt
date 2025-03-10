@@ -5,13 +5,13 @@ import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
-import com.sun.jna.Native
-import com.sun.jna.NativeLibrary
+import com.intellij.util.io.delete
 import com.sun.jna.Platform
 import org.ldemetrios.tyko.ffi.TypstSharedLibrary
 import org.ldemetrios.utilities.cast
 import java.io.File
-import kotlin.io.path.Path
+import java.nio.file.Files
+import kotlin.io.path.*
 
 private val osName = System.getProperty("os.name")
 private val archName = System.getProperty("os.arch")
@@ -35,11 +35,10 @@ private val folder = run {
 object Here
 
 //val instance = TypstSharedLibrary.instance(Path("/home/ldemetrios/Workspace/TypstNKotlinInterop/typst-custom-serialize/target/release/libtypst_shared.so"))
-val instance = run {
-    val name = System.mapLibraryName("typst_shared");
+val sharedLib = run {
+    val name = System.mapLibraryName("typst_shared")!!;
     try {
-//        val url = Here::class.java.classLoader.getResource(folder + "/" + System.mapLibraryName("typst_shared"))
-        TypstSharedLibrary.instance(Path(folder, name))
+        TypstSharedLibrary.instance(Path(folder, name)).also { println("Retrieved from the jar by path") }
     } catch (e: UnsatisfiedLinkError) {
         val path = System.getenv("PATH")
 
@@ -50,16 +49,45 @@ val instance = run {
             ?.map { it.resolve(name) }
             ?.mapNotNull {
                 try {
-                    TypstSharedLibrary.instance(it)
+                    TypstSharedLibrary.instance(it).also { println("Found in PATH ($it)") }
                 } catch (e: UnsatisfiedLinkError) {
                     null
                 }
             }
-            ?.firstOrNull()
+            ?.firstOrNull() ?: loadOntoDisk(name)
     }
 }
-//val instance = Native.load("typst_shared", TypstSharedLibrary::class.java)!!
-//val x = println("PATH: ${System.getenv("PATH")};")
+
+private fun loadOntoDisk(name: String): TypstSharedLibrary? {
+    val bytes = Here::class.java.classLoader.getResource(folder + "/" + name)?.readBytes() ?: return null
+    val tmp = Files.createTempDirectory("kvasir-dynamic-library-tmp")
+
+    val ourTemps = tmp.parent.listDirectoryEntries()
+        .filter { it.isDirectory() && it.name.startsWith("kvasir-dynamic-library-tmp") }
+
+    val alreadyWritten = if (ourTemps.size > 1) {
+        ourTemps
+            .asSequence()
+            .map { it.resolve(name) }
+            .mapNotNull {
+                try {
+                    TypstSharedLibrary.instance(it).also {
+                        tmp.delete()
+                        println("Previously unpacked into $it")
+                    }
+                } catch (e: UnsatisfiedLinkError) {
+                    null
+                }
+            }
+            .firstOrNull()
+    } else null
+
+    return alreadyWritten ?: run {
+        val file = tmp.resolve(name)
+        Files.write(file, bytes)
+        TypstSharedLibrary.instance(file).also { println("Unpacked into $it") }
+    }
+}
 
 fun askForShutdown(project: Project?) {
     val errorMessage = """

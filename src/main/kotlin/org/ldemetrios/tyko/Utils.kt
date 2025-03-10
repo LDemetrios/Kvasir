@@ -1,5 +1,6 @@
 package org.ldemetrios.tyko
 
+import org.ldemetrios.kvasir.util.LINESEP
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.createTempDirectory
@@ -54,9 +55,16 @@ fun mapByteIndicesToCharIndices(text: String, byteIndices: IntArray): IntArray {
     var charIndex = 0
     var byteIndexPos = 0
 
-    text.forEach { char ->
-        val charByteSize = utf8CharSizeMap[char.code]
+    val windows = LINESEP == "\r\n"
+    var wasCR = false
 
+    for (char in text) {
+//        if (char == '\n' && wasCR && windows) {
+//            wasCR = false
+//            charIndex--
+//            continue
+//        }
+        val charByteSize = utf8CharSizeMap[char.code]
         while (byteIndexPos < byteIndices.size && byteIndices[byteIndexPos] < currentByteOffset + charByteSize) {
             result[byteIndexPos] = charIndex
             byteIndexPos++
@@ -66,6 +74,7 @@ fun mapByteIndicesToCharIndices(text: String, byteIndices: IntArray): IntArray {
 
         currentByteOffset += charByteSize
         charIndex++
+        wasCR = char == '\r'
     }
 
     for (i in byteIndexPos until byteIndices.size) {

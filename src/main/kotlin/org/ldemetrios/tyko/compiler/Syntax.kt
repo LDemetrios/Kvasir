@@ -1,6 +1,6 @@
 package org.ldemetrios.tyko.compiler
 
-import org.ldemetrios.instance
+import org.ldemetrios.sharedLib
 import org.ldemetrios.tyko.ffi.ThickBytePtr
 import org.ldemetrios.tyko.ffi.TyKoFFIEntity
 import org.ldemetrios.tyko.ffi.TypstSharedLibrary
@@ -456,6 +456,8 @@ fun TypstSharedLibrary.parseSource(string: String, mode: SyntaxMode): FlattenedS
 @OptIn(TyKoFFIEntity::class)
 fun TypstSharedLibrary.format(string: String, column: Int, tab: Int): String {
     val thick = ThickBytePtr.fromString(string)
+    println(thick)
+    thick.write()
     val result = format_source(thick, column, tab)
     result.read()
     thick.close()
@@ -465,6 +467,7 @@ fun TypstSharedLibrary.format(string: String, column: Int, tab: Int): String {
 }
 
 fun main () {
-    println(instance!!.parseSource("#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}", SyntaxMode.Markup))
-//    println(instance!!.format("#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}", 80, 4))
+    val content = "#{let fu(x) = \$#x & b\$; fu(\$x\$); \$1_2^3_4^5\$; \$1''^2_3\$;set text(fill:red) if 1+2 == 3;show : emph; [lol]}"
+    println(sharedLib!!.parseSource(content, SyntaxMode.Markup))
+    println(sharedLib!!.format(content, 80, 4))
 }
