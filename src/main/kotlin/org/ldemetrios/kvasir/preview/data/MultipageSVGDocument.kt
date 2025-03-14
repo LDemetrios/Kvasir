@@ -52,7 +52,7 @@ class MultipageSVGDocument(val folder: List<String>, val pageGap: Double) {
         val l = pageStarts.binarySearch(lower).let {
             when {
                 it > 0 -> it
-                (pageStarts.getOrElse(-it) { .0 }) - lower >= PAGE_GAP /2 -> -it - 2
+                (pageStarts.getOrElse(-it) { .0 }) - lower >= PAGE_GAP / 2 -> -it - 2
                 else -> -it - 1
             }
         }
