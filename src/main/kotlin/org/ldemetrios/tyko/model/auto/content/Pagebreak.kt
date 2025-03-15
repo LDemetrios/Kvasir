@@ -23,9 +23,11 @@ public interface TPagebreak : TContent {
 
     public val to: TNoneOrPagebreakTo?
 
-    override fun func(): TElement = TPagebreak
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("pagebreak") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("pagebreak")
+
         internal val weakType: InternalType = ConcreteType("bool")
 
         internal val toType: InternalType = UnionType(ConcreteType("none"),

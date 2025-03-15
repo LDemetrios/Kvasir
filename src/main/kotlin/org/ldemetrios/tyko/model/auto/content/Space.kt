@@ -19,9 +19,11 @@ import org.ldemetrios.utilities.castUnchecked
     TSpaceImpl::class,
 )
 public interface TSpace : TContent {
-    override fun func(): TElement = TSpace
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("space")
+    public companion object {
+        public val Elem: TElement = TElementImpl("space")
+    }
 }
 
 internal data class TSpaceImpl(

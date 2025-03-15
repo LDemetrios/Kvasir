@@ -23,9 +23,11 @@ public interface TWith : TFunction {
 
     public val args: TArguments<TValue>
 
-    override fun type(): TType = TWith
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("with") {
+    public companion object {
+        public val Type: TType = TTypeImpl("with")
+
         internal val originType: InternalType = ConcreteType("function")
 
         internal val argsType: InternalType = ConcreteType("arguments", listOf(AnyType))

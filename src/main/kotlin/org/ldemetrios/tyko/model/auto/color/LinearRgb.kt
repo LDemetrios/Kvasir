@@ -27,9 +27,11 @@ public interface TLinearRgb : TColor {
 
     public val alpha: TIntOrRatio?
 
-    override fun func(): TFunction = TLinearRgb
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("color.linear-rgb".t)
+
         internal val redType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
 
         internal val greenType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
@@ -37,8 +39,6 @@ public interface TLinearRgb : TColor {
         internal val blueType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
 
         internal val alphaType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
-
-        override fun format(): String = "color.linear-rgb"
     }
 }
 

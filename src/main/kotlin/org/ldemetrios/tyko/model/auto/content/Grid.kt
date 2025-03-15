@@ -40,9 +40,11 @@ public interface TGrid : TContent {
 
     public val inset: TArrayOrFunctionOrRelativeOrSides<TRelative, TNoneOrRelative>?
 
-    override fun func(): TElement = TGrid
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("grid") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("grid")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val columnsType: InternalType = UnionType(ConcreteType("array", listOf(AnyType)),

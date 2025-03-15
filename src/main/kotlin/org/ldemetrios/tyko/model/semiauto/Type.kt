@@ -22,9 +22,11 @@ import org.ldemetrios.utilities.castUnchecked
     TTypeImpl::class,
 )
 public interface TType : TValue {
-    override fun type(): TType = TType
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("type")
+    public companion object {
+        public val Type: TType = TTypeImpl("type")
+    }
 }
 
 public open class TTypeImpl(

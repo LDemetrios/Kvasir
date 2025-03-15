@@ -2,10 +2,15 @@ package org.ldemetrios.kvasir.psi
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.NlsSafe
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
+import com.intellij.psi.util.firstLeaf
+import fleet.util.cast
 import org.ldemetrios.kvasir.syntax.TypstElementType
+import org.ldemetrios.kvasir.syntax.tokenType
 import org.ldemetrios.tyko.compiler.SyntaxKind
 
 sealed interface TypstPsiElement : NavigatablePsiElement {
@@ -190,7 +195,7 @@ class EmphPsiElement(node: ASTNode) : ATypstPsiElement(node), MarkupPart {
 /**
  * Raw text with optional syntax highlighting: `` `...` ``.
  */
-class RawPsiElement(node: ASTNode) : ATypstPsiElement(node), MarkupPart, CodePart, PsiLanguageInjectionHost  {
+class RawPsiElement(node: ASTNode) : ATypstPsiElement(node), MarkupPart, CodePart, PsiLanguageInjectionHost {
     override fun accept(visitor: TypstVisitor) {
         visitor.visitRaw(this)
     }
@@ -962,15 +967,6 @@ class CodePsiElement(node: ASTNode) : ATypstPsiElement(node) {
 }
 
 /**
- * An identifier: `it`.
- */
-class IdentPsiElement(node: ASTNode) : ATypstPsiElement(node) {
-    override fun accept(visitor: TypstVisitor) {
-        visitor.visitIdent(this)
-    }
-}
-
-/**
  * A boolean: `true`, `false`.
  */
 class BoolPsiElement(node: ASTNode) : ATypstPsiElement(node), KeywordLiteral {
@@ -1332,6 +1328,48 @@ class RawTextPsiElement(node: ASTNode) : ATypstPsiElement(node), RawPart {
     }
 }
 
+/**
+ * A declaration of an identifier: `it` in `let it = 1`
+ */
+class IdentDeclPsiElement(node: ASTNode) : ATypstPsiElement(node)/*, PsiNamedElement*/ {
+    override fun accept(visitor: TypstVisitor) {
+        visitor.visitIdentDecl(this)
+    }
+//
+//    override fun getName(): String {
+//        return this.text.trim()
+//    }
+//
+//    override fun setName(name: String): PsiElement {
+//        val name = getName()
+//        val child = this.firstLeaf().nextSiblingOf(inclusive = true) { it.text == name }!!
+//        child.replace(LeafPsiElement(SyntaxKind.Ident.tokenType, name))
+//        return this
+//    }
+}
+
+
+/**
+ * A reference to an identifier: `x` in `x + 1`
+ */
+class IdentRefPsiElement(node: ASTNode) : ATypstPsiElement(node) {
+    override fun accept(visitor: TypstVisitor) {
+        visitor.visitIdentRef(this)
+    }
+
+//    private inner class Reference : PsiReferenceBase<IdentRefPsiElement>(this) {
+//        override fun resolve(): PsiElement? {
+//            return null
+//        }
+//
+//        override fun getVariants(): Array<Any> {
+//            return arrayOf()
+//        }
+//    }
+
+}
+
+
 val constructorsMap: Map<SyntaxKind, (ASTNode) -> PsiElement> = mapOf(
     SyntaxKind.Error to ::ErrorPsiElement,
     SyntaxKind.Shebang to ::ShebangPsiElement,
@@ -1428,7 +1466,6 @@ val constructorsMap: Map<SyntaxKind, (ASTNode) -> PsiElement> = mapOf(
     SyntaxKind.Include to ::IncludePsiElement,
     SyntaxKind.As to ::AsPsiElement,
     SyntaxKind.Code to ::CodePsiElement,
-    SyntaxKind.Ident to ::IdentPsiElement,
     SyntaxKind.Bool to ::BoolPsiElement,
     SyntaxKind.Int to ::IntPsiElement,
     SyntaxKind.Float to ::FloatPsiElement,

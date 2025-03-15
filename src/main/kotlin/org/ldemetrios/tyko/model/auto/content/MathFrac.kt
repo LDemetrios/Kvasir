@@ -23,9 +23,11 @@ public interface TMathFrac : TContent {
 
     public val denom: TContent
 
-    override fun func(): TElement = TMathFrac
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.frac") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.frac")
+
         internal val numType: InternalType = ConcreteType("content")
 
         internal val denomType: InternalType = ConcreteType("content")

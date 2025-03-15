@@ -25,9 +25,11 @@ public interface TOutlineEntry : TContent {
 
     public val fill: TContentOrNone?
 
-    override fun func(): TElement = TOutlineEntry
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("outline.entry") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("outline.entry")
+
         internal val levelType: InternalType = ConcreteType("int")
 
         internal val elementType: InternalType = ConcreteType("content")

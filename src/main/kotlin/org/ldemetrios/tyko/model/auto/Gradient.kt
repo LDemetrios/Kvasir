@@ -21,9 +21,11 @@ public interface TGradient : TArrayOrColorOrFunctionOrGradientOrNoneOrTiling<TDy
         TColorOrDictionaryOrGradientOrLengthOrStrokeOrTiling<TDynamic>,
         TAutoOrColorOrDictionaryOrGradientOrLengthOrNoneOrStrokeOrTiling<TDynamic>,
         TAutoOrColorOrGradientOrTiling, TValue {
-    override fun type(): TType = TGradient
+    override fun type(): TType = Type
 
     public fun func(): TFunction
 
-    public companion object : TTypeImpl("gradient")
+    public companion object {
+        public val Type: TType = TTypeImpl("gradient")
+    }
 }

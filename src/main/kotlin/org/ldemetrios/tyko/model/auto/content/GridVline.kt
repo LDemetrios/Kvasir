@@ -29,9 +29,11 @@ public interface TGridVline : TContent {
 
     public val position: TAlignment?
 
-    override fun func(): TElement = TGridVline
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("grid.vline") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("grid.vline")
+
         internal val xType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("int"))
 
         internal val startType: InternalType = ConcreteType("int")

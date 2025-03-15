@@ -31,9 +31,11 @@ public interface TDatetime : TAutoOrDatetimeOrNone, TValue {
 
     public val second: TInt?
 
-    override fun type(): TType = TDatetime
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("datetime") {
+    public companion object {
+        public val Type: TType = TTypeImpl("datetime")
+
         internal val yearType: InternalType = ConcreteType("int")
 
         internal val monthType: InternalType = ConcreteType("int")

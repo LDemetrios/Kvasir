@@ -35,9 +35,11 @@ public interface TPad : TContent {
 
     public val rest: TRelative?
 
-    override fun func(): TElement = TPad
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("pad") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("pad")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val leftType: InternalType = ConcreteType("relative")

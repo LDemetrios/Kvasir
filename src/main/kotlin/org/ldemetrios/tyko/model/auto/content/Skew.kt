@@ -29,9 +29,11 @@ public interface TSkew : TContent {
 
     public val reflow: TBool?
 
-    override fun func(): TElement = TSkew
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("skew") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("skew")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val axType: InternalType = ConcreteType("angle")

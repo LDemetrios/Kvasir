@@ -39,9 +39,11 @@ public interface TTableCell : TContent {
 
     public val breakable: TAutoOrBool?
 
-    override fun func(): TElement = TTableCell
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("table.cell") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("table.cell")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val xType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("int"))

@@ -23,9 +23,11 @@ public interface TMathBinom : TContent {
 
     public val lower: TArray<TContent>
 
-    override fun func(): TElement = TMathBinom
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.binom") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.binom")
+
         internal val upperType: InternalType = ConcreteType("content")
 
         internal val lowerType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))

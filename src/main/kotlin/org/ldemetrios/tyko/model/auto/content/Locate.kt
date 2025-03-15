@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TLocate : TContent {
     public val func: TFunction
 
-    override fun func(): TElement = TLocate
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("locate") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("locate")
+
         internal val funcType: InternalType = ConcreteType("function")
     }
 }

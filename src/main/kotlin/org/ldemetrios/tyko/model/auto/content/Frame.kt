@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TFrame : TContent {
     public val body: TContent
 
-    override fun func(): TElement = TFrame
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("html.frame") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("html.frame")
+
         internal val bodyType: InternalType = ConcreteType("content")
     }
 }

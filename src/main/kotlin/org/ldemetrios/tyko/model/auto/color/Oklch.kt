@@ -27,9 +27,11 @@ public interface TOklch : TColor {
 
     public val alpha: TRatio?
 
-    override fun func(): TFunction = TOklch
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("oklch".t)
+
         internal val lightnessType: InternalType = ConcreteType("ratio")
 
         internal val chromaType: InternalType = UnionType(ConcreteType("float"), ConcreteType("ratio"))
@@ -37,8 +39,6 @@ public interface TOklch : TColor {
         internal val hueType: InternalType = ConcreteType("angle")
 
         internal val alphaType: InternalType = ConcreteType("ratio")
-
-        override fun format(): String = "oklch"
     }
 }
 

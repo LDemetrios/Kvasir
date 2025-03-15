@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TListItem : TContent {
     public val body: TContent
 
-    override fun func(): TElement = TListItem
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("list.item") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("list.item")
+
         internal val bodyType: InternalType = ConcreteType("content")
     }
 }

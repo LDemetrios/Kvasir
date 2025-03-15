@@ -27,9 +27,11 @@ public interface TDocument : TContent {
 
     public val date: TAutoOrDatetimeOrNone?
 
-    override fun func(): TElement = TDocument
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("document") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("document")
+
         internal val titleType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val authorType: InternalType = UnionType(ConcreteType("array",

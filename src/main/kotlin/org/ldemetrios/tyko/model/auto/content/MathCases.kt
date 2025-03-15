@@ -27,9 +27,11 @@ public interface TMathCases : TContent {
 
     public val gap: TRelative?
 
-    override fun func(): TElement = TMathCases
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.cases") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.cases")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val delimType: InternalType = UnionType(ConcreteType("array",

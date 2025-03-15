@@ -35,9 +35,11 @@ public interface TTiling : TArrayOrColorOrFunctionOrGradientOrNoneOrTiling<TDyna
 
     public val relative: TAutoOrStr?
 
-    override fun type(): TType = TTiling
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("tiling") {
+    public companion object {
+        public val Type: TType = TTypeImpl("tiling")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val szType: InternalType = UnionType(ConcreteType("array", listOf(AnyType)),

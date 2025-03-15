@@ -35,8 +35,3 @@ Listed by group, not by priority (see _Nearest plans_ for those)
     - [ ] IDEa project template
     - [ ] Typst project template
     - [ ] JVM functions support
-
-## Nearest plans
-
-- Name resolution
-- Refactoring support (renaming, inlining, extracting)

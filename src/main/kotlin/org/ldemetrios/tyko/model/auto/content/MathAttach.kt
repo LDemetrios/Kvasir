@@ -33,9 +33,11 @@ public interface TMathAttach : TContent {
 
     public val br: TContentOrNone?
 
-    override fun func(): TElement = TMathAttach
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.attach") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.attach")
+
         internal val baseType: InternalType = ConcreteType("content")
 
         internal val tType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))

@@ -55,9 +55,11 @@ public interface TPage : TContent {
 
     public val supplement: TContent?
 
-    override fun func(): TElement = TPage
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("page") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("page")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val paperType: InternalType = ConcreteType("page-paper")

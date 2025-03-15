@@ -1,5 +1,6 @@
 package org.ldemetrios.tyko.ffi
 
+import com.sun.jna.Memory
 import com.sun.jna.Pointer
 import com.sun.jna.Structure
 import com.sun.jna.Structure.ByValue
@@ -7,11 +8,12 @@ import org.ldemetrios.tyko.compiler.IndexedMark
 import org.ldemetrios.tyko.compiler.SyntaxKind
 import org.ldemetrios.tyko.compiler.SyntaxMark
 import org.ldemetrios.tyko.mapByteIndicesToCharIndices
+import java.io.Closeable
 import java.util.Vector
 
 @Structure.FieldOrder("ptr", "len", "cap")
 @TyKoFFIEntity
-class CVec : Structure(), ByValue {
+open class CVec : Structure(), ByValue, Closeable {
     @JvmField
     var ptr: Pointer? = null
 
@@ -20,6 +22,10 @@ class CVec : Structure(), ByValue {
 
     @JvmField
     var cap: Long = 0
+
+    override fun close() {
+        (ptr as? Memory)?.close()
+    }
 }
 
 @Structure.FieldOrder("marks", "errors", "errors_starts")

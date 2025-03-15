@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TMathPrimes : TContent {
     public val count: TInt
 
-    override fun func(): TElement = TMathPrimes
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.primes") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.primes")
+
         internal val countType: InternalType = ConcreteType("int")
     }
 }

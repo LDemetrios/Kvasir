@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TRegex : TSelector {
     public val regex: TStr?
 
-    override fun type(): TType = TRegex
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("regex") {
+    public companion object {
+        public val Type: TType = TTypeImpl("regex")
+
         internal val regexType: InternalType = ConcreteType("str")
     }
 }

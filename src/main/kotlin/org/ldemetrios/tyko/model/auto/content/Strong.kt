@@ -23,9 +23,11 @@ public interface TStrong : TContent {
 
     public val delta: TInt?
 
-    override fun func(): TElement = TStrong
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("strong") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("strong")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val deltaType: InternalType = ConcreteType("int")

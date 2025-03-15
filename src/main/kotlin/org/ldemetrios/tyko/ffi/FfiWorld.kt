@@ -109,7 +109,9 @@ fun TypstSharedLibrary.NativeWorld(world: World): NativeWorld {
             free_thick_byte_ptr(exceptWorld.comment!!)
             TODO(comment)
         } else {
-            return NativeWorld(this, world, UniquePtr(exceptWorld.ptr!!) { free_world(it) }, mainCallback, fileCallback)
+            val c = UniquePtr(exceptWorld.ptr!!) { free_world(it) }
+            val d = NativeWorld(this, world, c, mainCallback, fileCallback)
+            return d
         }
     } finally {
         stdlib.tryClose()

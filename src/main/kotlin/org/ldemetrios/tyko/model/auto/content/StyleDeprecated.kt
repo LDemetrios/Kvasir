@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TStyleDeprecated : TContent {
     public val func: TFunction
 
-    override fun func(): TElement = TStyleDeprecated
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("style-deprecated") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("style-deprecated")
+
         internal val funcType: InternalType = ConcreteType("function")
     }
 }

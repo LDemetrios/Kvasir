@@ -22,11 +22,13 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TBool : TValue, TAutoOrBool, TAutoOrBoolOrFunctionOrNoneOrRelative, TBoolOrLength {
     public val boolValue: Boolean
 
-    override fun type(): TType = TBool
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(boolValue)
 
-    public companion object : TTypeImpl("bool")
+    public companion object {
+        public val Type: TType = TTypeImpl("bool")
+    }
 }
 
 internal data class TBoolImpl(

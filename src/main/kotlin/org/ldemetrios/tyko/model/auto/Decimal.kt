@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TDecimal : TValue {
     public val `value`: TStr?
 
-    override fun type(): TType = TDecimal
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("decimal") {
+    public companion object {
+        public val Type: TType = TTypeImpl("decimal")
+
         internal val valueType: InternalType = ConcreteType("str")
     }
 }

@@ -49,7 +49,7 @@ public interface TDictionary<out V : TValue> : Map<String, V>, TValue, TDictiona
     override val values: Collection<V>
         get() = dictionaryValue.values
 
-    override fun type(): TType = TDictionary
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(dictionaryValue)
 
@@ -67,7 +67,9 @@ public interface TDictionary<out V : TValue> : Map<String, V>, TValue, TDictiona
     override fun getOrDefault(key: String, defaultValue: @UnsafeVariance V): V =
             dictionaryValue.getOrDefault(key, defaultValue)
 
-    public companion object : TTypeImpl("dictionary")
+    public companion object {
+        public val Type: TType = TTypeImpl("dictionary")
+    }
 }
 
 internal data class TDictionaryImpl<out V : TValue>(

@@ -27,9 +27,11 @@ public interface TQuote : TContent {
 
     public val attribution: TContentOrLabelOrNone?
 
-    override fun func(): TElement = TQuote
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("quote") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("quote")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val blockType: InternalType = ConcreteType("bool")

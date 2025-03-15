@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TMathUnderline : TContent {
     public val body: TContent
 
-    override fun func(): TElement = TMathUnderline
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.underline") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.underline")
+
         internal val bodyType: InternalType = ConcreteType("content")
     }
 }

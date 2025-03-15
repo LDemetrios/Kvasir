@@ -27,9 +27,11 @@ public interface TCmyk : TColor {
 
     public val key: TRatio
 
-    override fun func(): TFunction = TCmyk
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("cmyk".t)
+
         internal val cyanType: InternalType = ConcreteType("ratio")
 
         internal val magentaType: InternalType = ConcreteType("ratio")
@@ -37,8 +39,6 @@ public interface TCmyk : TColor {
         internal val yellowType: InternalType = ConcreteType("ratio")
 
         internal val keyType: InternalType = ConcreteType("ratio")
-
-        override fun format(): String = "cmyk"
     }
 }
 

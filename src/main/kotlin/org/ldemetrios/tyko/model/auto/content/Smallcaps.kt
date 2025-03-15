@@ -23,9 +23,11 @@ public interface TSmallcaps : TContent {
 
     public val all: TBool?
 
-    override fun func(): TElement = TSmallcaps
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("smallcaps") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("smallcaps")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val allType: InternalType = ConcreteType("bool")

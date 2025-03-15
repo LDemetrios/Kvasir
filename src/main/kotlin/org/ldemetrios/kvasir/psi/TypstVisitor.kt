@@ -307,9 +307,6 @@ abstract class TypstVisitor : PsiElementVisitor() {
     /** The contents of a code block. */
     open fun visitCode(element: CodePsiElement) = visitTypstElement(element)
 
-    /** An identifier: `it`. */
-    open fun visitIdent(element: IdentPsiElement) = visitTypstElement(element)
-
     /** A boolean: `true`, `false`. */
     open fun visitBool(element: BoolPsiElement) = visitTypstElement(element)
 
@@ -426,4 +423,10 @@ abstract class TypstVisitor : PsiElementVisitor() {
 
     /** A text in raw. */
     open fun visitRawText(element: RawTextPsiElement) = visitTypstElement(element)
+
+    /** A declaration of an identifier: `it` in `let it = 1` */
+    open fun visitIdentDecl(element: IdentDeclPsiElement) = visitTypstElement(element)
+
+    /** A reference to an identifier: `x` in `x + 1` */
+    open fun visitIdentRef(element: IdentRefPsiElement) = visitTypstElement(element)
 }

@@ -23,9 +23,11 @@ public interface TTableFooter : TContent {
 
     public val repeat: TBool?
 
-    override fun func(): TElement = TTableFooter
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("table.footer") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("table.footer")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val repeatType: InternalType = ConcreteType("bool")

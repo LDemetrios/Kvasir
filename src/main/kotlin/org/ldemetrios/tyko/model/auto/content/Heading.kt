@@ -37,9 +37,11 @@ public interface THeading : TContent {
 
     public val hangingIndent: TAutoOrLength?
 
-    override fun func(): TElement = THeading
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("heading") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("heading")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val levelType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("int"))

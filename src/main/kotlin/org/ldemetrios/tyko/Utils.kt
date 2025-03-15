@@ -54,14 +54,8 @@ fun mapByteIndicesToCharIndices(text: String, byteIndices: IntArray): IntArray {
     var charIndex = 0
     var byteIndexPos = 0
 
-    var wasCR = false
-
     for (char in text) {
-//        if (char == '\n' && wasCR && windows) {
-//            wasCR = false
-//            charIndex--
-//            continue
-//        }
+
         val charByteSize = utf8CharSizeMap[char.code]
         while (byteIndexPos < byteIndices.size && byteIndices[byteIndexPos] < currentByteOffset + charByteSize) {
             result[byteIndexPos] = charIndex
@@ -72,7 +66,6 @@ fun mapByteIndicesToCharIndices(text: String, byteIndices: IntArray): IntArray {
 
         currentByteOffset += charByteSize
         charIndex++
-        wasCR = char == '\r'
     }
 
     for (i in byteIndexPos until byteIndices.size) {

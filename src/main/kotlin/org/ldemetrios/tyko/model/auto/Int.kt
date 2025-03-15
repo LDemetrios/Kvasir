@@ -25,11 +25,13 @@ public interface TInt : TValue, TAutoOrInt, TIntOrNone,
         TIntOrRatio, TArrayOrFunctionOrInt<TDynamic>, TIntOrLength {
     public val intValue: Long
 
-    override fun type(): TType = TInt
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(intValue)
 
-    public companion object : TTypeImpl("int")
+    public companion object {
+        public val Type: TType = TTypeImpl("int")
+    }
 }
 
 internal data class TIntImpl(

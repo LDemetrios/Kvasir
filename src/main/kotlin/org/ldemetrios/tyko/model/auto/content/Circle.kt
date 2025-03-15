@@ -35,9 +35,11 @@ public interface TCircle : TContent {
 
     public val outset: TDictionaryOrRelative<TValue>?
 
-    override fun func(): TElement = TCircle
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("circle") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("circle")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val radiusType: InternalType = ConcreteType("length")

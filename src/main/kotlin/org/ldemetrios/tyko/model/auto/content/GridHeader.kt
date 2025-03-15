@@ -23,9 +23,11 @@ public interface TGridHeader : TContent {
 
     public val repeat: TBool?
 
-    override fun func(): TElement = TGridHeader
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("grid.header") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("grid.header")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val repeatType: InternalType = ConcreteType("bool")

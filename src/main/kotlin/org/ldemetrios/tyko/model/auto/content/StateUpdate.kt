@@ -23,9 +23,11 @@ public interface TStateUpdate : TContent {
 
     public val update: TValue
 
-    override fun func(): TElement = TStateUpdate
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("state.update") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("state.update")
+
         internal val keyType: InternalType = ConcreteType("str")
 
         internal val updateType: InternalType = AnyType

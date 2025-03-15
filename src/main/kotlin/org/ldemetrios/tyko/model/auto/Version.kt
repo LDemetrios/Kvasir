@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TVersion : TValue {
     public val `value`: TArray<TInt>
 
-    override fun type(): TType = TVersion
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("version") {
+    public companion object {
+        public val Type: TType = TTypeImpl("version")
+
         internal val valueType: InternalType = ConcreteType("array", listOf(ConcreteType("int")))
     }
 }

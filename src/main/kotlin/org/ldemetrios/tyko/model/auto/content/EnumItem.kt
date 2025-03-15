@@ -23,9 +23,11 @@ public interface TEnumItem : TArrayOrEnumItem<TDynamic>, TContent {
 
     public val body: TContent
 
-    override fun func(): TElement = TEnumItem
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("enum.item") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("enum.item")
+
         internal val numberType: InternalType = UnionType(ConcreteType("int"), ConcreteType("none"))
 
         internal val bodyType: InternalType = ConcreteType("content")

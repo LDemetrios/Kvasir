@@ -23,9 +23,11 @@ public interface TMathLimits : TContent {
 
     public val `inline`: TBool?
 
-    override fun func(): TElement = TMathLimits
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.limits") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.limits")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val inlineType: InternalType = ConcreteType("bool")

@@ -23,9 +23,11 @@ public interface TMathUnderbracket : TContent {
 
     public val `annotation`: TContentOrNone?
 
-    override fun func(): TElement = TMathUnderbracket
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.underbracket") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.underbracket")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val annotationType: InternalType = UnionType(ConcreteType("content"),

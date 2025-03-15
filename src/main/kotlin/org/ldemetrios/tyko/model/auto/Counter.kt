@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TCounter : TValue {
     public val `value`: TLocationOrSelectorOrStr
 
-    override fun type(): TType = TCounter
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("counter") {
+    public companion object {
+        public val Type: TType = TTypeImpl("counter")
+
         internal val valueType: InternalType = UnionType(ConcreteType("location"),
                 ConcreteType("selector"), ConcreteType("str"))
     }

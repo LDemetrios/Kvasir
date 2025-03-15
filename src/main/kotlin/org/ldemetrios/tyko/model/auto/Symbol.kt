@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TSymbol : TArrayOrNoneOrStrOrSymbol<TDynamic>, TNoneOrStrOrSymbol, TValue {
     public val variants: TArray<TArrayOrStr<TStr>>
 
-    override fun type(): TType = TSymbol
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("symbol") {
+    public companion object {
+        public val Type: TType = TTypeImpl("symbol")
+
         internal val variantsType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(ConcreteType("str"))), ConcreteType("str"))))
     }

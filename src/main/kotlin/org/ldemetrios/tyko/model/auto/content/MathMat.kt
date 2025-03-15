@@ -33,9 +33,11 @@ public interface TMathMat : TContent {
 
     public val columnGap: TRelative?
 
-    override fun func(): TElement = TMathMat
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.mat") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.mat")
+
         internal val rowsType: InternalType = ConcreteType("array", listOf(ConcreteType("array",
                 listOf(ConcreteType("content")))))
 

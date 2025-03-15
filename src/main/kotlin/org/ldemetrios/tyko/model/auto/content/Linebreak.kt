@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TLinebreak : TContent {
     public val justify: TBool?
 
-    override fun func(): TElement = TLinebreak
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("linebreak") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("linebreak")
+
         internal val justifyType: InternalType = ConcreteType("bool")
     }
 }

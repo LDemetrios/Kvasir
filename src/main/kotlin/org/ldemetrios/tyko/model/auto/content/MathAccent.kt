@@ -25,9 +25,11 @@ public interface TMathAccent : TContent {
 
     public val sz: TAutoOrRelative?
 
-    override fun func(): TElement = TMathAccent
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.accent") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.accent")
+
         internal val baseType: InternalType = ConcreteType("content")
 
         internal val accentType: InternalType = UnionType(ConcreteType("content"), ConcreteType("str"))

@@ -19,9 +19,11 @@ import org.ldemetrios.utilities.castUnchecked
     TParbreakImpl::class,
 )
 public interface TParbreak : TContent {
-    override fun func(): TElement = TParbreak
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("parbreak")
+    public companion object {
+        public val Elem: TElement = TElementImpl("parbreak")
+    }
 }
 
 internal data class TParbreakImpl(

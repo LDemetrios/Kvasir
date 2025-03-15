@@ -23,14 +23,14 @@ public interface TLuma : TColor {
 
     public val alpha: TRatio?
 
-    override fun func(): TFunction = TLuma
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("luma".t)
+
         internal val lightnessType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
 
         internal val alphaType: InternalType = ConcreteType("ratio")
-
-        override fun format(): String = "luma"
     }
 }
 

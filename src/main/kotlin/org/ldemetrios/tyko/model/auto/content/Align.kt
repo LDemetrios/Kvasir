@@ -23,9 +23,11 @@ public interface TAlign : TContent {
 
     public val body: TContent
 
-    override fun func(): TElement = TAlign
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("align") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("align")
+
         internal val alignmentType: InternalType = ConcreteType("alignment")
 
         internal val bodyType: InternalType = ConcreteType("content")

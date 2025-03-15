@@ -35,9 +35,11 @@ public interface TRect : TContent {
 
     public val outset: TDictionaryOrRelative<TValue>?
 
-    override fun func(): TElement = TRect
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("rect") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("rect")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val widthType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("relative"))

@@ -47,9 +47,11 @@ public interface TBlock : TContent {
 
     public val sticky: TBool?
 
-    override fun func(): TElement = TBlock
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("block") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("block")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val widthType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("relative"))

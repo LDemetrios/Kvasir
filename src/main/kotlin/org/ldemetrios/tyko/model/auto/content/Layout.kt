@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TLayout : TContent {
     public val func: TFunction
 
-    override fun func(): TElement = TLayout
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("layout") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("layout")
+
         internal val funcType: InternalType = ConcreteType("function")
     }
 }

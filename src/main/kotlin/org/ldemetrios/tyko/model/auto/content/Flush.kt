@@ -19,9 +19,11 @@ import org.ldemetrios.utilities.castUnchecked
     TFlushImpl::class,
 )
 public interface TFlush : TContent {
-    override fun func(): TElement = TFlush
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("place.flush")
+    public companion object {
+        public val Elem: TElement = TElementImpl("place.flush")
+    }
 }
 
 internal data class TFlushImpl(

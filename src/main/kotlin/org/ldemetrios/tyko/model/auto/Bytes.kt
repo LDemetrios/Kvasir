@@ -22,11 +22,13 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TBytes : TValue, TBytesOrStr, TAutoOrBytesOrStr {
     public val bytesValue: ByteArray
 
-    override fun type(): TType = TBytes
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(bytesValue)
 
-    public companion object : TTypeImpl("bytes")
+    public companion object {
+        public val Type: TType = TTypeImpl("bytes")
+    }
 }
 
 internal data class TBytesImpl(

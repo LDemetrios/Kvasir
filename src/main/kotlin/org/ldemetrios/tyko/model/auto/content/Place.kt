@@ -33,9 +33,11 @@ public interface TPlace : TContent {
 
     public val dy: TRelative?
 
-    override fun func(): TElement = TPlace
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("place") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("place")
+
         internal val alignmentType: InternalType = UnionType(ConcreteType("alignment"),
                 ConcreteType("auto"))
 

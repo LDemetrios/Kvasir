@@ -25,9 +25,11 @@ public interface TCurveQuad : TContent {
 
     public val relative: TBool?
 
-    override fun func(): TElement = TCurveQuad
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("curve.quad") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("curve.quad")
+
         internal val controlType: InternalType = UnionType(ConcreteType("array",
                 listOf(ConcreteType("length"))), ConcreteType("auto"), ConcreteType("none"))
 

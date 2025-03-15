@@ -24,9 +24,11 @@ public interface TFraction : TArrayOrAutoOrFractionOrIntOrRelative<TDynamic>,
         TContentOrFractionOrRelative, TValue {
     public val `value`: TFloat
 
-    override fun type(): TType = TFraction
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("fraction") {
+    public companion object {
+        public val Type: TType = TTypeImpl("fraction")
+
         internal val valueType: InternalType = ConcreteType("float")
     }
 }

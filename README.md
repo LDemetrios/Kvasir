@@ -55,7 +55,13 @@ I failed to compile to anything except these four targets.
 
 ## Roadmap, Plans, Changelog
 
-See [Roadmap](Roadmap) and Changelog
+See [Roadmap](Roadmap.md) and [Changelog](Changelog.md).
+
+**Nearest plans**
+
+- (In 0.4) Name resolution and related features (go-to-definition, find usages, renaming)
+- (In 0.5) Customizing std library and default document styles.
+
 
 ## Known bugs
 

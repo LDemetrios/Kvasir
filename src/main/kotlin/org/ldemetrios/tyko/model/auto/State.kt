@@ -23,9 +23,11 @@ public interface TState : TValue {
 
     public val `init`: TValue?
 
-    override fun type(): TType = TState
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("state") {
+    public companion object {
+        public val Type: TType = TTypeImpl("state")
+
         internal val keyType: InternalType = ConcreteType("str")
 
         internal val initType: InternalType = AnyType

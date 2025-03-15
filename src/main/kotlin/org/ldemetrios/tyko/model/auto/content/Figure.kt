@@ -37,9 +37,11 @@ public interface TFigure : TContent {
 
     public val outlined: TBool?
 
-    override fun func(): TElement = TFigure
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("figure") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("figure")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val placementType: InternalType = UnionType(ConcreteType("alignment"),

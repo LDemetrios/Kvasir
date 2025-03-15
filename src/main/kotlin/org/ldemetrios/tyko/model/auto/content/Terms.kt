@@ -31,9 +31,11 @@ public interface TTerms : TContent {
 
     public val spacing: TAutoOrLength?
 
-    override fun func(): TElement = TTerms
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("terms") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("terms")
+
         internal val childrenType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(AnyType)), ConcreteType("content"))))
 

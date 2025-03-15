@@ -13,7 +13,9 @@ import org.ldemetrios.utilities.cast
 import org.ldemetrios.utilities.castUnchecked
 
 public interface TStyle : TValue {
-    override fun type(): TType = TStyle
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("style")
+    public companion object {
+        public val Type: TType = TTypeImpl("style")
+    }
 }

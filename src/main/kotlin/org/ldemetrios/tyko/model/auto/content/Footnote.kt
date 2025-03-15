@@ -23,9 +23,11 @@ public interface TFootnote : TContent {
 
     public val numbering: TFunctionOrStr?
 
-    override fun func(): TElement = TFootnote
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("footnote") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("footnote")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("label"))
 
         internal val numberingType: InternalType = UnionType(ConcreteType("function"),

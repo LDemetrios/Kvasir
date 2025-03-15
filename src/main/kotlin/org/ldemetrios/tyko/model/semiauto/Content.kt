@@ -25,7 +25,9 @@ public abstract interface TContent : TValue, TAutoOrContentOrNone,
 
     public fun func(): TElement
 
-    override fun type(): TType = TContent
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("content")
+    public companion object {
+        public val Type: TType = TTypeImpl("content")
+    }
 }

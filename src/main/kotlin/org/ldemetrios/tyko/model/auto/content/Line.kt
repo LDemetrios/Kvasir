@@ -29,9 +29,11 @@ public interface TLine : TContent {
 
     public val stroke: TColorOrDictionaryOrGradientOrLengthOrStrokeOrTiling<TValue>?
 
-    override fun func(): TElement = TLine
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("line") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("line")
+
         internal val startType: InternalType = ConcreteType("array", listOf(AnyType))
 
         internal val endType: InternalType = UnionType(ConcreteType("array", listOf(AnyType)),

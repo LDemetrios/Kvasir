@@ -23,9 +23,11 @@ public interface TMathUndershell : TContent {
 
     public val `annotation`: TContentOrNone?
 
-    override fun func(): TElement = TMathUndershell
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.undershell") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.undershell")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val annotationType: InternalType = UnionType(ConcreteType("content"),

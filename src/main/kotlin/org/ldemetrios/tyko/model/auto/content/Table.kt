@@ -41,9 +41,11 @@ public interface TTable : TContent {
     public val inset:
             TArrayOrFractionOrFunctionOrRelativeOrSides<TFractionOrRelative, TFractionOrNoneOrRelative>?
 
-    override fun func(): TElement = TTable
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("table") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("table")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val columnsType: InternalType = UnionType(ConcreteType("array",

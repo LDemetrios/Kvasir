@@ -33,9 +33,11 @@ public interface TRadialGradient : TGradient {
 
     public val focalRadius: TRatio?
 
-    override fun func(): TFunction = TRadialGradient
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("gradient.radial".t)
+
         internal val stopsType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(UnionType(ConcreteType("color"),
                 ConcreteType("ratio")))), ConcreteType("color"))))
@@ -52,8 +54,6 @@ public interface TRadialGradient : TGradient {
                 listOf(ConcreteType("ratio"))), ConcreteType("auto"))
 
         internal val focalRadiusType: InternalType = ConcreteType("ratio")
-
-        override fun format(): String = "gradient.radial"
     }
 }
 

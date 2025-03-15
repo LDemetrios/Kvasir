@@ -17,7 +17,7 @@ import org.ldemetrios.kvasir.psi.RawLangPsiElement
 import org.ldemetrios.kvasir.psi.RawPsiElement
 
 
-class MyLanguageInjector : MultiHostInjector {
+class RawLangInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {
         if (context !is RawPsiElement) return
 

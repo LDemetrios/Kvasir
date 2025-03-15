@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TMetadata<out D : TValue> : TContent {
     public val `value`: D
 
-    override fun func(): TElement = TMetadata
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("metadata") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("metadata")
+
         internal fun valueType(D: InternalType): InternalType = D
     }
 }

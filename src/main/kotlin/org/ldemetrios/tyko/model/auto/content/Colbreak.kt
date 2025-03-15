@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TColbreak : TContent {
     public val weak: TBool?
 
-    override fun func(): TElement = TColbreak
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("colbreak") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("colbreak")
+
         internal val weakType: InternalType = ConcreteType("bool")
     }
 }

@@ -23,9 +23,11 @@ public interface TMathClass : TContent {
 
     public val body: TContent
 
-    override fun func(): TElement = TMathClass
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.class") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.class")
+
         internal val classType: InternalType = ConcreteType("math.class-class")
 
         internal val bodyType: InternalType = ConcreteType("content")

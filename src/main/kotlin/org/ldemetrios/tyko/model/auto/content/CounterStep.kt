@@ -23,9 +23,11 @@ public interface TCounterStep : TContent {
 
     public val level: TInt
 
-    override fun func(): TElement = TCounterStep
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("counter.step") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("counter.step")
+
         internal val keyType: InternalType = UnionType(ConcreteType("function"), ConcreteType("label"),
                 ConcreteType("location"), ConcreteType("selector"), ConcreteType("str"))
 

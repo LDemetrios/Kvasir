@@ -27,9 +27,11 @@ public interface TBibliography : TContent {
 
     public val style: TBibliographyStyle?
 
-    override fun func(): TElement = TBibliography
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("bibliography") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("bibliography")
+
         internal val pathType: InternalType = UnionType(ConcreteType("array",
                 listOf(ConcreteType("str"))), ConcreteType("str"))
 

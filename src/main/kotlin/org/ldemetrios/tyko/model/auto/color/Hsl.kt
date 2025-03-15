@@ -27,9 +27,11 @@ public interface THsl : TColor {
 
     public val alpha: TIntOrRatio?
 
-    override fun func(): TFunction = THsl
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("color.hsl".t)
+
         internal val hueType: InternalType = ConcreteType("angle")
 
         internal val saturationType: InternalType = UnionType(ConcreteType("int"),
@@ -38,8 +40,6 @@ public interface THsl : TColor {
         internal val lightnessType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
 
         internal val alphaType: InternalType = UnionType(ConcreteType("int"), ConcreteType("ratio"))
-
-        override fun format(): String = "color.hsl"
     }
 }
 

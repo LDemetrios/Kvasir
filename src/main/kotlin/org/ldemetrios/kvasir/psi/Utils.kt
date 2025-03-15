@@ -165,7 +165,8 @@ fun PsiElement.modeAt(offset: Int): SyntaxMode? {
             is HatPsiElement -> return SyntaxMode.Math
             is HeadingMarkerPsiElement -> return SyntaxMode.Markup
             is HeadingPsiElement -> return SyntaxMode.Markup
-            is IdentPsiElement -> Unit
+            is IdentRefPsiElement -> Unit
+            is IdentDeclPsiElement -> return SyntaxMode.Code
             is ImportItemPathPsiElement -> return SyntaxMode.Code
             is ImportItemsPsiElement -> return SyntaxMode.Code
             is IntPsiElement -> Unit

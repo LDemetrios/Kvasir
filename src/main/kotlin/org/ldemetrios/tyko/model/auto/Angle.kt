@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TAngle : TAngleOrAutoOrFunction, TValue {
     public val deg: TFloat
 
-    override fun type(): TType = TAngle
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("angle") {
+    public companion object {
+        public val Type: TType = TTypeImpl("angle")
+
         internal val degType: InternalType = ConcreteType("float")
     }
 }

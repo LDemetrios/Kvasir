@@ -23,9 +23,11 @@ public interface TCounterUpdate : TContent {
 
     public val update: TArrayOrFunctionOrInt<TInt>
 
-    override fun func(): TElement = TCounterUpdate
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("counter.update") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("counter.update")
+
         internal val keyType: InternalType = UnionType(ConcreteType("function"), ConcreteType("label"),
                 ConcreteType("location"), ConcreteType("selector"), ConcreteType("str"))
 

@@ -28,30 +28,19 @@ class JavaResult : Structure(), ByValue, Closeable {
     }
 }
 
-@Structure.FieldOrder("ptr", "len")
 @TyKoFFIEntity
-class ThickBytePtr : Structure(), ByValue, Closeable {
-    @JvmField
-    var ptr: Pointer? = null
-
-    @JvmField
-    var len: Int = 0
-
+class ThickBytePtr : CVec() {
     companion object {
         fun fromString(str: String): ThickBytePtr {
             val bytes = str.toByteArray(Charsets.UTF_8)
-            val memory = if(bytes.isNotEmpty()) Memory(bytes.size.toLong()) else null
+            val memory = if (bytes.isNotEmpty()) Memory(bytes.size.toLong()) else null
             memory?.write(0, bytes, 0, bytes.size)
-            return ThickBytePtr().apply { len = bytes.size; ptr = memory ; write() }
+            return ThickBytePtr().apply { len = bytes.size.toLong(); ptr = memory; cap = len; write() }
         }
     }
 
     fun readString(): String {
-        return ByteArray(len).also { ptr!!.read(0, it, 0, len) }.decodeToString()
-    }
-
-    override fun close() {
-        (ptr as? Memory)?.close()
+        return ByteArray(len.toInt()).also { ptr!!.read(0, it, 0, len.toInt()) }.decodeToString()
     }
 }
 

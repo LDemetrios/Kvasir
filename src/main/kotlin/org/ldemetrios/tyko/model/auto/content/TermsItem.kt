@@ -23,9 +23,11 @@ public interface TTermsItem : TContent {
 
     public val description: TContent
 
-    override fun func(): TElement = TTermsItem
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("terms.item") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("terms.item")
+
         internal val termType: InternalType = ConcreteType("content")
 
         internal val descriptionType: InternalType = ConcreteType("content")

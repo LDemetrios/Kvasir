@@ -39,9 +39,11 @@ public interface TEnum : TContent {
 
     public val reversed: TBool?
 
-    override fun func(): TElement = TEnum
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("enum") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("enum")
+
         internal val childrenType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(ConcreteType("enum.item"))),
                 ConcreteType("enum.item"))))

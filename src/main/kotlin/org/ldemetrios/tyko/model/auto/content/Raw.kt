@@ -33,9 +33,11 @@ public interface TRaw : TContent {
 
     public val tabSize: TInt?
 
-    override fun func(): TElement = TRaw
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("raw") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("raw")
+
         internal val textType: InternalType = ConcreteType("str")
 
         internal val blockType: InternalType = ConcreteType("bool")

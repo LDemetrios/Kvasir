@@ -20,7 +20,9 @@ public interface TRelative : TAutoOrBoolOrFunctionOrNoneOrRelative,
         TRelativeOrSides<TDynamic>, TNoneOrRelative,
         TArrayOrFunctionOrRelativeOrSides<TDynamic, TDynamic>, TAutoOrMarginOrRelative<TDynamic>,
         TContentOrFractionOrRelative, TValue {
-    override fun type(): TType = TRelative
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("relative")
+    public companion object {
+        public val Type: TType = TTypeImpl("relative")
+    }
 }

@@ -23,9 +23,11 @@ public interface TMathStretch : TContent {
 
     public val sz: TAutoOrRelative?
 
-    override fun func(): TElement = TMathStretch
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.stretch") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.stretch")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val szType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("relative"))

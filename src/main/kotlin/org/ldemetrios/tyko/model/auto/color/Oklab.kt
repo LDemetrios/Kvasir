@@ -27,9 +27,11 @@ public interface TOklab : TColor {
 
     public val alpha: TRatio?
 
-    override fun func(): TFunction = TOklab
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("oklab".t)
+
         internal val lightnessType: InternalType = ConcreteType("ratio")
 
         internal val aType: InternalType = UnionType(ConcreteType("float"), ConcreteType("ratio"))
@@ -37,8 +39,6 @@ public interface TOklab : TColor {
         internal val bType: InternalType = UnionType(ConcreteType("float"), ConcreteType("ratio"))
 
         internal val alphaType: InternalType = ConcreteType("ratio")
-
-        override fun format(): String = "oklab"
     }
 }
 

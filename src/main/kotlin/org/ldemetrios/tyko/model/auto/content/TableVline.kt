@@ -29,9 +29,11 @@ public interface TTableVline : TContent {
 
     public val position: TAlignment?
 
-    override fun func(): TElement = TTableVline
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("table.vline") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("table.vline")
+
         internal val xType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("int"))
 
         internal val startType: InternalType = ConcreteType("int")

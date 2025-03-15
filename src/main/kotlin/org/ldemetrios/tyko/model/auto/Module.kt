@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TModule : TValue {
     public val name: TStr
 
-    override fun type(): TType = TModule
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("module") {
+    public companion object {
+        public val Type: TType = TTypeImpl("module")
+
         internal val nameType: InternalType = ConcreteType("str")
     }
 }

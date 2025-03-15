@@ -21,9 +21,11 @@ public interface TColor : TArrayOrColorOrFunctionOrGradientOrNoneOrTiling<TDynam
         TColorOrDictionaryOrGradientOrLengthOrStrokeOrTiling<TDynamic>,
         TAutoOrColorOrDictionaryOrGradientOrLengthOrNoneOrStrokeOrTiling<TDynamic>,
         TArrayOrColor<TDynamic>, TColorOrRatio, TAutoOrColorOrGradientOrTiling, TValue {
-    override fun type(): TType = TColor
+    override fun type(): TType = Type
 
     public fun func(): TFunction
 
-    public companion object : TTypeImpl("color")
+    public companion object {
+        public val Type: TType = TTypeImpl("color")
+    }
 }

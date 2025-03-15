@@ -27,9 +27,11 @@ public interface TRawLine : TContent {
 
     public val body: TContent
 
-    override fun func(): TElement = TRawLine
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("raw.line") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("raw.line")
+
         internal val numberType: InternalType = ConcreteType("int")
 
         internal val countType: InternalType = ConcreteType("int")

@@ -23,9 +23,11 @@ public interface TAlignmentImpl : TAlignment {
 
     public val vertical: TVAlignment?
 
-    override fun type(): TType = TAlignmentImpl
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("alignment-impl") {
+    public companion object {
+        public val Type: TType = TTypeImpl("alignment-impl")
+
         internal val horizontalType: InternalType = ConcreteType("h-alignment")
 
         internal val verticalType: InternalType = ConcreteType("v-alignment")

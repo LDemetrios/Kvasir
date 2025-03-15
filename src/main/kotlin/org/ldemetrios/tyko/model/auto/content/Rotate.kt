@@ -27,9 +27,11 @@ public interface TRotate : TContent {
 
     public val reflow: TBool?
 
-    override fun func(): TElement = TRotate
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("rotate") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("rotate")
+
         internal val angleType: InternalType = ConcreteType("angle")
 
         internal val bodyType: InternalType = ConcreteType("content")

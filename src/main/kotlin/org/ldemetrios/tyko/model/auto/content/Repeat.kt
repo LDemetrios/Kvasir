@@ -25,9 +25,11 @@ public interface TRepeat : TContent {
 
     public val justify: TBool?
 
-    override fun func(): TElement = TRepeat
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("repeat") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("repeat")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val gapType: InternalType = ConcreteType("length")

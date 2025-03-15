@@ -25,9 +25,11 @@ public interface TStack : TContent {
 
     public val spacing: TFractionOrNoneOrRelative?
 
-    override fun func(): TElement = TStack
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("stack") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("stack")
+
         internal val childrenType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("content"), ConcreteType("fraction"),
                 ConcreteType("relative"))))

@@ -23,9 +23,11 @@ public interface TLabel : TContentOrLabel, TLabelOrLocationOrStr,
         TFunctionOrLabelOrLocationOrSelectorOrStr, TSelector {
     public val name: TStr
 
-    override fun type(): TType = TLabel
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("label") {
+    public companion object {
+        public val Type: TType = TTypeImpl("label")
+
         internal val nameType: InternalType = ConcreteType("str")
     }
 }

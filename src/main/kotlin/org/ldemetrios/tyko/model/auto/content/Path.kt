@@ -29,9 +29,11 @@ public interface TPath : TContent {
 
     public val closed: TBool?
 
-    override fun func(): TElement = TPath
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("path") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("path")
+
         internal val verticesType: InternalType = ConcreteType("array", listOf(ConcreteType("array",
                 listOf(AnyType))))
 

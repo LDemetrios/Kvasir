@@ -29,9 +29,11 @@ public interface TParLine : TContent {
 
     public val numberingScope: TParLineNumberingScope?
 
-    override fun func(): TElement = TParLine
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("par.line") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("par.line")
+
         internal val numberingType: InternalType = UnionType(ConcreteType("function"),
                 ConcreteType("none"), ConcreteType("str"))
 

@@ -25,9 +25,11 @@ public interface TMove : TContent {
 
     public val dy: TRelative?
 
-    override fun func(): TElement = TMove
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("move") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("move")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val dxType: InternalType = ConcreteType("relative")

@@ -33,9 +33,11 @@ public interface THighlight : TContent {
 
     public val radius: TDictionaryOrRelative<TValue>?
 
-    override fun func(): TElement = THighlight
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("highlight") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("highlight")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val fillType: InternalType = UnionType(ConcreteType("color"), ConcreteType("gradient"),

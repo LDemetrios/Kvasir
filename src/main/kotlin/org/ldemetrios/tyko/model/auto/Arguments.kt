@@ -23,9 +23,11 @@ public interface TArguments<out A : TValue> : TValue {
 
     public val named: TDictionary<A>
 
-    override fun type(): TType = TArguments
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("arguments") {
+    public companion object {
+        public val Type: TType = TTypeImpl("arguments")
+
         internal fun positionalType(A: InternalType): InternalType = ConcreteType("array", listOf(A))
 
         internal fun namedType(A: InternalType): InternalType = ConcreteType("dictionary", listOf(A))

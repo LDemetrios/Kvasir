@@ -207,8 +207,8 @@ private fun concreteType(desc: String, value: JSObject, path: String): TValue {
                     "case" -> {
                         val case = toSet.castOrNull<JSString>()?.str ?: failWith("text case expected to be string", path)
                         when (case) {
-                            "lower" -> TShowRule(TText, TNativeFunc("lower".t))
-                            "upper" -> TShowRule(TText, TNativeFunc("upper".t))
+                            "lower" -> TShowRule(TText.Elem, TNativeFunc("lower".t))
+                            "upper" -> TShowRule(TText.Elem, TNativeFunc("upper".t))
                             else -> failWith("Unknown text case `$case`", path)
                         }
                     }

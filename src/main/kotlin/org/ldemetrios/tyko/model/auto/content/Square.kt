@@ -37,9 +37,11 @@ public interface TSquare : TContent {
 
     public val outset: TDictionaryOrRelative<TValue>?
 
-    override fun func(): TElement = TSquare
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("square") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("square")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val szType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("length"))

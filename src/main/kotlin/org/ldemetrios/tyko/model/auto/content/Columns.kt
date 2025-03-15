@@ -25,9 +25,11 @@ public interface TColumns : TContent {
 
     public val gutter: TRelative?
 
-    override fun func(): TElement = TColumns
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("columns") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("columns")
+
         internal val countType: InternalType = ConcreteType("int")
 
         internal val bodyType: InternalType = ConcreteType("content")

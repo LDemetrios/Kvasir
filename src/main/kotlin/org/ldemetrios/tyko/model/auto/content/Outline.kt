@@ -29,9 +29,11 @@ public interface TOutline : TContent {
 
     public val fill: TContentOrNone?
 
-    override fun func(): TElement = TOutline
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("outline") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("outline")
+
         internal val titleType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("content"),
                 ConcreteType("none"))
 

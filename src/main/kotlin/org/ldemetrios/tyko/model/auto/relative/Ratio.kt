@@ -22,9 +22,11 @@ public interface TRatio : TAutoOrLengthOrRatio, TIntOrRatio, TFloatOrRatio, TCol
         {
     public val `value`: TFloat
 
-    override fun type(): TType = TRatio
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("ratio") {
+    public companion object {
+        public val Type: TType = TTypeImpl("ratio")
+
         internal val valueType: InternalType = ConcreteType("float")
     }
 }

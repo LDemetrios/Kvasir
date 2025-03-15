@@ -35,9 +35,11 @@ public interface TImage : TContent {
 
     public val icc: TAutoOrBytesOrStr?
 
-    override fun func(): TElement = TImage
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("image") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("image")
+
         internal val sourceType: InternalType = UnionType(ConcreteType("bytes"), ConcreteType("str"))
 
         internal val formatType: InternalType = UnionType(ConcreteType("auto"),

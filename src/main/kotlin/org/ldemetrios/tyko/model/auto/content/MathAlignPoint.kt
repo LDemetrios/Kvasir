@@ -19,9 +19,11 @@ import org.ldemetrios.utilities.castUnchecked
     TMathAlignPointImpl::class,
 )
 public interface TMathAlignPoint : TContent {
-    override fun func(): TElement = TMathAlignPoint
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.align-point")
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.align-point")
+    }
 }
 
 internal data class TMathAlignPointImpl(

@@ -22,11 +22,13 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TFloat : TValue, TFloatOrRatio, TAutoOrFloat {
     public val floatValue: Double
 
-    override fun type(): TType = TFloat
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(floatValue)
 
-    public companion object : TTypeImpl("float")
+    public companion object {
+        public val Type: TType = TTypeImpl("float")
+    }
 }
 
 internal data class TFloatImpl(

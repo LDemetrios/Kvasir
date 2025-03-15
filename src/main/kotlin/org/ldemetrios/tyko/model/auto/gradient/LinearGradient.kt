@@ -29,9 +29,11 @@ public interface TLinearGradient : TGradient {
 
     public val angle: TAngle?
 
-    override fun func(): TFunction = TLinearGradient
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("gradient.linear".t)
+
         internal val stopsType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(UnionType(ConcreteType("color"),
                 ConcreteType("ratio")))), ConcreteType("color"))))
@@ -43,8 +45,6 @@ public interface TLinearGradient : TGradient {
         internal val dirType: InternalType = ConcreteType("direction")
 
         internal val angleType: InternalType = ConcreteType("angle")
-
-        override fun format(): String = "gradient.linear"
     }
 }
 

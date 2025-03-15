@@ -22,9 +22,11 @@ public interface TFunction : TValue, TArrayOrContentOrFunction<TDynamic>, TAutoO
         TArrayOrFractionOrFunctionOrRelativeOrSides<TDynamic, TDynamic>, TAngleOrAutoOrFunction,
         TArrayOrFunctionOrRelativeOrSides<TDynamic, TDynamic>,
         TFunctionOrLabelOrLocationOrSelectorOrStr, TArrayOrFunctionOrInt<TDynamic> {
-    override fun type(): TType = TFunction
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(this)
 
-    public companion object : TTypeImpl("function")
+    public companion object {
+        public val Type: TType = TTypeImpl("function")
+    }
 }

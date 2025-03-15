@@ -40,7 +40,7 @@ val TAlignment.vertical: TVAlignment?
 interface TSetRule : TStyle, TContent {
     val elem: String
     override val label: TLabel? get() = null
-    override fun type(): TType = TStyle
+    override fun type(): TType = TStyle.Type
     override fun func(): TElement {
         TODO("Not yet implemented")
     }

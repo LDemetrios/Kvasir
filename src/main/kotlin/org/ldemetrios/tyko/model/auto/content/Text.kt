@@ -87,9 +87,11 @@ public interface TText : TContent {
 
     public val features: TArrayOrDictionary<TStr, TInt>?
 
-    override fun func(): TElement = TText
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("text") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("text")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val textType: InternalType = ConcreteType("str")

@@ -23,9 +23,11 @@ public interface TMathLr : TContent {
 
     public val sz: TAutoOrRelative?
 
-    override fun func(): TElement = TMathLr
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.lr") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.lr")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val szType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("relative"))

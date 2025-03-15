@@ -31,9 +31,11 @@ public interface TMathCancel : TContent {
 
     public val stroke: TColorOrDictionaryOrGradientOrLengthOrStrokeOrTiling<TValue>?
 
-    override fun func(): TElement = TMathCancel
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.cancel") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.cancel")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val lengthType: InternalType = ConcreteType("relative")

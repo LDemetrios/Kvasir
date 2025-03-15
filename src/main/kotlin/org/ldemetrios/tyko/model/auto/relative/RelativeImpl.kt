@@ -23,9 +23,11 @@ public interface TRelativeImpl : TRelative {
 
     public val abs: TLength?
 
-    override fun type(): TType = TRelativeImpl
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("relative-impl") {
+    public companion object {
+        public val Type: TType = TTypeImpl("relative-impl")
+
         internal val relType: InternalType = ConcreteType("ratio")
 
         internal val absType: InternalType = ConcreteType("length")

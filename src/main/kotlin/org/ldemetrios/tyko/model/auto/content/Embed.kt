@@ -29,9 +29,11 @@ public interface TEmbed : TContent {
 
     public val description: TNoneOrStr?
 
-    override fun func(): TElement = TEmbed
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("pdf.embed") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("pdf.embed")
+
         internal val pathType: InternalType = ConcreteType("str")
 
         internal val dataType: InternalType = ConcreteType("bytes")

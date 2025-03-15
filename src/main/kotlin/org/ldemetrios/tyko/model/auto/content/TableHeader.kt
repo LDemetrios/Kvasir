@@ -23,9 +23,11 @@ public interface TTableHeader : TContent {
 
     public val repeat: TBool?
 
-    override fun func(): TElement = TTableHeader
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("table.header") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("table.header")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val repeatType: InternalType = ConcreteType("bool")

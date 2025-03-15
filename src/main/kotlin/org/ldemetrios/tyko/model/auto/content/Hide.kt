@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface THide : TContent {
     public val body: TContent
 
-    override fun func(): TElement = THide
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("hide") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("hide")
+
         internal val bodyType: InternalType = ConcreteType("content")
     }
 }

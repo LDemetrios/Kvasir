@@ -25,9 +25,11 @@ public interface TRef : TContent {
 
     public val form: TRefForm?
 
-    override fun func(): TElement = TRef
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("ref") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("ref")
+
         internal val targetType: InternalType = ConcreteType("label")
 
         internal val supplementType: InternalType = UnionType(ConcreteType("auto"),

@@ -27,9 +27,11 @@ public interface TSmartquote : TContent {
 
     public val quotes: TArrayOrAutoOrDictionaryOrStr<TValue, TValue>?
 
-    override fun func(): TElement = TSmartquote
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("smartquote") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("smartquote")
+
         internal val doubleType: InternalType = ConcreteType("bool")
 
         internal val enabledType: InternalType = ConcreteType("bool")

@@ -27,9 +27,11 @@ public interface TPolygon : TContent {
 
     public val stroke: TAutoOrColorOrDictionaryOrGradientOrLengthOrNoneOrStrokeOrTiling<TValue>?
 
-    override fun func(): TElement = TPolygon
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("polygon") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("polygon")
+
         internal val verticesType: InternalType = ConcreteType("array", listOf(ConcreteType("array",
                 listOf(AnyType))))
 

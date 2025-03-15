@@ -27,11 +27,13 @@ public interface TStr : TValue, TArrayOrStr<TDynamic>, TAutoOrFunctionOrStr, TFu
         TFunctionOrLabelOrLocationOrSelectorOrStr {
     public val strValue: String
 
-    override fun type(): TType = TStr
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(strValue)
 
-    public companion object : TTypeImpl("str")
+    public companion object {
+        public val Type: TType = TTypeImpl("str")
+    }
 }
 
 internal data class TStrImpl(

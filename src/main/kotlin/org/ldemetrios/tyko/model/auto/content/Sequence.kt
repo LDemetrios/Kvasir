@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TSequence : TContent {
     public val children: TArray<TContent>
 
-    override fun func(): TElement = TSequence
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("sequence") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("sequence")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
     }
 }

@@ -31,9 +31,11 @@ public interface TScale : TContent {
 
     public val reflow: TBool?
 
-    override fun func(): TElement = TScale
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("scale") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("scale")
+
         internal val factorType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("length"),
                 ConcreteType("ratio"))
 

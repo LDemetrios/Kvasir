@@ -23,9 +23,11 @@ public interface TShowRule : TStyle {
 
     public val transform: TArrayOrContentOrFunction<TStyle>
 
-    override fun type(): TType = TShowRule
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("show-rule") {
+    public companion object {
+        public val Type: TType = TTypeImpl("show-rule")
+
         internal val selectorType: InternalType = UnionType(ConcreteType("none"),
                 ConcreteType("selector"))
 

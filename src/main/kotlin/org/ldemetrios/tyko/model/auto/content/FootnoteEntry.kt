@@ -29,9 +29,11 @@ public interface TFootnoteEntry : TContent {
 
     public val indent: TLength?
 
-    override fun func(): TElement = TFootnoteEntry
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("footnote.entry") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("footnote.entry")
+
         internal val noteType: InternalType = ConcreteType("content")
 
         internal val separatorType: InternalType = ConcreteType("content")

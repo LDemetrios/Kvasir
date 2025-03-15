@@ -23,9 +23,11 @@ public interface TLink : TContent {
 
     public val body: TContent
 
-    override fun func(): TElement = TLink
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("link") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("link")
+
         internal val destType: InternalType = UnionType(ConcreteType("label"), ConcreteType("location"),
                 ConcreteType("str"))
 

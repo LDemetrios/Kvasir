@@ -27,9 +27,11 @@ public interface TCite : TContent {
 
     public val style: TAutoOrBibliographyStyle?
 
-    override fun func(): TElement = TCite
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("cite") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("cite")
+
         internal val keyType: InternalType = ConcreteType("label")
 
         internal val supplementType: InternalType = UnionType(ConcreteType("content"),

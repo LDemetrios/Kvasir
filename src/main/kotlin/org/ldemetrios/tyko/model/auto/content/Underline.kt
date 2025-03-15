@@ -31,9 +31,11 @@ public interface TUnderline : TContent {
 
     public val background: TBool?
 
-    override fun func(): TElement = TUnderline
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("underline") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("underline")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val strokeType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("color"),

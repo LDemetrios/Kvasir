@@ -20,7 +20,7 @@ private val folder = run {
         Platform.ANDROID -> "android"
         Platform.LINUX -> "linux"
         Platform.AIX -> "aix"
-        Platform.MAC -> if (osName.startsWith("Darwin")) "darwin" else "mac"
+        Platform.MAC -> "darwin"
         Platform.WINDOWS -> "windows"
         Platform.SOLARIS -> "solaris"
         Platform.FREEBSD -> "freebsd"

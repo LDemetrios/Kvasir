@@ -29,9 +29,11 @@ public interface TConicGradient : TGradient {
 
     public val center: TArray<TRatio>?
 
-    override fun func(): TFunction = TConicGradient
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("gradient.conic".t)
+
         internal val stopsType: InternalType = ConcreteType("array",
                 listOf(UnionType(ConcreteType("array", listOf(UnionType(ConcreteType("color"),
                 ConcreteType("ratio")))), ConcreteType("color"))))
@@ -43,8 +45,6 @@ public interface TConicGradient : TGradient {
         internal val relativeType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("str"))
 
         internal val centerType: InternalType = ConcreteType("array", listOf(ConcreteType("ratio")))
-
-        override fun format(): String = "gradient.conic"
     }
 }
 

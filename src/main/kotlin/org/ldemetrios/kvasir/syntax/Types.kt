@@ -22,7 +22,6 @@ class TypstMarkupFile(viewProvider: FileViewProvider) : TypstFileCommon(
     viewProvider, TypstMarkupLanguage.INSTANCE, TypstMarkupFileType.INSTANCE, "Typst"
 )
 
-
 class TypstCodeFile(viewProvider: FileViewProvider) : TypstFileCommon(
     viewProvider, TypstCodeLanguage.INSTANCE, TypstCodeFileType.INSTANCE, "Typst Code"
 )
@@ -45,10 +44,9 @@ class TypstElementType(val kind: SyntaxKind?, name: String = kind!!.name) : IEle
 }
 
 val TYPST_WHITESPACE = TypstTokenType(null, "Whitespace")
-
 val TYPST_EMBEDDED_CODE = TypstElementType(null, "EmbeddedCode")
-
 val TYPST_RAW_TEXT = TypstElementType(null, "RawText")
+
 
 private val tokenMap = SyntaxKind.entries.associateWith { TypstTokenType(it) }
 private val elementMap = SyntaxKind.entries.associateWith { TypstElementType(it) }

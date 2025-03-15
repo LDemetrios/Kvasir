@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TCurveClose : TContent {
     public val mode: TCurveCloseMode?
 
-    override fun func(): TElement = TCurveClose
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("curve.close") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("curve.close")
+
         internal val modeType: InternalType = ConcreteType("curve-close-mode")
     }
 }

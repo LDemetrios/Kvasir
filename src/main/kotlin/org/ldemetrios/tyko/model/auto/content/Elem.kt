@@ -25,9 +25,11 @@ public interface TElem : TContent {
 
     public val attrs: TDictionary<TValue>?
 
-    override fun func(): TElement = TElem
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("html.elem") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("html.elem")
+
         internal val tagType: InternalType = ConcreteType("str")
 
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))

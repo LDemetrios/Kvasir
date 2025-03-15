@@ -14,7 +14,9 @@ import org.ldemetrios.utilities.castUnchecked
 
 public interface TSelector : TFunctionOrLabelOrLocationOrSelector, TLocationOrSelectorOrStr,
         TNoneOrSelector, TFunctionOrLabelOrLocationOrSelectorOrStr, TValue {
-    override fun type(): TType = TSelector
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("selector")
+    public companion object {
+        public val Type: TType = TTypeImpl("selector")
+    }
 }

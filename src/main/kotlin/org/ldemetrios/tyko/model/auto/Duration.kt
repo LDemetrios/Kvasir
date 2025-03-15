@@ -29,9 +29,11 @@ public interface TDuration : TValue {
 
     public val weeks: TInt?
 
-    override fun type(): TType = TDuration
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("duration") {
+    public companion object {
+        public val Type: TType = TTypeImpl("duration")
+
         internal val secondsType: InternalType = ConcreteType("int")
 
         internal val minutesType: InternalType = ConcreteType("int")

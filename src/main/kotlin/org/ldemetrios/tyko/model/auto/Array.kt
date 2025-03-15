@@ -44,7 +44,7 @@ public interface TArray<out E : TValue> : List<E>, TValue, TArrayOrStr<E>,
     override val size: Int
         get() = arrayValue.size
 
-    override fun type(): TType = TArray
+    override fun type(): TType = Type
 
     override fun format(): String = Representations.reprOf(arrayValue)
 
@@ -78,7 +78,9 @@ public interface TArray<out E : TValue> : List<E>, TValue, TArrayOrStr<E>,
 
     override fun stream(): Stream<@UnsafeVariance E> = arrayValue.stream()
 
-    public companion object : TTypeImpl("array")
+    public companion object {
+        public val Type: TType = TTypeImpl("array")
+    }
 }
 
 internal data class TArrayImpl<out E : TValue>(

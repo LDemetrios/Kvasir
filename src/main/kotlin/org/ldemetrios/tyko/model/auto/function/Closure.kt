@@ -27,9 +27,11 @@ public interface TClosure : TFunction {
 
     public val numPosParams: TInt?
 
-    override fun type(): TType = TClosure
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("closure") {
+    public companion object {
+        public val Type: TType = TTypeImpl("closure")
+
         internal val nodeType: InternalType = ConcreteType("str")
 
         internal val defaultsType: InternalType = ConcreteType("array", listOf(AnyType))

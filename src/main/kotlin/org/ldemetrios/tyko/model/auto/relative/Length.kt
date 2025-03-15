@@ -29,9 +29,11 @@ public interface TLength : TAutoOrLength, TDictionaryOrLength<TDynamic>, TBoolOr
 
     public val em: TFloat?
 
-    override fun type(): TType = TLength
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("length") {
+    public companion object {
+        public val Type: TType = TTypeImpl("length")
+
         internal val ptType: InternalType = ConcreteType("float")
 
         internal val emType: InternalType = ConcreteType("float")

@@ -27,9 +27,11 @@ public interface TSub : TContent {
 
     public val sz: TLength?
 
-    override fun func(): TElement = TSub
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("sub") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("sub")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val typographicType: InternalType = ConcreteType("bool")

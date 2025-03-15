@@ -33,9 +33,11 @@ public interface TEllipse : TContent {
 
     public val outset: TDictionaryOrRelative<TValue>?
 
-    override fun func(): TElement = TEllipse
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("ellipse") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("ellipse")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val widthType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("relative"))

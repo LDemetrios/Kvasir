@@ -23,9 +23,11 @@ public interface TCurveMove : TContent {
 
     public val relative: TBool?
 
-    override fun func(): TElement = TCurveMove
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("curve.move") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("curve.move")
+
         internal val startType: InternalType = ConcreteType("array", listOf(ConcreteType("length")))
 
         internal val relativeType: InternalType = ConcreteType("bool")

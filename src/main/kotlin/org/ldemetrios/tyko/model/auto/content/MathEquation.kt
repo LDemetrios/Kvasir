@@ -29,9 +29,11 @@ public interface TMathEquation : TContent {
 
     public val supplement: TAutoOrContentOrFunctionOrNone?
 
-    override fun func(): TElement = TMathEquation
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.equation") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.equation")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val blockType: InternalType = ConcreteType("bool")

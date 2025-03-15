@@ -29,9 +29,11 @@ public interface TStrike : TContent {
 
     public val background: TBool?
 
-    override fun func(): TElement = TStrike
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("strike") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("strike")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val strokeType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("color"),

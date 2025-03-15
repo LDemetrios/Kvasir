@@ -33,9 +33,11 @@ public interface TPar : TContent {
 
     public val hangingIndent: TLength?
 
-    override fun func(): TElement = TPar
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("par") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("par")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val leadingType: InternalType = ConcreteType("length")

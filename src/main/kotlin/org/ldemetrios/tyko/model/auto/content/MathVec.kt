@@ -27,9 +27,11 @@ public interface TMathVec : TContent {
 
     public val gap: TRelative?
 
-    override fun func(): TElement = TMathVec
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.vec") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.vec")
+
         internal val childrenType: InternalType = ConcreteType("array", listOf(ConcreteType("content")))
 
         internal val delimType: InternalType = UnionType(ConcreteType("array",

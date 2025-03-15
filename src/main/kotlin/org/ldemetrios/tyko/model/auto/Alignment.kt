@@ -14,7 +14,9 @@ import org.ldemetrios.utilities.castUnchecked
 
 public interface TAlignment : TAlignmentOrAutoOrNone, TAlignmentOrAuto,
         TAlignmentOrArrayOrAutoOrFunction<TDynamic>, TValue {
-    override fun type(): TType = TAlignment
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("alignment")
+    public companion object {
+        public val Type: TType = TTypeImpl("alignment")
+    }
 }

@@ -23,9 +23,11 @@ public interface TH : TContent {
 
     public val weak: TBool?
 
-    override fun func(): TElement = TH
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("h") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("h")
+
         internal val amountType: InternalType = UnionType(ConcreteType("fraction"),
                 ConcreteType("relative"))
 

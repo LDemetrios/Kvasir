@@ -7,8 +7,8 @@ import org.ldemetrios.tyko.model.*
 
 @OptIn(TyKoFFIEntity::class)
 class WorldBasedTypstCompiler(val owner: TypstSharedLibrary, world: World) : TypstCompiler {
-
     private val nativeDelegate = lazy { owner.NativeWorld(world) }
+
     private val native by nativeDelegate
 
     override fun evalDetachedRaw(source: String): RResult<String, List<SourceDiagnostic>> {

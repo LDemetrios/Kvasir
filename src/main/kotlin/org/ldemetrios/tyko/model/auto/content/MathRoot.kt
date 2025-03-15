@@ -23,9 +23,11 @@ public interface TMathRoot : TContent {
 
     public val radicand: TContent
 
-    override fun func(): TElement = TMathRoot
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.root") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.root")
+
         internal val indexType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val radicandType: InternalType = ConcreteType("content")

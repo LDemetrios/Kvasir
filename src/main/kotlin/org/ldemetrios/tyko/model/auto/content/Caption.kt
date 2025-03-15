@@ -25,9 +25,11 @@ public interface TCaption : TContent {
 
     public val separator: TAutoOrContent?
 
-    override fun func(): TElement = TCaption
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("figure.caption") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("figure.caption")
+
         internal val bodyType: InternalType = ConcreteType("content")
 
         internal val positionType: InternalType = ConcreteType("alignment")

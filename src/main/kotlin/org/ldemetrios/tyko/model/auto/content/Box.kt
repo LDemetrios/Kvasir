@@ -39,9 +39,11 @@ public interface TBox : TContent {
 
     public val clip: TBool?
 
-    override fun func(): TElement = TBox
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("box") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("box")
+
         internal val bodyType: InternalType = UnionType(ConcreteType("content"), ConcreteType("none"))
 
         internal val widthType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("fraction"),

@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TNativeFunc : TFunction {
     public val name: TStr
 
-    override fun type(): TType = TNativeFunc
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("native-func") {
+    public companion object {
+        public val Type: TType = TTypeImpl("native-func")
+
         internal val nameType: InternalType = ConcreteType("str")
     }
 }

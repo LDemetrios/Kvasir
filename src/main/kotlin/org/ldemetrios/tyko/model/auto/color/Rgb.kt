@@ -21,12 +21,12 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TRgb : TColor {
     public val hex: TStr
 
-    override fun func(): TFunction = TRgb
+    override fun func(): TFunction = Func
 
-    public companion object : TFunction {
+    public companion object {
+        public val Func: TNativeFunc = TNativeFunc("rgb".t)
+
         internal val hexType: InternalType = ConcreteType("str")
-
-        override fun format(): String = "rgb"
     }
 }
 

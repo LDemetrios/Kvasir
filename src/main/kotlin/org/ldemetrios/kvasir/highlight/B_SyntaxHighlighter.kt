@@ -208,7 +208,8 @@ class SyntaxHighlighter : Annotator {
                 is HatPsiElement -> Unit
                 is HeadingMarkerPsiElement -> Unit
                 is HeadingPsiElement -> Unit
-                is IdentPsiElement -> Unit
+                is IdentDeclPsiElement -> Unit
+                is IdentRefPsiElement -> Unit
                 is ImportItemPathPsiElement -> Unit
                 is ImportItemsPsiElement -> Unit
                 is KeyedPairPsiElement -> Unit
@@ -314,7 +315,8 @@ class SyntaxHighlighter : Annotator {
                 is HatPsiElement -> Unit
                 is HeadingMarkerPsiElement -> Unit
                 is HeadingPsiElement -> result.add(HEADING.key)
-                is IdentPsiElement -> Unit
+                is IdentRefPsiElement -> Unit
+                is IdentDeclPsiElement -> Unit
                 is ImportItemPathPsiElement -> Unit
                 is ImportItemsPsiElement -> Unit
                 is LabelPsiElement -> Unit

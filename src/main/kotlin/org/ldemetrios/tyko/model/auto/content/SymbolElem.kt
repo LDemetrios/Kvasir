@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TSymbolElem : TContent {
     public val text: TStr
 
-    override fun func(): TElement = TSymbolElem
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("symbol-elem") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("symbol-elem")
+
         internal val textType: InternalType = ConcreteType("str")
     }
 }

@@ -23,9 +23,11 @@ public interface TStyled : TContent {
 
     public val child: TContent
 
-    override fun func(): TElement = TStyled
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("styled") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("styled")
+
         internal val stylesType: InternalType = ConcreteType("array", listOf(ConcreteType("style")))
 
         internal val childType: InternalType = ConcreteType("content")

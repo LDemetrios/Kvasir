@@ -36,9 +36,11 @@ public interface TStroke :
 
     public val miterLimit: TAutoOrFloat?
 
-    override fun type(): TType = TStroke
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("stroke") {
+    public companion object {
+        public val Type: TType = TTypeImpl("stroke")
+
         internal val paintType: InternalType = UnionType(ConcreteType("auto"), ConcreteType("color"),
                 ConcreteType("gradient"), ConcreteType("tiling"))
 

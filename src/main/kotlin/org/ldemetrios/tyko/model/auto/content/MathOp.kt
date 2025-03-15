@@ -23,9 +23,11 @@ public interface TMathOp : TContent {
 
     public val limits: TBool?
 
-    override fun func(): TElement = TMathOp
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("math.op") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("math.op")
+
         internal val textType: InternalType = ConcreteType("content")
 
         internal val limitsType: InternalType = ConcreteType("bool")

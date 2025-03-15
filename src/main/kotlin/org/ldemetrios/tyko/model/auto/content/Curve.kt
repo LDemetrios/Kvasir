@@ -27,9 +27,11 @@ public interface TCurve : TContent {
 
     public val stroke: TAutoOrColorOrDictionaryOrGradientOrLengthOrNoneOrStrokeOrTiling<TValue>?
 
-    override fun func(): TElement = TCurve
+    override fun func(): TElement = Elem
 
-    public companion object : TElementImpl("curve") {
+    public companion object {
+        public val Elem: TElement = TElementImpl("curve")
+
         internal val componentsType: InternalType = ConcreteType("array",
                 listOf(ConcreteType("content")))
 

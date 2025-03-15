@@ -21,9 +21,11 @@ import org.ldemetrios.utilities.castUnchecked
 public interface TDirection : TAutoOrDirection, TValue {
     public val `value`: TStr
 
-    override fun type(): TType = TDirection
+    override fun type(): TType = Type
 
-    public companion object : TTypeImpl("direction") {
+    public companion object {
+        public val Type: TType = TTypeImpl("direction")
+
         internal val valueType: InternalType = ConcreteType("str")
     }
 }
