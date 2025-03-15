@@ -80,7 +80,7 @@ class SvgViewerPanel(document: List<String>) : PartiallyRenderableGraphics {
     override fun render(component: Component, g: Graphics2D, viewport: Viewport, scale: Double) {
         fun updateVp() = buffer.stabilize(
             viewport.y,
-            (viewport.y + viewport.height),
+            viewport.y + viewport.height,
         )
 
         updateVp()
@@ -118,6 +118,13 @@ class SvgViewerPanel(document: List<String>) : PartiallyRenderableGraphics {
 
 //            g.color = Color.WHITE
 //            doc.render(component, g, ViewBox(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat()))
+
+//            g.isolating {
+//                g.color = JBColor.BLUE
+//                g.stroke = stroke
+//                g.drawRect(x.toInt(), y.toInt(), w.toInt(), h.toInt())
+//            }
+
             val image = tryRendering(component, w, h, doc, scale)
             g.drawImage(image, (x ).toInt(), (y ).toInt(), null)
 
