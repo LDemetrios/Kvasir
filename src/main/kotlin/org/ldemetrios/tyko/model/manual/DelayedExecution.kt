@@ -1,4 +1,4 @@
-package org.ldemetrios.tyko.model.manual
+package org.ldemetrios.tyko.model
 
 import org.ldemetrios.tyko.model.TDynamic
 import org.ldemetrios.tyko.model.TElement

@@ -451,7 +451,6 @@ internal val genericTypes = mutableMapOf<String, Int>(
     "closure" to 0,
     "with" to 0,
     "native-func" to 0,
-    "style" to 0,
     "show-rule" to 0,
     "context" to 0,
     "style-deprecated" to 0,

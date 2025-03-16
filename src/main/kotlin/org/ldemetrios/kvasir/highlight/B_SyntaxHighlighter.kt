@@ -7,8 +7,11 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import com.intellij.psi.util.childrenOfType
+import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.firstLeaf
 import com.intellij.psi.util.lastLeaf
+import org.ldemetrios.kvasir.misc.findLanguageByTag
 import org.ldemetrios.kvasir.psi.*
 import org.ldemetrios.kvasir.settings.AppSettings
 import org.ldemetrios.kvasir.syntax.TYPST_WHITESPACE
@@ -77,8 +80,6 @@ class SyntaxHighlighter : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         this.holder = holder
         if (element !is TypstPsiElement) return
-        if (element is RawPsiElement || element is RawPart) return
-
 
         val children = element.children
         if (children.isNotEmpty()) {
@@ -111,7 +112,7 @@ class SyntaxHighlighter : Annotator {
             val (rainbowKey, scopeKey) = computeRainbowKey(colorize)
 
             val scopeAttr = resolveRainbowKey(scopeKey)?.let { RAINBOW_BACK_WEAK[it].key.resolve() }
-            val rainbowAttr = if (!AppSettings.instance.state.rainbow) null else  resolveRainbowKey(rainbowKey)?.takeIf {
+            val rainbowAttr = if (!AppSettings.instance.state.rainbow) null else resolveRainbowKey(rainbowKey)?.takeIf {
                 when (colorize) {
                     is LeftBracePsiElement, is LeftBracketPsiElement, is LeftParenPsiElement,
                     is RightBracePsiElement, is RightBracketPsiElement, is RightParenPsiElement,
@@ -127,6 +128,7 @@ class SyntaxHighlighter : Annotator {
 //                      parent is KeyedPairPsiElement || parent is NamedPairPsiElement
                         true
                     }
+
                     is ArrowPsiElement -> true
 
                     is MathTextPsiElement -> colorize.parent is MathDelimitedPsiElement
@@ -286,12 +288,21 @@ class SyntaxHighlighter : Annotator {
             when (element) {
                 is Keyword, is UnOp, is BinOp, is AssignOp, is Ignored, is NumericLiteral -> if (element !is StarPsiElement) return null
                 is EquationPsiElement -> result.add(MATHS.key)
+                is RawPsiElement -> {
+                    val lang = element
+                        .childrenOfType<RawLangPsiElement>()
+                        .firstOrNull()?.let { findLanguageByTag(it.text) }
+
+                    if (lang == null) result.add(RAWS.key) else return listOf()
+                }
+
                 is RawPart -> Unit
                 is ContentBlockPsiElement -> {
                     if (element.parent is RefPsiElement) {
                         result.add(REFERENCES.key)
                     } else return result
                 }
+
                 is StrPsiElement -> Unit
                 is FuncCallPsiElement, is FieldAccessPsiElement -> Unit
                 is CodePart -> return result

@@ -71,15 +71,15 @@
                 implementationClass="org.ldemetrios.kvasir.syntax.TypstMathParserDefinition"/>
 
 
-<!--        <lang.syntaxHighlighterFactory-->
-<!--                language="Typst"-->
-<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstMarkupLexicalHighlighterFactory"/>-->
-<!--        <lang.syntaxHighlighterFactory-->
-<!--                language="TypstCode"-->
-<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstCodeLexicalHighlighterFactory"/>-->
-<!--        <lang.syntaxHighlighterFactory-->
-<!--                language="TypstMath"-->
-<!--                implementationClass="org.ldemetrios.kvasir.highlight.TypstMathLexicalHighlighterFactory"/>-->
+        <lang.syntaxHighlighterFactory
+                language="Typst"
+                implementationClass="org.ldemetrios.kvasir.highlight.TypstMarkupLexicalHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory
+                language="TypstCode"
+                implementationClass="org.ldemetrios.kvasir.highlight.TypstCodeLexicalHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory
+                language="TypstMath"
+                implementationClass="org.ldemetrios.kvasir.highlight.TypstMathLexicalHighlighterFactory"/>
         <colorSettingsPage
                 implementation="org.ldemetrios.kvasir.highlight.HighlightSettingsPage"/>
         <additionalTextAttributes scheme="High contrast" file="kvasir-color-schemes/high-contrast.xml"/>
@@ -117,6 +117,6 @@
                 id="org.ldemetrios.kvasir.settings.AppSettingsConfigurable"
                 displayName="Kvasir"/>
 
-        <multiHostInjector implementation="org.ldemetrios.kvasir.misc.MyLanguageInjector"/>
+        <multiHostInjector implementation="org.ldemetrios.kvasir.misc.RawLangInjector"/>
     </extensions>
 </idea-plugin>

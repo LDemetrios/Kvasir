@@ -15,7 +15,7 @@ import org.ldemetrios.utilities.castUnchecked
 
 @TInterfaceType(
     "show-rule",
-    ["show-rule", "style"],
+    ["show-rule"],
     TShowRuleImpl::class,
 )
 public interface TShowRule : TStyle {

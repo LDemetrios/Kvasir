@@ -21,15 +21,17 @@ class TypstLexicalHighlighter(val mode: SyntaxMode) : SyntaxHighlighterBase() {
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         return when ((tokenType as? TypstTokenType)?.kind) {
-            in keywords -> return KEYWORD.array
-            in operators -> return OPERATOR.array
-            in numericLiterals -> return NUMERIC_LITERAL.array
+            // Probably is covered with SyntaxHighlighter functionality
+
+//            in keywords -> return KEYWORD.array
+//            in operators -> return OPERATOR.array
+//            in numericLiterals -> return NUMERIC_LITERAL.array
             in comments -> return COMMENT.array
-            in strings -> return STRINGS.array
-            in links -> return LINKS.array
-            Escape -> return ESCAPES.array
-            Shorthand, MathShorthand, Linebreak -> return SHORTHANDS.array
-            Label -> LABELS.array
+//            in strings -> return STRINGS.array
+//            in links -> return LINKS.array
+//            Escape -> return ESCAPES.array
+//            Shorthand, MathShorthand, Linebreak -> return SHORTHANDS.array
+//            Label -> LABELS.array
             else -> EMPTY_KEYS
         }
     }

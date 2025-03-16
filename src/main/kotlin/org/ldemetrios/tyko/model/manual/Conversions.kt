@@ -92,5 +92,10 @@ val TBytes.value get() = this.bytesValue
 
 operator fun THAlignment.plus(other: TVAlignment): TAlignment = TAlignmentImpl(this, other)
 operator fun TVAlignment.plus(other: THAlignment): TAlignment = TAlignmentImpl(other, this)
+operator fun TLength.plus(other: TLength): TLength = TLength(
+    listOfNotNull(this.pt, other.pt).sumOf { it.floatValue }.t,
+    listOfNotNull(this.em, other.em).sumOf { it.floatValue }.t,
+)
+
 operator fun TLength.plus(other: TRatio): TRelative = TRelativeImpl(other, this)
 operator fun TRatio.plus(other: TLength): TRelative = TRelativeImpl(this, other)

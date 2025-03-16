@@ -88,6 +88,8 @@ interface TypstSharedLibrary : Library {
 
     @TyKoFFIEntity
     fun release_flattened_tree(tree: CFlattenedSyntaxTree)
+
+    fun evict_cache(max_age: Long)
 }
 
 @OptIn(TyKoFFIEntity::class)

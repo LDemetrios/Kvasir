@@ -76,10 +76,14 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
     fun unregisterDoc(path: String) = edited.remove(path)
 
     private val scheduled = ConcurrentHashSet<VirtualFile>()
+    private val reschedule = ConcurrentHashSet<VirtualFile>()
 
     fun scheduleRecompile(file: VirtualFile, notify: TypstPreviewFileEditor, mode: SyntaxMode) {
         val added = scheduled.add(file)
-        if (!added) return
+        if (!added) {
+            reschedule.add(file)
+            return
+        }
         ApplicationManager.getApplication().executeOnPooledThread {
             val result = lock.withLock {
                 this.mode = mode
@@ -104,6 +108,11 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                 map
             }
             scheduled.remove(file)
+            if (reschedule.remove(file)) {
+                scheduleRecompile(file, notify, mode)
+            } else {
+                sharedLib?.evict_cache(2)
+            }
         }
     }
 

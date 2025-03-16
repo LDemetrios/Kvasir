@@ -1,9 +1,6 @@
 package org.ldemetrios.tyko.operations
 
-import org.ldemetrios.tyko.model.TInt
-import org.ldemetrios.tyko.model.TNativeFunc
-import org.ldemetrios.tyko.model.TStr
-import org.ldemetrios.tyko.model.t
+import org.ldemetrios.tyko.model.*
 
 private val loremF = TNativeFunc("lorem".t)
 

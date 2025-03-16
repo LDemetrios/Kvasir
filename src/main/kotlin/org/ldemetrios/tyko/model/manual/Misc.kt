@@ -37,17 +37,21 @@ val TAlignment.vertical: TVAlignment?
         else -> throw AssertionError()
     }
 
-interface TSetRule : TStyle, TContent {
-    val elem: String
+public interface TStyle : TValue, TContent {
+    override fun type(): TType = Type
     override val label: TLabel? get() = null
-    override fun type(): TType = TStyle.Type
     override fun func(): TElement {
         TODO("Not yet implemented")
     }
 
-    companion object : TTypeImpl("style") {
-        val Elem = TElementImpl("set-rule")
+    public companion object {
+        public val Type: TType = TTypeImpl("style")
     }
+}
+
+interface TSetRule : TStyle {
+    val elem: String
+
 }
 
 @TInterfaceType(

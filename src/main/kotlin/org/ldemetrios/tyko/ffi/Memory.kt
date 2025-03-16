@@ -41,7 +41,7 @@ fun unpin(ticket: Long): Any? {
     if (ticket == 0L) return null
     val was = registry.remove(ticket)
         ?: throw IllegalArgumentException("Ticket $ticket doesn't correspond to any pinned object")
-    threadLocalRegistry.get().remove(ticket)
+    threadLocalRegistry.get()?.remove(ticket)
     return was
 }
 

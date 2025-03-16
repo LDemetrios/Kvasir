@@ -21,11 +21,11 @@ class RawLangInjector : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {
         if (context !is RawPsiElement) return
 
-        val injectedLanguage =
-            findLanguageByTag(context.childrenOfType<RawLangPsiElement>().firstOrNull()?.text ?: return)
+        val lang = context.childrenOfType<RawLangPsiElement>().firstOrNull() ?: return
+        val injectedLanguage = findLanguageByTag(lang.text)
         if (injectedLanguage == null) return
 
-        val start = context.childrenOfType<RawLangPsiElement>().firstOrNull()?.endOffset ?: return
+        val start = lang.endOffset
         val end = context.lastChild.takeIf { it is RawDelimPsiElement }?.startOffset ?: return
         registrar.startInjecting(injectedLanguage);
         registrar.addPlace("", "", context, TextRange(start - context.startOffset, end - context.startOffset));
