@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileEditor.*
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
+import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
@@ -99,8 +100,12 @@ class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, v
     }
 
     fun reload() {
-        val service: ProjectCompilerService = ProjectCompilerService.getInstance(project)
-        service.scheduleRecompile(f, this, mode)
+        try {
+            val service: ProjectCompilerService = ProjectCompilerService.getInstance(project)
+            service.scheduleRecompile(f, this, mode)
+        } catch (e: ProcessCanceledException) {
+            // Ignore
+        }
     }
 
     val map = mutableMapOf<Key<*>, Any?>()
