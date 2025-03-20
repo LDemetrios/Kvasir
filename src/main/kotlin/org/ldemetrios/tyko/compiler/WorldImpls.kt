@@ -40,7 +40,7 @@ class WorldBasedTypstCompiler(val owner: TypstSharedLibrary, world: World) : Typ
     override fun reset() = if (nativeDelegate.isInitialized()) native.reset() else Unit
 }
 
-class SingleFileWorld(
+open class SingleFileWorld(
     val source: String,
     val features: List<Feature> = listOf(),
     val inputs: TDictionary<TValue> = TEmptyDictionaryImpl,
@@ -63,4 +63,19 @@ class SingleFileWorld(
     override val autoManageCentral: Boolean get() = true
 }
 
-fun DetachedWorld(features: List<Feature> = listOf()) = SingleFileWorld("", features, time = null)
+class DetachedWorld(val features: List<Feature> = listOf()) : World {
+    override fun library(): StdlibProvider = object : StdlibProvider.Standard {
+        override val inputs: TDictionary<TValue> get() = TDictionary()
+        override val features: List<Feature> get() = this@DetachedWorld.features
+    }
+
+    override fun mainFile(): FileDescriptor = FileDescriptor(null, "/main.typ")
+
+    override fun file(file: FileDescriptor): RResult<ByteArray, FileError> {
+        return RResult.Err(FileError.NotFound(file.path))
+    }
+
+    override fun now(): WorldTime? = null
+
+    override val autoManageCentral: Boolean get() = false
+}

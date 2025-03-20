@@ -13,3 +13,5 @@ infix fun TSelector.after(selector: TSelector) = TAfterSelector(this, selector)
 fun TSelector.and(vararg others: TSelector) = TAndSelector(TArray(this, *others))
 fun TSelector.or(vararg others: TSelector) = TOrSelector(TArray(this, *others))
 
+fun TElement.where(vararg others: Pair<String, TValue>) = TElementSelector(this.name, TDictionary(*others))
+

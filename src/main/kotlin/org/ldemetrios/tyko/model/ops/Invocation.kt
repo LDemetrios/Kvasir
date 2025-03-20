@@ -1,10 +1,5 @@
 package org.ldemetrios.tyko.model
 
-import org.ldemetrios.tyko.model.*
-import org.ldemetrios.tyko.model.TArray
-import org.ldemetrios.tyko.model.TDictionary
-import org.ldemetrios.tyko.model.repr
-
 fun TFunction.with(arguments: TArguments<*>) = TWith(this, arguments)
 
 fun TFunction.with(vararg positionals: TValue) = with(TArguments(TArray(*positionals), TDictionary<TValue>()))

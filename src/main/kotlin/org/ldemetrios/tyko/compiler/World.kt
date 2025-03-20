@@ -4,18 +4,16 @@ import org.ldemetrios.tyko.model.TDictionary
 import org.ldemetrios.tyko.model.TValue
 import java.time.Instant
 
-typealias EcoString = String
-
 sealed interface StdlibProvider {
     val features: List<Feature>
 
-    interface Custom : StdlibProvider {
-        // TODO After refining what exactly module is
-//    val global: TModule
-//    val math: TModule
-//    val styles: List<TStyle>
-//    val std: Binding
-    }
+//    interface Custom : StdlibProvider {
+//        // TODO After refining what exactly module is
+////    val global: TModule
+////    val math: TModule
+////    val styles: List<TStyle>
+////    val std: Binding
+//    }
 
     interface Standard : StdlibProvider {
         val inputs: TDictionary<TValue>
@@ -24,6 +22,11 @@ sealed interface StdlibProvider {
 
 enum class Feature {
     Html,
+    ;
+
+    companion object {
+        val ALL = entries.toList()
+    }
 }
 
 interface World {
