@@ -2,6 +2,7 @@ package org.ldemetrios.kvasir.preview.ui
 
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor
+import org.ldemetrios.kvasir.settings.AppSettings
 import java.awt.*
 import java.awt.event.*
 import java.io.Closeable
@@ -312,14 +313,16 @@ class ZoomablePanel(
     }
 
     private fun clip() {
-        val actualWidth = width - barThickness
-        val actualHeight = height - barThickness
+        if (!AppSettings.instance.state.unclippedScrolling) {
+            val actualWidth = width - barThickness
+            val actualHeight = height - barThickness
 
-        x = if (actualWidth / scale > inside.width) .0
-        else x.clip(0.0, inside.width - actualWidth / scale)
+            x = if (actualWidth / scale > inside.width) .0
+            else x.clip(0.0, inside.width - actualWidth / scale)
 
-        y = if (actualHeight / scale > inside.height) .0
-        else y.clip(0.0, inside.height - actualHeight / scale)
+            y = if (actualHeight / scale > inside.height) .0
+            else y.clip(0.0, inside.height - actualHeight / scale)
+        }
 
         repaint()
     }

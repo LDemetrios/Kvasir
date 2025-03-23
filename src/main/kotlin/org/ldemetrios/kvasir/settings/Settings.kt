@@ -39,6 +39,7 @@ class AppSettingsComponent {
     lateinit var textWidthComponent: JBTextField
     lateinit var tabSizeComponent: JBTextField
     lateinit var rainbowComponent: JBCheckBox
+    lateinit var unclippedScrollingComponent: JBCheckBox
     var panel: JPanel = panel {
 //        row {
 //            checkBox("Highlight background for parenthesis (expressions, args, arrays, dicts)").putTo(::scopeParenthesisComponent)
@@ -63,6 +64,9 @@ class AppSettingsComponent {
         row {
             checkBox("Rainbowify brackets (applies after document modification)").putTo(::rainbowComponent)
         }
+        row {
+            checkBox("Allow scrolling beyond document boundaries").putTo(::unclippedScrollingComponent)
+        }
     }
 
     //    var scopeParenthesis by JBCheckBoxCell(scopeParenthesisComponent)
@@ -72,6 +76,7 @@ class AppSettingsComponent {
     var textWidth: Int by JBTextFieldIntCell(textWidthComponent)
     var tabSize: Int by JBTextFieldIntCell(tabSizeComponent)
     var rainbow: Boolean by JBCheckBoxCell(rainbowComponent)
+    var unclippedScrolling: Boolean by JBCheckBoxCell(unclippedScrollingComponent)
     var state: AppSettingsState
         get() = AppSettingsState(
 //            scopeParenthesis,
@@ -82,6 +87,7 @@ class AppSettingsComponent {
             textWidth,
             tabSize,
             rainbow,
+            unclippedScrolling
         )
         set(value) {
 //            scopeParenthesis = value.scopeParenthesis
@@ -91,6 +97,7 @@ class AppSettingsComponent {
             textWidth = value.textWidth
             tabSize = value.tabSize
             rainbow = value.rainbow
+            unclippedScrolling = value.unclippedScrolling
         }
 }
 
@@ -102,6 +109,7 @@ data class AppSettingsState(
     var textWidth: Int = 120,
     var tabSize: Int = 4,
     var rainbow: Boolean = true,
+    var unclippedScrolling: Boolean = false,
 )
 
 
