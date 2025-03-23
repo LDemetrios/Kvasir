@@ -73,3 +73,5 @@ Let $k in [1 : n]$, $r in NN union {oo}$. A set $M subset RR^n$ is called a *smo
     edge(<buf2>, "d", "-}>", label-side: right, [write back]),
 )
 
+
+#pagebreak()
