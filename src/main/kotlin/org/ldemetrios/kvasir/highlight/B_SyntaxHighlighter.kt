@@ -87,7 +87,7 @@ class SyntaxHighlighter : Annotator {
             // TODO Handle scopes later
             // highlight spaces
             val spaces = generateSequence(element.firstChild) { it.nextSibling }
-                .filter { it is LeafPsiElement && it.tokenType === TYPST_WHITESPACE }.toList()
+                .filter { it is LeafPsiElement && it.elementType === TYPST_WHITESPACE }.toList()
             if (spaces.isEmpty()) return
             val (rainbowKey, scopeKey) = computeRainbowKey(element)
             val attr = resolveRainbowKey(scopeKey)?.let { RAINBOW_BACK_WEAK[it].key.resolve() } ?: return
