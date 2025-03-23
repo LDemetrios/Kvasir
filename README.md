@@ -50,7 +50,7 @@ If after this you still get an error when opening Typst files, feel free to open
 
 You can also contribute to the [shared-library repo](https://github.com/LDemetrios/typst-shared-library) 
 by either editing `compile.sh` or `.github/workflows/release.yml`, so I will be able to include support 
-for your platform in future releases. Unfortunately, using my poor x86 processor and GitHub ci,  
+for your platform in future releases. Unfortunately, using my poor x86 processor and GitHub CI,  
 I failed to compile to anything except these four targets.
 
 ## Roadmap, Plans, Changelog
@@ -59,7 +59,7 @@ See [Roadmap](Roadmap.md) and [Changelog](Changelog.md).
 
 **Nearest plans**
 
-- (In 0.4) Name resolution and related features (go-to-definition, find usages, renaming)
+- (In 0.4) Name resolution and related features (go-to-definition, find usages, renaming).
 - (In 0.5) Customizing std library and default document styles.
 
 

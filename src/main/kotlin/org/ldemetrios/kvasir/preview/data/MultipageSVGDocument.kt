@@ -1,6 +1,8 @@
 package org.ldemetrios.kvasir.preview.data
 
 import com.github.weisj.jsvg.attributes.ViewBox
+import com.github.weisj.jsvg.parser.DefaultParserProvider
+import com.github.weisj.jsvg.parser.LoaderContext
 import com.github.weisj.jsvg.parser.SVGLoader
 import org.ldemetrios.kvasir.preview.ui.PAGE_GAP
 import org.ldemetrios.kvasir.preview.ui.clip
@@ -17,7 +19,14 @@ class SVGPage(val file: String, val loader: SVGLoader, createHard: Boolean = tru
         content.deref().render(component, g, viewBox)
     }
 
-    val content = CachedReference({ loader.load(ByteArrayInputStream(file.toByteArray()))!! }, createHard)
+    val content = CachedReference({
+        loader.load(
+            ByteArrayInputStream(file.toByteArray()), null,
+            LoaderContext.builder()
+                .parserProvider(DefaultParserProvider())
+                .build()
+        )!!
+    }, createHard)
 
     val vb = content.deref().viewBox().run { width to height }
 

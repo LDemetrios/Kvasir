@@ -13,6 +13,7 @@
 - `inputs` (kvasir-preview-foreground, kvasir-preview-background) are now not `str`s, but `color`s. Known downside is that they are now set once upon IDE loading, and don't change when theme is changed without reloading. I know how to fix it, but that requires time.
 - Syntax highlighting improved, it now mixes styles properly without exponential amount of keys in settings
 - Some people complained about rainbowifying. It now can be disabled in plugin settings (Tools/Kvasir).
+- Scrolling and zooming speed can now also be customized.
 
 ... and that's actually when this changelog was created.
 
