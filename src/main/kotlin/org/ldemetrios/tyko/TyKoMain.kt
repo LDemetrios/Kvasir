@@ -7,11 +7,9 @@ import org.ldemetrios.tyko.model.*
 import org.ldemetrios.tyko.operations.where
 import kotlin.io.path.Path
 
-// They exist...
+private const val SHARED_LIBRARY_PATH = "/home/ldemetrios/Workspace/TypstNKotlinInterop/libtypst_shared.so"
 
-public const val SHARED_LIBRARY_PATH = "/home/ldemetrios/Workspace/TypstNKotlinInterop/libtypst_shared.so"
-
-val sharedLib = TypstSharedLibrary.instance(Path(SHARED_LIBRARY_PATH))
+private val sharedLib = TypstSharedLibrary.instance(Path(SHARED_LIBRARY_PATH))
 
 fun main() {
 //    val world = WorldBasedTypstCompiler(sharedLib, DetachedWorld())
