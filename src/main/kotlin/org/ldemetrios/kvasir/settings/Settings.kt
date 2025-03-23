@@ -14,6 +14,9 @@ import javax.swing.JPanel
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
 import com.intellij.ui.dsl.builder.Cell
+import com.intellij.ui.dsl.builder.bindSelected
+import javax.swing.JSpinner
+import kotlin.Double
 import kotlin.Int
 
 internal class JBTextFieldCell(val component: JBTextField) :
@@ -23,10 +26,14 @@ internal class JBTextFieldCell(val component: JBTextField) :
 internal class JBTextFieldIntCell(val component: JBTextField) :
     Parameter<JBTextField, Int>(component, { it.text.toInt() }, { holder, value -> holder.text = value.toString() })
 
+internal class JBTextFieldDoubleCell(val component: JSpinner) :
+    Parameter<JSpinner, Double>(component, { it.value as Double }, { holder, value -> holder.value = value })
+
 internal class JBCheckBoxCell(val component: JBCheckBox) :
     Parameter<JBCheckBox, Boolean>(component, { it.isSelected }, { holder, value -> holder.isSelected = value })
 
 class AppSettingsComponent {
+    // TODO I desperately want some reflective sssstuff here...
     internal fun <T : JComponent> Cell<T>.putTo(property: KMutableProperty<T>): Cell<T> {
         property.setter.call(this.component)
         return this
@@ -40,6 +47,8 @@ class AppSettingsComponent {
     lateinit var tabSizeComponent: JBTextField
     lateinit var rainbowComponent: JBCheckBox
     lateinit var unclippedScrollingComponent: JBCheckBox
+    lateinit var scrollingCoeffComponent: JSpinner
+    lateinit var zoomingCoeffComponent: JSpinner
     var panel: JPanel = panel {
 //        row {
 //            checkBox("Highlight background for parenthesis (expressions, args, arrays, dicts)").putTo(::scopeParenthesisComponent)
@@ -67,6 +76,14 @@ class AppSettingsComponent {
         row {
             checkBox("Allow scrolling beyond document boundaries").putTo(::unclippedScrollingComponent)
         }
+        row {
+            label("Scrolling speed:")
+            spinner((.0..100.0), .1).putTo(::scrollingCoeffComponent)
+        }
+        row {
+            label("Zoom speed:")
+            spinner((.0..100.0), .1).putTo(::zoomingCoeffComponent)
+        }
     }
 
     //    var scopeParenthesis by JBCheckBoxCell(scopeParenthesisComponent)
@@ -77,17 +94,25 @@ class AppSettingsComponent {
     var tabSize: Int by JBTextFieldIntCell(tabSizeComponent)
     var rainbow: Boolean by JBCheckBoxCell(rainbowComponent)
     var unclippedScrolling: Boolean by JBCheckBoxCell(unclippedScrollingComponent)
+    var scrollingCoeff: Double
+        get() = (scrollingCoeffComponent.value as Double).also { println("Getting scrolling $it") }
+        set(value) {
+            scrollingCoeffComponent.value = value.also { println("Setting scrolling $it") }
+        }
+    var zoomingCoeff: Double by JBTextFieldDoubleCell(zoomingCoeffComponent)
     var state: AppSettingsState
         get() = AppSettingsState(
 //            scopeParenthesis,
 //            scopeCodeBlocks,
 //            scopeContentBlocks,
 //            scopeDelimited,
-            false, false,false,false,
+            false, false, false, false,
             textWidth,
             tabSize,
             rainbow,
-            unclippedScrolling
+            unclippedScrolling,
+            scrollingCoeff,
+            zoomingCoeff,
         )
         set(value) {
 //            scopeParenthesis = value.scopeParenthesis
@@ -98,6 +123,8 @@ class AppSettingsComponent {
             tabSize = value.tabSize
             rainbow = value.rainbow
             unclippedScrolling = value.unclippedScrolling
+            scrollingCoeff = value.scrollingCoeff
+            zoomingCoeff = value.zoomingCoeff
         }
 }
 
@@ -110,6 +137,8 @@ data class AppSettingsState(
     var tabSize: Int = 4,
     var rainbow: Boolean = true,
     var unclippedScrolling: Boolean = false,
+    var scrollingCoeff: Double = 1.0,
+    var zoomingCoeff: Double = 1.0,
 )
 
 
