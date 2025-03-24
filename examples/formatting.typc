@@ -22,7 +22,7 @@ diagram(
     node((.8, 0), [#h(2em) CPU 2 #h(2em)], name: <cpu2>),
     node((0.15, 1), [buffer], name: <buf1>),
     node((0.65, 1), [buffer], name: <buf2>),
-    node((0.4, 2), [#h(6em) Memory 2 #h(6em)], name: <mem>),
+    node((0.4, 2), [#h(6em) Memory #h(6em)], name: <mem>),
 
     edge(<cpu1>, "dd", "<{-", shift: -.5, label-side: center, [read]),
     edge(<cpu2>, "dd", "<{-", shift: 0.2, label-side: center, [read]),
