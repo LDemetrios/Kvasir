@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <idea-version
-            since-build="241"/>
+            since-build="242.20224"/>
     <id>org.ldemetrios.kvasir</id>
 
     <!-- Public plugin name should be written in Title Case.

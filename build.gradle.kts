@@ -62,6 +62,10 @@ tasks.register("prepareColors") {
     }
 }
 
+intellij {
+    updateSinceUntilBuild.set(false)
+}
+
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
@@ -97,10 +101,6 @@ tasks {
 //        dependsOn("prepareColors")
 //    }
 //
-//    patchPluginXml {
-//        sinceBuild.set("232")
-//        untilBuild.set(null as String?)
-//    }
 
     buildPlugin {
 
