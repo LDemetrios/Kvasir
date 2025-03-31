@@ -82,11 +82,16 @@ object Representations {
             ArgumentEntry(false, "label", value.label)
         ) else {
             val before = value.children.subList(0, styleStart)
-            val styles = value.children.subList(styleStart, value.children.size).takeWhile { it is TStyle && it !is TDynamic }
+            val styles =
+                value.children.subList(styleStart, value.children.size).takeWhile { it is TStyle && it !is TDynamic }
             val after = value.children.subList(styleStart + styles.size, value.children.size)
             return elementRepr(
                 "[a\\ ].func()",
-                ArgumentEntry(false, null, TArray(before + TStyled(TArray(styles as List<TStyle>), TSequence(TArray(after))))),
+                ArgumentEntry(
+                    false,
+                    null,
+                    TArray(before + TStyled(TArray(styles as List<TStyle>), TSequence(TArray(after))))
+                ),
                 ArgumentEntry(false, "label", value.label)
             )
         }
@@ -115,8 +120,11 @@ object Representations {
                 ")"
     }
 
-    private fun sumOfNotNull(vararg values: String?) = listOfNotNull(*values).run {
-        if (isEmpty()) "0" else joinToString(" + ")
+    private fun sumOfNotNull(vararg values: String?) = run {
+        val list = listOfNotNull(*values)
+        val filtered = list.filter { !it.matches(Regex("0\\.0(%|fr|em|pt|deg|rad)")) }
+        if (filtered.isNotEmpty()) filtered.joinToString(" + ")
+        else list.minBy { it.length }
     }
 
 
@@ -127,11 +135,11 @@ object Representations {
         sumOfNotNull(value.em?.let { "${it.repr()}em" }, value.pt?.let { "${it.repr()}pt" })
 
     fun reprOf(value: TRelative): String =
-        listOfNotNull(
+        sumOfNotNull(
             value.abs?.em?.let { "${it.repr()}em" },
             value.abs?.pt?.let { "${it.repr()}pt" },
             value.rel?.repr()
-        ).joinToString(" + ")
+        )
 
     fun reprOf(value: TCounter): String =
         "counter(${value.value.repr()})"

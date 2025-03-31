@@ -66,7 +66,7 @@ object Base16ByteArraySerializer : KSerializer<Base16ByteArray> {
 
 @TyKoFFIEntity
 internal fun TypstSharedLibrary.nativeLibrary(library: StdlibProvider): Pointer = when (library) {
-    is StdlibProvider.Custom -> throw UnsupportedOperationException("Custom library is not yet supported")
+//    is StdlibProvider.Custom -> throw UnsupportedOperationException("Custom library is not yet supported")
     is StdlibProvider.Standard -> {
         val features = library.features.toSet().map { it.ordinal }.sumOf { 1 shl it }
         val inputs = library.inputs.repr()

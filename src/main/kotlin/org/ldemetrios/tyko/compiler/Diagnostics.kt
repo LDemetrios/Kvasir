@@ -89,15 +89,15 @@ sealed class PackageError {
 
     @Serializable
     @SerialName("NetworkFailed")
-    data class NetworkFailed(val message: EcoString?) : PackageError()
+    data class NetworkFailed(val message: String?) : PackageError()
 
     @Serializable
     @SerialName("MalformedArchive")
-    data class MalformedArchive(val message: EcoString?) : PackageError()
+    data class MalformedArchive(val message: String?) : PackageError()
 
     @Serializable
     @SerialName("Other")
-    data class Other(val message: EcoString?) : PackageError()
+    data class Other(val message: String?) : PackageError()
 }
 
 @Serializable
@@ -113,11 +113,11 @@ data class Spanned<T>(
 sealed class Tracepoint {
     @Serializable
     @SerialName("Call")
-    data class Call(val function: EcoString?) : Tracepoint()
+    data class Call(val function: String?) : Tracepoint()
 
     @Serializable
     @SerialName("Show")
-    data class Show(val string: EcoString?) : Tracepoint()
+    data class Show(val string: String?) : Tracepoint()
 
     @Serializable
     @SerialName("Import")

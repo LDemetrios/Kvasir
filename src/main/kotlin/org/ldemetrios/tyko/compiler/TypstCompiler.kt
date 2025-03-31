@@ -31,7 +31,9 @@ fun TypstCompiler.evalDetached(source: String): TValue {
 fun TypstCompiler.query(selector: TSelector): TArray<TValue> {
     val result = queryRaw(selector.repr(), SerialFormat.JSON).output
     return when (result) {
-        is RResult.Ok -> deserialize(result.value) as? TArray<TValue> ?: throw AssertionError("queryRaw should return TArray")
+        is RResult.Ok -> deserialize(result.value) as? TArray<TValue>
+            ?: throw AssertionError("queryRaw should return TArray")
+
         is RResult.Err -> {
             throw TypstCompilerException(result.error)
         }
@@ -66,4 +68,8 @@ fun TypstCompiler.compilePng(fromPage: Int = 0, toPage: Int = Int.MAX_VALUE, ppi
             throw TypstCompilerException(result.error)
         }
     }
+}
+
+fun TypstCompiler.force(value: TValue): TValue {
+    return evalDetached(value.repr())
 }

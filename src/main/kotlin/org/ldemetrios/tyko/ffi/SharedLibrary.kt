@@ -71,7 +71,7 @@ interface TypstSharedLibrary : Library {
         private val CACHE = ConcurrentHashMap<Path, TypstSharedLibrary>()
 
         @OptIn(TyKoFFIEntity::class)
-        fun instance(path: Path) = CACHE.getOrPut(path) {
+        fun instance(path: Path) = CACHE.getOrPut(path.toAbsolutePath()) {
             loadLibrary<TypstSharedLibrary>(path.toString()).also {
                 val set = it.set_freer(FREER)
                 if (set != 1) {
@@ -92,8 +92,8 @@ interface TypstSharedLibrary : Library {
     fun evict_cache(max_age: Long)
 }
 
-@OptIn(TyKoFFIEntity::class)
-private val FREER = UnpinnerCallback { unpin(it) }
+@TyKoFFIEntity
+val FREER = UnpinnerCallback { unpin(it) }
 
 internal inline fun <reified T : Library> loadLibrary(path: String): T = Native.load(path, T::class.java)
 

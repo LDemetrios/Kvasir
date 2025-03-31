@@ -8,7 +8,6 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.firstLeaf
-import fleet.util.cast
 import org.ldemetrios.kvasir.syntax.TypstElementType
 import org.ldemetrios.kvasir.syntax.tokenType
 import org.ldemetrios.tyko.compiler.SyntaxKind

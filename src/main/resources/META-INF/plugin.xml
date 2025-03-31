@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <idea-version
-            since-build="243"/>   <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+            since-build="242.20224"/>
     <id>org.ldemetrios.kvasir</id>
 
     <!-- Public plugin name should be written in Title Case.
@@ -16,13 +16,19 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
         Adds support for the <a href="https://typst.app/docs">Typst</a> language.
-        The following features are available now:
+        Three extensions are recognized: `typ` for regular Typst markup, `typc` for code, `typm` for math.
+        The following features are provided for all of them:
         <ul>
         <li>Syntax highlight</li>
         <li>Instant preview (Uses `typst watch` for now)</li>
         <li>Compilation errors display</li>
-        <li>Theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively, as a rgb hex string)</li>
+        <li>Theme-aware preview (background and foreground colors are accessible via `sys.inputs.kvasir-preview-background` and `-foreground` respectively)</li>
+        <li>Formatting (Typstyle)</li>
+        <li>Language injections</li>
+        <li>"Comment out code"</li>
         </ul>
+
+        Some user-requested settings were also added.
         <br>
         The plugin is in the beta stage, a lot of features are yet to come.
         Visit <a href="https://github.com/LDemetrios/Kvasir">the repo</a> to see our plans, known bugs, report an issue, make pull request.

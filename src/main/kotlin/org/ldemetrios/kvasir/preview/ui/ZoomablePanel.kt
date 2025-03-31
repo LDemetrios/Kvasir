@@ -2,6 +2,7 @@ package org.ldemetrios.kvasir.preview.ui
 
 import com.intellij.ui.Gray
 import com.intellij.ui.JBColor
+import org.ldemetrios.kvasir.settings.AppSettings
 import java.awt.*
 import java.awt.event.*
 import java.io.Closeable
@@ -153,6 +154,7 @@ class ZoomablePanel(
         addMouseListener(this)
         addMouseWheelListener(this)
         addMouseMotionListener(this)
+        addKeyListener(this)
     }
 
     override fun mouseWheelMoved(p0: MouseWheelEvent) {
@@ -160,14 +162,14 @@ class ZoomablePanel(
             // x + p0.x * scale must remain the same
             // x' + p0.x / scale' = x + p0.x / scale
             // x'  = x + p0.x / scale - p0.x / scale'
-            val scale1 = scale * 0.9.pow(p0.preciseWheelRotation)
+            val scale1 = scale * 0.9.pow(p0.preciseWheelRotation * AppSettings.instance.state.zoomingCoeff)
             x += (p0.x - xShiftCenter) * (1 / scale - 1 / scale1)
             y += (p0.y - yShiftCenter) * (1 / scale - 1 / scale1)
             scale = scale1
         } else if (p0.isShiftDown) {
-            x += p0.preciseWheelRotation * 20 / scale
+            x += p0.preciseWheelRotation * 20 * AppSettings.instance.state.scrollingCoeff / scale
         } else {
-            y += p0.preciseWheelRotation * 20 / scale
+            y += p0.preciseWheelRotation * 20 * AppSettings.instance.state.scrollingCoeff / scale
         }
 
         clip()
@@ -276,6 +278,7 @@ class ZoomablePanel(
     override fun mouseMoved(p0: MouseEvent?) = Unit
 
     override fun keyTyped(p0: KeyEvent) {
+        println(p0)
         when (p0.keyCode) {
             KeyEvent.VK_PAGE_UP -> {
                 y -= actualHeight / scale
@@ -312,14 +315,16 @@ class ZoomablePanel(
     }
 
     private fun clip() {
-        val actualWidth = width - barThickness
-        val actualHeight = height - barThickness
+        if (!AppSettings.instance.state.unclippedScrolling) {
+            val actualWidth = width - barThickness
+            val actualHeight = height - barThickness
 
-        x = if (actualWidth / scale > inside.width) .0
-        else x.clip(0.0, inside.width - actualWidth / scale)
+            x = if (actualWidth / scale > inside.width) .0
+            else x.clip(0.0, inside.width - actualWidth / scale)
 
-        y = if (actualHeight / scale > inside.height) .0
-        else y.clip(0.0, inside.height - actualHeight / scale)
+            y = if (actualHeight / scale > inside.height) .0
+            else y.clip(0.0, inside.height - actualHeight / scale)
+        }
 
         repaint()
     }

@@ -125,8 +125,18 @@ class SvgViewerPanel(document: List<String>) : PartiallyRenderableGraphics {
 //                g.drawRect(x.toInt(), y.toInt(), w.toInt(), h.toInt())
 //            }
 
-            val image = tryRendering(component, w, h, doc, scale)
-            g.drawImage(image, (x ).toInt(), (y ).toInt(), null)
+/*            val image = tryRendering(component, w, h, doc, scale)
+            g.drawImage(image, (x ).toInt(), (y ).toInt(), null)*/
+
+            val imageGr = g
+            imageGr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+            imageGr.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+            @Suppress("UseJBColor") // White background of the page
+            imageGr.color = Color.WHITE
+//            imageGr.fillRect(x.toInt(), y.toInt(), w.toInt(), h.toInt())
+            doc.render(component, imageGr, ViewBox((x ).toFloat(), (y).toFloat(), w.toFloat(), h.toFloat()))
+
+//            imageGr.dispose()
 
 //            g.isolating { g ->
 //                g.stroke = stroke

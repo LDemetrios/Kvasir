@@ -5,6 +5,6 @@ package org.ldemetrios.tyko.ffi
     RequiresOptIn.Level.ERROR
 )
 @Retention(AnnotationRetention.BINARY)
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CONSTRUCTOR, AnnotationTarget.CLASS)
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CONSTRUCTOR, AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
 annotation class TyKoFFIEntity
 
