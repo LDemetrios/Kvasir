@@ -1,3 +1,7 @@
+<div align="right"><p style='align: right;'>
+Languages: <a href="Changelog-RU.md"><img src="/flags/RU.png" alt="Russian" width="6%"  align="right"></a> <a href="Changelog.md"><img src="/flags/UK.png" alt="English" width="6%" align="right"></a> 
+</p></div>
+
 ## Changelog
 
 ## 0.3.0

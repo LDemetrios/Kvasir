@@ -1,6 +1,10 @@
+<div align="right"><p style='align: right;'>
+Languages: <a href="README-RU.md"><img src="/flags/RU.png" alt="Russian" width="6%"  align="right"></a> <a href="README.md"><img src="/flags/UK.png" alt="English" width="6%" align="right"></a> 
+</p></div>
+
 # Kvasir
 
-Kvasir (/kwɑ'zer/) is an (unofficial) Intellij IDEa plugin adding support for [Typst](https://typst.app/docs) language.
+Kvasir (/kwɑ'zer/) is an (unofficial) plugin for JetBrains platform adding support for [Typst](https://typst.app/docs) language.
 
 ![screenshot.png](screenshot1.png)
 ![screenshot.png](screenshot2.png)

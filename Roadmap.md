@@ -1,3 +1,6 @@
+<div align="right"><p style='align: right;'>
+Languages: <a href="Roadmap-RU.md"><img src="/flags/RU.png" alt="Russian" width="6%"  align="right"></a> <a href="Roadmap.md"><img src="/flags/UK.png" alt="English" width="6%" align="right"></a> 
+</p></div>
 
 ## Roadmap
 (Before opening a feature request make sure it's not already planned)
