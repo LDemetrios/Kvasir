@@ -6,7 +6,7 @@ Languages: <a href="README-RU.md"><img src="/flags/RU.png" alt="Russian" width="
 
 Kvasir (/kwɑ'zer/) is an (unofficial) plugin for JetBrains platform adding support for [Typst](https://typst.app/docs) language.
 
-__*Warning! This repository contains version 0.3.0, which hasn't yet been review by JetBrains team, but you can install it from disk. The new version is much faster and featureful.*__
+__*Warning! This repository contains version 0.3.0, which hasn't yet been reviewed by JetBrains team, but you can install it from disk. The new version is much faster and more featureful.*__
 
 ![screenshot.png](screenshot1.png)
 ![screenshot.png](screenshot2.png)
