@@ -8,6 +8,9 @@ Kvasir (/kwɑ'zer/) is an (unofficial) plugin for JetBrains platform adding supp
 
 __*Warning! This repository contains version 0.3.0, which hasn't yet been reviewed by JetBrains team, but you can install it from disk. The new version is much faster and more featureful.*__
 
+__*Warning x2! This project is not abandoned, despite probably looking like it. I was investigating different options to both reduce distribution size and ensure stability across platforms; and I'm happy to report that this research seems to be over. Which means, in short time I'm gonna be able to return to development of TyKo and Kvasir. However, a lot of work still remains, so please, be patient xD*__
+
+
 ![screenshot.png](screenshot1.png)
 ![screenshot.png](screenshot2.png)
 
