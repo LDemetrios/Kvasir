@@ -1,10 +1,11 @@
+import org.jetbrains.intellij.tasks.RunIdeTask
 import org.ldemetrios.kvasir.build.writeColorsXml
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "2.1.0"
+    id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("org.jetbrains.intellij") version "1.17.3"
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("plugin.serialization") version "2.3.0"
 }
 
 group = "org.ldemetrios"
@@ -38,9 +39,8 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.7.0")
     testImplementation("io.kotest:kotest-property:5.7.0")
 
-//    implementation("net.java.dev.jna:jna:5.13.0")
-//    implementation("net.java.dev.jna:jna-platform:5.13.0")
-////    implementation("org.ldemetrios:tyko:0.4.0")
+    implementation("org.ldemetrios:tyko-runtime:0.4.0")
+    implementation("org.ldemetrios:tyko-drivers-chicory:0.4.0")
 
 
 //    implementation("org.apache.xmlgraphics:batik-dom:+")
@@ -94,13 +94,16 @@ tasks {
 //    }
 
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
 //    runIde {
 //        dependsOn("prepareColors")
 //    }
 //
+
 
     buildPlugin {
 
@@ -117,5 +120,7 @@ tasks {
     }
 }
 
-
+tasks.withType<RunIdeTask>().configureEach {
+    jvmArgs("-Xms1g", "-Xmx4g")
+}
 

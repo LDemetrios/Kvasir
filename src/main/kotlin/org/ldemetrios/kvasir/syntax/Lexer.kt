@@ -2,7 +2,7 @@ package org.ldemetrios.kvasir.syntax
 
 import com.intellij.lexer.LexerBase
 import com.intellij.psi.tree.IElementType
-import org.ldemetrios.sharedLib
+import org.ldemetrios.withFrontendRuntime
 import org.ldemetrios.tyko.compiler.*
 import org.ldemetrios.utilities.cast
 
@@ -30,7 +30,8 @@ class TypstLexer(val mode: SyntaxMode) : LexerBase() {
         bufferEnd = endOffset
         tokenType = null
         stack = mutableListOf()
-        marks = sharedLib!!.parseSource(buffer.subSequence(startOffset, endOffset).toString(), mode).marks
+        val text = buffer.subSequence(startOffset, endOffset).toString()
+        marks = withFrontendRuntime { parseSyntax(text, mode).marks }
         curMark = 0
         myState = if (initialState == 0) 0 else throw UnsupportedOperationException("Couldn't restart")
     }
@@ -130,6 +131,7 @@ class TypstLexer(val mode: SyntaxMode) : LexerBase() {
                 SyntaxKind.SmartQuote,
                 SyntaxKind.HeadingMarker,
                 SyntaxKind.ListMarker,
+                SyntaxKind.Bang,
                 SyntaxKind.EnumMarker,
                 SyntaxKind.TermMarker,
                 SyntaxKind.End -> {
@@ -174,7 +176,6 @@ class TypstLexer(val mode: SyntaxMode) : LexerBase() {
                 SyntaxKind.Minus,
                 SyntaxKind.Slash,
                 SyntaxKind.Hat,
-                SyntaxKind.Prime,
                 SyntaxKind.Dot,
                 SyntaxKind.Eq,
                 SyntaxKind.EqEq,

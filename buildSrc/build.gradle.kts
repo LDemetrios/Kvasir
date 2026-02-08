@@ -12,6 +12,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.1")
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {

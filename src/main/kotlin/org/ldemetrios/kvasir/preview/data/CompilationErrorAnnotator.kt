@@ -18,7 +18,6 @@ import org.ldemetrios.kvasir.syntax.TypstMarkupFile
 import org.ldemetrios.kvasir.syntax.TypstMathFile
 import org.ldemetrios.tyko.compiler.Span
 import org.ldemetrios.tyko.compiler.Tracepoint
-import org.ldemetrios.tyko.mapByteIndicesToCharIndices
 import java.io.File
 import java.nio.file.Path
 
@@ -59,7 +58,8 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
 
         byteIndices.sort()
 
-        val charIndices = mapByteIndicesToCharIndices(file.text, byteIndices)
+//        val charIndices = mapByteIndicesToCharIndices(file.text, byteIndices)
+        val charIndices = byteIndices
 
         val map = byteIndices.indices.associate { i -> byteIndices[i] to charIndices[i] }
 
@@ -68,7 +68,7 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
         val errors = annotationResult.flatMap { it.errors }.sumOf { it.trace.size + 1 }
 
         fun annotate(error: Boolean, idx: Int, span: Span, message: String) {
-            val thisFile = span.file?.pack == null && span.file?.path?.split(File.separator) == filePath
+            val thisFile = span.file?.packageSpec == null && span.file?.virtualPath?.split(File.separator) == filePath
             val range = if (thisFile) {
                 TextRange((span.startInd - shift).resolve(), (span.endInd - shift).resolve())
             } else {
@@ -95,7 +95,7 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
                 annotate(true, idx, error.span, error.message)
                 idx--
                 for (tracepoint in error.trace) {
-                    annotate(true, idx, tracepoint.span, tracepoint.v.message())
+                    annotate(true, idx, tracepoint.span, tracepoint.value.message())
                     idx--
                 }
             }
@@ -107,7 +107,7 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
                 annotate(false, idx, error.span, error.message)
                 idx--
                 for (tracepoint in error.trace) {
-                    annotate(false, idx, tracepoint.span, tracepoint.v.message())
+                    annotate(false, idx, tracepoint.span, tracepoint.value.message())
                     idx--
                 }
             }

@@ -9,13 +9,15 @@ import com.intellij.openapi.fileEditor.TextEditorWithPreview
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
 import com.intellij.openapi.vfs.*
-import org.ldemetrios.sharedLib
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
 import org.ldemetrios.kvasir.util.*
+import org.ldemetrios.withCompilerRuntime
 import org.ldemetrios.tyko.compiler.*
-import org.ldemetrios.tyko.model.TDictionary
+import org.ldemetrios.tyko.model.TColor
+import org.ldemetrios.tyko.model.TDict
 import org.ldemetrios.tyko.model.TValue
+import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
 import java.io.File
 import java.io.IOException
@@ -64,12 +66,18 @@ private val compiled = ConcurrentHashMap<VirtualFile, ConcurrentHashMap<Project,
 fun getCompiled(file: VirtualFile) = compiled[file]?.toMap() ?: mapOf()
 
 @Service(Service.Level.PROJECT)
-class ProjectCompilerService(val project: Project) : World, Disposable {
-    val compiler = sharedLib?.let { WorldBasedTypstCompiler(it, this) }
+class ProjectCompilerService(val project: Project) : Disposable {
+//    private val fonts = runtime.fontCollection(includeSystem = true, includeEmbedded = true, listOf())
 
+
+    private var library = withCompilerRuntime {
+        library(
+            features = setOf(Feature.Html, Feature.A11yExtras),
+            inputs = colorsInput().repr()
+        )
+    }
     private var currentMain: String? = null
     private val lock = ReentrantLock()
-    private lateinit var mode: SyntaxMode
 
     private val edited = ConcurrentHashMap<String, Document>()
     fun registerDoc(path: String, doc: Document) = edited.put(path, doc)
@@ -78,59 +86,19 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
     private val scheduled = ConcurrentHashSet<VirtualFile>()
     private val reschedule = ConcurrentHashSet<VirtualFile>()
 
-    fun scheduleRecompile(file: VirtualFile, notify: TypstPreviewFileEditor, mode: SyntaxMode) {
-        val added = scheduled.add(file)
-        if (!added) {
-            reschedule.add(file)
-            return
-        }
-        ApplicationManager.getApplication().executeOnPooledThread {
-            val result = lock.withLock {
-                this.mode = mode
-                compiler?.reset()
-                currentMain = File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString()
-                compiler?.compileSvgRaw(0, Int.MAX_VALUE)
-            } ?: return@executeOnPooledThread
-            val warnings = result.warnings
-
-            val errors = when (val output = result.output) {
-                is RResult.Ok -> {
-                    notify.RENDERER.reload(output.value)
-                    notify.component.repaint()
-                    listOf()
-                }
-
-                is RResult.Err -> output.error // TypstCompilerException(result.error).printStackTrace()
-            }
-            compiled.compute(file) { _, map ->
-                val map = map ?: ConcurrentHashMap()
-                map.put(project, CompiledDoc(errors, warnings))
-                map
-            }
-            scheduled.remove(file)
-            if (reschedule.remove(file)) {
-                scheduleRecompile(file, notify, mode)
-            } else {
-                sharedLib?.evict_cache(2)
-            }
-        }
-    }
-
-    override fun dispose() {
-//        compiler.close() TODO Ensure safety
-        compiled.values.forEach { it.remove(project) }
-    }
-
-
-    override fun file(file: FileDescriptor): RResult<ByteArray, FileError> {
-        return when (file.pack?.namespace) {
+    fun resolveFile(
+        mainFile: FileDescriptor,
+        mode: SyntaxMode,
+        file: FileDescriptor
+    ): RResult<ByteArray, FileError> {
+        return when (file.packageSpec?.namespace) {
             null -> {
                 // File in project
-                val cached = edited[file.path]
+                val cached = edited[file.virtualPath]
                 if (cached != null) {
                     val text = cached.text
                     RResult.Ok(
-                        if (file == this.mainFile()) {
+                        if (file == mainFile) {
                             when (mode) {
                                 SyntaxMode.Markup -> text
                                 SyntaxMode.Code -> "#{\n$text\n}"
@@ -141,11 +109,11 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                         }.toByteArray()
                     )
                 } else {
-                    val absolutePath: String = project.basePath + file.path
+                    val absolutePath: String = project.basePath + file.virtualPath
                     val projectFile = LocalFileSystem.getInstance().findFileByPath(absolutePath)
                     when {
                         projectFile == null || !projectFile.exists() -> {
-                            RResult.Err(FileError.NotFound(file.path))
+                            RResult.Err(FileError.NotFound(file.virtualPath))
                         }
 
                         projectFile.isDirectory -> {
@@ -155,7 +123,7 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
                         else -> try {
                             val text = projectFile.readBytes()
                             RResult.Ok(
-                                if (file == this.mainFile()) {
+                                if (file == mainFile) {
                                     when (mode) {
                                         SyntaxMode.Markup -> text
                                         SyntaxMode.Code -> ("#{\n").toByteArray() + text + ("\n}").toByteArray()
@@ -175,27 +143,71 @@ class ProjectCompilerService(val project: Project) : World, Disposable {
 
             else -> {
                 // Probably add some built-in files
-                RResult.Err(FileError.Package(PackageError.NotFound(file.pack!!)))
+                RResult.Err(FileError.Package(PackageError.NotFound(file.packageSpec!!)))
             }
         }
     }
 
-    override fun library(): StdlibProvider = object : StdlibProvider.Standard {
-        override val inputs: TDictionary<TValue>
-            get() = TDictionary(
+    fun scheduleRecompile(file: VirtualFile, notify: TypstPreviewFileEditor, mode: SyntaxMode) {
+        val added = scheduled.add(file)
+        if (!added) {
+            reschedule.add(file)
+            return
+        }
+        ApplicationManager.getApplication().executeOnPooledThread {
+
+            val currentMain =
+                FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
+            val result = withCompilerRuntime {
+                fileContext {
+                    resolveFile(currentMain, mode, it).map { Base64Bytes(it) }
+                }.use { fsContext ->
+                    compileSvgRaw(
+                        fsContext, currentMain, stdlib = library,
+                        now = Now.System
+                    )
+                }
+            }
+            val warnings = result.warnings
+
+            val errors = when (val output = result.output) {
+                is RResult.Ok -> {
+                    ApplicationManager.getApplication().invokeLater {
+                        notify.RENDERER.reload(output.value)
+                        notify.component.repaint()
+                    }
+                    listOf()
+                }
+
+                is RResult.Err -> output.error // TypstCompilerException(result.error).printStackTrace()
+            }
+            compiled.compute(file) { _, map ->
+                val map = map ?: ConcurrentHashMap()
+                map.put(project, CompiledDoc(errors, warnings))
+                map
+            }
+            scheduled.remove(file)
+            if (reschedule.remove(file)) {
+                scheduleRecompile(file, notify, mode)
+            } else {
+                withCompilerRuntime { evictCache(2) }
+            }
+        }
+    }
+
+    override fun dispose() {
+//        compiler.close() TODO Ensure safety
+        compiled.values.forEach { it.remove(project) }
+    }
+
+    fun colorsInput(): TDict<TColor> {
+        return TDict(
+            mapOf(
                 "kvasir-preview-background" to defaultScheme.defaultBackground.t,
                 "kvasir-preview-foreground" to defaultScheme.defaultForeground.t,
             )
-        override val features: List<Feature> get() = listOf(Feature.Html)
+        )
     }
-
-    override fun mainFile(): FileDescriptor {
-        return FileDescriptor(null, currentMain ?: "___________invalid")
-    }
-
-    override fun now(): WorldTime = WorldTime.System
-
-    override val autoManageCentral: Boolean get() = true
 
     companion object {
         fun getInstance(project: Project): ProjectCompilerService {

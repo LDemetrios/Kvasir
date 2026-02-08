@@ -4,17 +4,17 @@ import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
-import org.ldemetrios.sharedLib
+import org.ldemetrios.withFrontendRuntime
 import org.ldemetrios.tyko.compiler.SyntaxKind
 import org.ldemetrios.tyko.compiler.SyntaxMark
 import org.ldemetrios.tyko.compiler.SyntaxMode
-import org.ldemetrios.tyko.compiler.parseSource
 
 class TypstParser(val mode: SyntaxMode) : PsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
         val rootMarker: PsiBuilder.Marker = builder.mark();
 
-        val marks = sharedLib!!.parseSource(builder.originalText.toString(), mode).marks
+        val text = builder.originalText.toString()
+        val marks = withFrontendRuntime { parseSyntax(text, mode).marks }
 
         var wasLeaf = false
         val stack = mutableListOf<Pair<PsiBuilder.Marker, IElementType>>()

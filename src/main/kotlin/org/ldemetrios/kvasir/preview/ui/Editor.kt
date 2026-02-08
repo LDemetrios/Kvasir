@@ -11,8 +11,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
-import org.ldemetrios.askForShutdown
-import org.ldemetrios.sharedLib
 import org.ldemetrios.kvasir.preview.data.KvasirVFSListener
 import org.ldemetrios.kvasir.preview.data.ProjectCompilerService
 import org.ldemetrios.tyko.compiler.SyntaxMode
@@ -27,10 +25,6 @@ class TypstWithPreviewProvider : FileEditorProvider, DumbAware {
     }
 
     override fun createEditor(project: Project, file: VirtualFile): FileEditor {
-        if (sharedLib == null) {
-            askForShutdown(project)
-        }
-
         try {
             val base = TextEditorProvider.getInstance().createEditor(project, file) as TextEditor;
             val preview = TypstPreviewFileEditor(

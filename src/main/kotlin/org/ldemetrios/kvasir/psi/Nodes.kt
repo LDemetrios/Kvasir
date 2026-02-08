@@ -1428,7 +1428,6 @@ val constructorsMap: Map<SyntaxKind, (ASTNode) -> PsiElement> = mapOf(
     SyntaxKind.Minus to ::MinusPsiElement,
     SyntaxKind.Slash to ::SlashPsiElement,
     SyntaxKind.Hat to ::HatPsiElement,
-    SyntaxKind.Prime to ::PrimePsiElement,
     SyntaxKind.Dot to ::DotPsiElement,
     SyntaxKind.Eq to ::EqPsiElement,
     SyntaxKind.EqEq to ::EqEqPsiElement,

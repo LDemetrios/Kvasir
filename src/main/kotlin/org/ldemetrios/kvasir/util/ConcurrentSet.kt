@@ -22,7 +22,7 @@ interface ConcurrentSet<E> : MutableSet<E> {
 
     override val size: Int get() = map.size
 
-    override fun isEmpty(): Boolean = map.isEmpty
+    override fun isEmpty(): Boolean = map.isEmpty()
 
     override fun contains(element: E): Boolean = map.containsKey(element)
 
