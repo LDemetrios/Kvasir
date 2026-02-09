@@ -12,13 +12,14 @@ import com.intellij.openapi.vfs.*
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
 import org.ldemetrios.kvasir.util.*
-import org.ldemetrios.withCompilerRuntime
+import org.ldemetrios.options
 import org.ldemetrios.tyko.compiler.*
+import org.ldemetrios.tyko.driver.chicory.ChicoryTypstCore
 import org.ldemetrios.tyko.model.TColor
 import org.ldemetrios.tyko.model.TDict
-import org.ldemetrios.tyko.model.TValue
 import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
+import org.ldemetrios.tyko.runtime.TypstRuntime
 import java.io.File
 import java.io.IOException
 import java.nio.file.Path
@@ -65,17 +66,29 @@ private val compiled = ConcurrentHashMap<VirtualFile, ConcurrentHashMap<Project,
 
 fun getCompiled(file: VirtualFile) = compiled[file]?.toMap() ?: mapOf()
 
-@Service(Service.Level.PROJECT)
-class ProjectCompilerService(val project: Project) : Disposable {
-//    private val fonts = runtime.fontCollection(includeSystem = true, includeEmbedded = true, listOf())
+private class RuntimeHolder(var inputs: TDict<*>) {
+    private val compilerRuntime = TypstRuntime(ChicoryTypstCore(options))
 
+    private val compilerRuntimeLock = ReentrantLock()
 
-    private var library = withCompilerRuntime {
+    var library = withRuntime {
         library(
             features = setOf(Feature.Html, Feature.A11yExtras),
-            inputs = colorsInput().repr()
+            inputs = inputs.repr()
         )
     }
+        private set
+
+    fun <T> withRuntime(block: TypstRuntime.() -> T): T = compilerRuntimeLock.withLock {
+        compilerRuntime.block()
+    }
+}
+
+@Service(Service.Level.PROJECT)
+class ProjectCompilerService(val project: Project) : Disposable {
+    //    private val fonts = runtime.fontCollection(includeSystem = true, includeEmbedded = true, listOf())
+    private val runtimeHolder by lazy { RuntimeHolder(colorsInput()) }
+
     private var currentMain: String? = null
     private val lock = ReentrantLock()
 
@@ -158,12 +171,12 @@ class ProjectCompilerService(val project: Project) : Disposable {
 
             val currentMain =
                 FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
-            val result = withCompilerRuntime {
+            val result = runtimeHolder.withRuntime {
                 fileContext {
                     resolveFile(currentMain, mode, it).map { Base64Bytes(it) }
                 }.use { fsContext ->
                     compileSvgRaw(
-                        fsContext, currentMain, stdlib = library,
+                        fsContext, currentMain, stdlib = runtimeHolder.library,
                         now = Now.System
                     )
                 }
@@ -190,7 +203,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
             if (reschedule.remove(file)) {
                 scheduleRecompile(file, notify, mode)
             } else {
-                withCompilerRuntime { evictCache(2) }
+                runtimeHolder.withRuntime { evictCache(2) }
             }
         }
     }

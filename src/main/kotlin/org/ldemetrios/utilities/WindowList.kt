@@ -5,8 +5,6 @@ package org.ldemetrios.utilities
 interface WindowList<out T> : List<T> {
     override fun subList(fromIndex: Int, toIndex: Int): WindowList<T>
     fun subList(fromIndex: Int): WindowList<T> = subList(fromIndex, size)
-
-
 }
 
 abstract class WindowListImpl<out E>(

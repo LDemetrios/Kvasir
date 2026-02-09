@@ -1,51 +1,43 @@
 package org.ldemetrios
 
 import com.dylibso.chicory.wasi.WasiOptions
-import com.intellij.ide.plugins.DynamicPlugins
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.extensions.PluginId
+import com.dylibso.chicory.wasm.Parser
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.ui.Messages
-import com.intellij.util.io.delete
-import com.sun.jna.Platform
 import org.ldemetrios.tyko.driver.chicory.ChicoryTypstCore
 import org.ldemetrios.tyko.runtime.TypstRuntime
-import org.ldemetrios.utilities.cast
-import java.io.File
-import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.io.path.*
 import kotlin.concurrent.withLock
 
-private fun createRuntime(): TypstRuntime =
-    TypstRuntime(
-        ChicoryTypstCore(
-            WasiOptions.builder()
-                .inheritSystem()
-                .withEnvironment("RUST_BACKTRACE", "full")
-                .withDirectory("/", Paths.get("/"))
-                .build()
-        )
-    )
+val options = WasiOptions.builder()
+    .inheritSystem()
+    .withEnvironment("RUST_BACKTRACE", "full")
+    .withDirectory("/", Paths.get("/"))
+    .build()
 
-private val compilerRuntime = createRuntime()
 
-private val compilerRuntimeLock = ReentrantLock()
+private val parserModule = Parser.parse(
+    RuntimePool::class.java.classLoader.getResourceAsStream("typst-syntax-only.wasm")!!
+)
 
-fun <T> withCompilerRuntime(block: TypstRuntime.() -> T): T = compilerRuntimeLock.withLock {
-    compilerRuntime.block()
+private val formatterModule = Parser.parse(
+    RuntimePool::class.java.classLoader.getResourceAsStream("typst-formatter-only.wasm")!!
+)
+
+val parserRuntimePool = RuntimePool {
+    TypstRuntime(ChicoryTypstCore(parserModule, options))
 }
 
-private val frontendRuntimePool = RuntimePool()
+val formatterRuntimePool = RuntimePool {
+    TypstRuntime(ChicoryTypstCore(formatterModule, options))
+}
 
-fun <T> withFrontendRuntime(block: TypstRuntime.() -> T): T =
-    frontendRuntimePool.with(block)
-
-private class RuntimePool {
+class RuntimePool(val creator: () -> TypstRuntime) {
     private val lock = ReentrantLock()
     private val pool = ArrayDeque<TypstRuntime>()
     private val log = Logger.getInstance("Kvasir.TypstRuntimePool")
+    private var creationScheduled = false
 
     fun take(): TypstRuntime {
         lock.withLock {
@@ -55,7 +47,43 @@ private class RuntimePool {
             }
         }
         log.warn("Creating new TypstRuntime for frontend pool.")
-        return createRuntime()
+        return creator()
+    }
+
+    fun takeOrSchedule(): TypstRuntime? {
+        lock.withLock {
+            val existing = pool.removeFirstOrNull()
+            if (existing != null) {
+                return existing
+            }
+            if (!creationScheduled) {
+                creationScheduled = true
+                scheduleCreation()
+            }
+        }
+        return null
+    }
+
+    private fun scheduleCreation() {
+        ApplicationManager.getApplication().executeOnPooledThread {
+            try {
+                lock.withLock {
+                    if (pool.isNotEmpty()) {
+                        return@executeOnPooledThread
+                    }
+                }
+                val runtime = creator()
+                lock.withLock {
+                    pool.addLast(runtime)
+                }
+            } catch (e: Throwable) {
+                log.warn("Failed to create TypstRuntime for frontend pool.", e)
+            } finally {
+                lock.withLock {
+                    creationScheduled = false
+                }
+            }
+        }
     }
 
     fun release(runtime: TypstRuntime) {

@@ -1,6 +1,6 @@
 package org.ldemetrios.kvasir.syntax
 
-import org.ldemetrios.withFrontendRuntime
+import org.ldemetrios.parserRuntimePool
 import org.ldemetrios.tyko.compiler.SyntaxMark
 import org.ldemetrios.tyko.compiler.SyntaxMode
 
@@ -93,7 +93,7 @@ fun main() {
             #show heading: set text(size: 12pt)
             #set text(fill: red) if 1 + 2 == 3
         """.trimIndent()
-    val syntax = withFrontendRuntime { parseSyntax(source, SyntaxMode.Markup).marks }
+    val syntax = parserRuntimePool.with { parseSyntax(source, SyntaxMode.Markup).marks }
     var depth = 0
     for (i in syntax.indices) {
         val from = syntax[i].index
