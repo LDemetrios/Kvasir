@@ -4,7 +4,7 @@ import com.intellij.formatting.service.AsyncDocumentFormattingService
 import com.intellij.formatting.service.AsyncFormattingRequest
 import com.intellij.formatting.service.FormattingService
 import com.intellij.psi.PsiFile
-import org.ldemetrios.formatterRuntimePool
+import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.language.TypstCodeFileType
 import org.ldemetrios.kvasir.language.TypstMarkupFileType
 import org.ldemetrios.kvasir.language.TypstMathFileType
@@ -46,7 +46,7 @@ private val FEATURES: MutableSet<FormattingService.Feature> =
 
 class TypstMarkupFormatter : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int) =
-        formatterRuntimePool.with { formatSource(text, textWidth, tabSize) }
+        frontendPool.with { formatSource(text, textWidth, tabSize) }
 
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMarkupFileType
 }
@@ -54,7 +54,7 @@ class TypstMarkupFormatter : TypstFormatterCommon() {
 abstract class SurroundingFormatter(val prefix: String, val suffix: String) : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int): String {
         val prepared = "#{\n$text\n}"
-        val result = formatterRuntimePool.with { formatSource(prepared, textWidth + tabSize, tabSize) }.trim()
+        val result = frontendPool.with { formatSource(prepared, textWidth + tabSize, tabSize) }.trim()
         if (result.lines().size == 1) {
             return result.removePrefix(prefix).removeSuffix(suffix).trim() + "\n"
         } else {

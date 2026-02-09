@@ -1,7 +1,6 @@
 package org.ldemetrios
 
 import com.dylibso.chicory.wasi.WasiOptions
-import com.dylibso.chicory.wasm.Parser
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import org.ldemetrios.tyko.driver.chicory.ChicoryTypstCore
@@ -16,21 +15,8 @@ val options = WasiOptions.builder()
     .withDirectory("/", Paths.get("/"))
     .build()
 
-
-private val parserModule = Parser.parse(
-    RuntimePool::class.java.classLoader.getResourceAsStream("typst-syntax-only.wasm")!!
-)
-
-private val formatterModule = Parser.parse(
-    RuntimePool::class.java.classLoader.getResourceAsStream("typst-formatter-only.wasm")!!
-)
-
-val parserRuntimePool = RuntimePool {
-    TypstRuntime(ChicoryTypstCore(parserModule, options))
-}
-
-val formatterRuntimePool = RuntimePool {
-    TypstRuntime(ChicoryTypstCore(formatterModule, options))
+val frontendPool = RuntimePool {
+    TypstRuntime(ChicoryTypstCore(options))
 }
 
 class RuntimePool(val creator: () -> TypstRuntime) {

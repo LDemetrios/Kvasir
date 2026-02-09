@@ -4,7 +4,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiParser;
 import com.intellij.psi.tree.IElementType;
-import org.ldemetrios.parserRuntimePool
+import org.ldemetrios.frontendPool
 import org.ldemetrios.tyko.compiler.SyntaxKind
 import org.ldemetrios.tyko.compiler.SyntaxMark
 import org.ldemetrios.tyko.compiler.SyntaxMode
@@ -14,14 +14,14 @@ class TypstParser(val mode: SyntaxMode) : PsiParser {
         val rootMarker: PsiBuilder.Marker = builder.mark();
 
         val text = builder.originalText.toString()
-        val runtime = parserRuntimePool.takeOrSchedule()
+        val runtime = frontendPool.takeOrSchedule()
         val marks = if (runtime == null) {
             fallbackMarkupMarks(text.length)
         } else {
             try {
                 runtime.parseSyntax(text, mode).marks
             } finally {
-                parserRuntimePool.release(runtime)
+                frontendPool.release(runtime)
             }
         }
 

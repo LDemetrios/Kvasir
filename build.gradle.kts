@@ -41,8 +41,6 @@ dependencies {
 
     implementation("org.ldemetrios:tyko-runtime:0.4.0")
     implementation("org.ldemetrios:tyko-drivers-chicory:0.4.0")
-    implementation("org.ldemetrios:tyko-drivers-chicory-syntax-only:0.4.0")
-    implementation("org.ldemetrios:tyko-drivers-chicory-formatter-only:0.4.0")
 
 
 //    implementation("org.apache.xmlgraphics:batik-dom:+")
