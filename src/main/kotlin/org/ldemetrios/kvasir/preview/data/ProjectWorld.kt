@@ -20,6 +20,8 @@ import org.ldemetrios.tyko.model.TDict
 import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
 import org.ldemetrios.tyko.runtime.TypstRuntime
+import org.ldemetrios.tyko.runtime.withInputs
+import org.ldemetrios.tyko.runtime.withInputsOrThrow
 import java.io.File
 import java.io.IOException
 import java.nio.file.Path
@@ -66,21 +68,28 @@ private val compiled = ConcurrentHashMap<VirtualFile, ConcurrentHashMap<Project,
 
 fun getCompiled(file: VirtualFile) = compiled[file]?.toMap() ?: mapOf()
 
-private class RuntimeHolder(var inputs: TDict<*>) {
+private class RuntimeHolder(val inputs: TDict<*>) {
     private val compilerRuntime = TypstRuntime(ChicoryTypstCore(options))
+    private val fonts = compilerRuntime.fontCollection(includeSystem = true, includeEmbedded = true)
 
     private val compilerRuntimeLock = ReentrantLock()
 
     var library = withRuntime {
         library(
             features = setOf(Feature.Html, Feature.A11yExtras),
-            inputs = inputs.repr()
-        )
+        ).withInputsOrThrow(inputs.repr(), fonts, true)
     }
         private set
 
     fun <T> withRuntime(block: TypstRuntime.() -> T): T = compilerRuntimeLock.withLock {
         compilerRuntime.block()
+    }
+
+    fun alterInputs(newInputs: TDict<*>) {
+        library = withRuntime {
+            library(features = setOf(Feature.Html, Feature.A11yExtras))
+                .withInputsOrThrow(newInputs.repr(), fonts, true)
+        }
     }
 }
 
@@ -168,10 +177,14 @@ class ProjectCompilerService(val project: Project) : Disposable {
             return
         }
         ApplicationManager.getApplication().executeOnPooledThread {
-
             val currentMain =
                 FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
             val result = runtimeHolder.withRuntime {
+                val curInputs = colorsInput()
+                if (curInputs != storedInputs) {
+                    storedInputs = curInputs
+                    runtimeHolder.alterInputs(curInputs)
+                }
                 fileContext {
                     resolveFile(currentMain, mode, it).map { Base64Bytes(it) }
                 }.use { fsContext ->
@@ -212,6 +225,8 @@ class ProjectCompilerService(val project: Project) : Disposable {
 //        compiler.close() TODO Ensure safety
         compiled.values.forEach { it.remove(project) }
     }
+
+    private var storedInputs = colorsInput()
 
     fun colorsInput(): TDict<TColor> {
         return TDict(
