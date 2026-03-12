@@ -19,6 +19,9 @@ import org.ldemetrios.tyko.compiler.*
 import org.ldemetrios.tyko.driver.chicory_based.ChicoryTypstCore
 import org.ldemetrios.tyko.model.TColor
 import org.ldemetrios.tyko.model.TDict
+import org.ldemetrios.tyko.model.TInt
+import org.ldemetrios.tyko.model.TJvmObject
+import org.ldemetrios.tyko.model.TStr
 import org.ldemetrios.tyko.model.TValue
 import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
@@ -26,6 +29,8 @@ import org.ldemetrios.tyko.runtime.TypstRuntime
 import org.ldemetrios.tyko.runtime.buildWorldSpecification
 import java.io.File
 import java.io.IOException
+import java.lang.constant.DirectMethodHandleDesc
+import java.lang.invoke.MethodHandles
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
@@ -75,6 +80,80 @@ private class CompilerRuntimeHolder(val inputs: TDict<TValue>) {
         }
         library {
             fresh(Feature.all())
+            func("upcall") {
+                title = "Upcall"
+                docs = """
+                    Resolve and invoke a JVM member through method handles.
+                    
+                    Signature format: `owner#member:descriptor`
+                    Examples:
+                    - `java.lang.Integer#sum:(II)I`
+                    - `java.awt.Point#x:I`
+                    - `java.awt.Point#<init>:(II)V`
+                    
+                    Refkind values:
+                    - `1` getter
+                    - `2` static getter
+                    - `3` setter
+                    - `4` static setter
+                    - `5` virtual
+                    - `6` static
+                    - `7` special
+                    - `8` constructor
+                    - `9` interface virtual
+                """.trimIndent()
+                keywords("java", "jvm", "ffi", "reflection", "method-handle")
+
+                param("lookup") {
+                    docs = "Optional `MethodHandles.Lookup` to resolve the handle with."
+                    input = NativeCastInfo.type("jvm-object")
+                    positional = false
+                    named = true
+                    required = false
+                }
+
+                param("breakglass") {
+                    docs = "Break-glass ticket"
+                    input = NativeCastInfo.type("str")
+                    positional = false
+                    named = true
+                    required = false
+                }
+
+                param("signature") {
+                    docs = "The JVM member signature in `owner#member:descriptor` format."
+                    input = NativeCastInfo.type("str")
+                }
+                param("refkind") {
+                    docs = "The JVM reference kind number."
+                    input = NativeCastInfo.type("int")
+                }
+                param("args") {
+                    docs = "Arguments for the receiver/member invocation."
+                    input = NativeCastInfo.any()
+                    variadic = true
+                    required = false
+                }
+
+                returnsAny()
+
+                pureCatching {
+                    val lookup = it.named["lookup"] as TJvmObject?
+                    val breakglass = it.named["breakglass"] as TStr?
+                    if (breakglass != TODO() /*Obtain breakglass setting from Kvasir*/) {
+                        throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
+                    }
+                    val signature = it.positional[0] as TStr
+                    val refkind = it.positional[1] as TInt
+                    val params = it.positional.drop(2)
+                    reflectiveCall(
+                        lookup?.value?.let { it as MethodHandles.Lookup } ?: MethodHandles.publicLookup(),
+                        signature.value,
+                        DirectMethodHandleDesc.Kind.valueOf(refkind.value.toInt()),
+                        params
+                    )
+                }
+            }
         }
     }) { ChicoryTypstCore() }
 
