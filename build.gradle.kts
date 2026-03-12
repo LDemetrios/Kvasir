@@ -28,25 +28,19 @@ intellij {
 }
 
 dependencies {
-    implementation("com.github.weisj:jsvg:1.6.0")
-
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
     implementation(kotlin("reflect"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    implementation("org.ldemetrios:tyko-runtime:0.5.a")
+    implementation("org.ldemetrios:tyko-drivers-chicory-based:0.5.a")
+
+    api("com.github.weisj:jsvg:1.6.0")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.7.0")
     testImplementation("io.kotest:kotest-assertions-core:5.7.0")
     testImplementation("io.kotest:kotest-property:5.7.0")
-
-    implementation("org.ldemetrios:tyko-runtime:0.4.0")
-    implementation("org.ldemetrios:tyko-drivers-chicory:0.4.0")
-
-
-//    implementation("org.apache.xmlgraphics:batik-dom:+")
-//    implementation("org.apache.xmlgraphics:batik-svg-dom:+")
-//    implementation("org.apache.xmlgraphics:batik-parser:+")
-//    implementation("org.apache.xmlgraphics:batik-bridge:+")
 }
 
 tasks.register("prepareColors") {
@@ -73,37 +67,11 @@ tasks {
         targetCompatibility = "17"
     }
 
-//    /*withType<JavaExec>*/ runIde {
-//        val list = listOf(
-//            "java.base/java.lang",
-//            "java.base/java.util",
-//            "java.base/jdk.internal.misc",
-//            "java.base/java.security",
-//            "java.desktop/javax.swing.event",
-//            "java.base/java.util.concurrent",
-//            "java.base/java.util.concurrent.locks",
-//            "java.base/sun.reflect.annotation",
-//            "java.datatransfer/java.awt.datatransfer",
-//            "java.desktop/sun.java2d.xr",
-//            "java.base/jdk.internal.ref",
-//                    "java.base/java.util.concurrent.locks",
-//        )
-//        for (el in list) {
-//            jvmArgs("--add-opens", "$el=ALL-UNNAMED")
-//        }
-//    }
-
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
-
-//    runIde {
-//        dependsOn("prepareColors")
-//    }
-//
-
 
     buildPlugin {
 
@@ -120,7 +88,7 @@ tasks {
     }
 }
 
-tasks.withType<RunIdeTask>().configureEach {
-    jvmArgs("-Xms1g", "-Xmx4g")
-}
-
+//tasks.withType<RunIdeTask>().configureEach {
+//    jvmArgs("-Xms1g", "-Xmx4g")
+//}
+//

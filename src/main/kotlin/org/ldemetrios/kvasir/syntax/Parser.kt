@@ -14,15 +14,8 @@ class TypstParser(val mode: SyntaxMode) : PsiParser {
         val rootMarker: PsiBuilder.Marker = builder.mark();
 
         val text = builder.originalText.toString()
-        val runtime = frontendPool.takeOrSchedule()
-        val marks = if (runtime == null) {
-            fallbackMarkupMarks(text.length)
-        } else {
-            try {
-                runtime.parseSyntax(text, mode).marks
-            } finally {
-                frontendPool.release(runtime)
-            }
+        val marks = frontendPool.withResource(true, true) {
+            parseSyntax(text, mode).marks
         }
 
         var wasLeaf = false

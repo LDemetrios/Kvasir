@@ -46,7 +46,9 @@ private val FEATURES: MutableSet<FormattingService.Feature> =
 
 class TypstMarkupFormatter : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int) =
-        frontendPool.with { formatSource(text, textWidth, tabSize) }
+        frontendPool.withResource(true, true) {
+            formatSource(text, textWidth, tabSize)
+        }
 
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMarkupFileType
 }
@@ -54,7 +56,9 @@ class TypstMarkupFormatter : TypstFormatterCommon() {
 abstract class SurroundingFormatter(val prefix: String, val suffix: String) : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int): String {
         val prepared = "#{\n$text\n}"
-        val result = frontendPool.with { formatSource(prepared, textWidth + tabSize, tabSize) }.trim()
+        val result = frontendPool.withResource(true, true) {
+            formatSource(prepared, textWidth + tabSize, tabSize)
+        }.trim()
         if (result.lines().size == 1) {
             return result.removePrefix(prefix).removeSuffix(suffix).trim() + "\n"
         } else {

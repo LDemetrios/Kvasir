@@ -9,26 +9,26 @@ import com.intellij.openapi.fileEditor.TextEditorWithPreview
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
 import com.intellij.openapi.vfs.*
+import org.ldemetrios.Pool
+import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
-import org.ldemetrios.kvasir.util.*
-import org.ldemetrios.options
+import org.ldemetrios.kvasir.util.ConcurrentHashSet
+import org.ldemetrios.kvasir.util.extensions
 import org.ldemetrios.tyko.compiler.*
-import org.ldemetrios.tyko.driver.chicory.ChicoryTypstCore
+import org.ldemetrios.tyko.driver.chicory_based.ChicoryTypstCore
 import org.ldemetrios.tyko.model.TColor
 import org.ldemetrios.tyko.model.TDict
+import org.ldemetrios.tyko.model.TValue
 import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
 import org.ldemetrios.tyko.runtime.TypstRuntime
-import org.ldemetrios.tyko.runtime.withInputs
-import org.ldemetrios.tyko.runtime.withInputsOrThrow
+import org.ldemetrios.tyko.runtime.buildWorldSpecification
 import java.io.File
 import java.io.IOException
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.collections.iterator
-import kotlin.concurrent.withLock
 
 class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : VirtualFileListener {
     override fun contentsChanged(event: VirtualFileEvent) {
@@ -59,7 +59,6 @@ class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : 
 }
 
 data class CompiledDoc(
-//    var lastSvg : List<String>,
     var errors: List<SourceDiagnostic>,
     var warnings: List<SourceDiagnostic>,
 )
@@ -68,38 +67,45 @@ private val compiled = ConcurrentHashMap<VirtualFile, ConcurrentHashMap<Project,
 
 fun getCompiled(file: VirtualFile) = compiled[file]?.toMap() ?: mapOf()
 
-private class RuntimeHolder(val inputs: TDict<*>) {
-    private val compilerRuntime = TypstRuntime(ChicoryTypstCore(options))
-    private val fonts = compilerRuntime.fontCollection(includeSystem = true, includeEmbedded = true)
+private class CompilerRuntimeHolder(val inputs: TDict<TValue>) {
+    private val parentRuntime = TypstRuntime(buildWorldSpecification {
+        fonts {
+            includeSystem = false
+            includeEmbedded = true
+        }
+        library {
+            fresh(Feature.all())
+        }
+    }) { ChicoryTypstCore() }
 
-    private val compilerRuntimeLock = ReentrantLock()
+    var runtime: TypstRuntime? = null
 
-    var library = withRuntime {
-        library(
-            features = setOf(Feature.Html, Feature.A11yExtras),
-        ).withInputsOrThrow(inputs.repr(), fonts, true)
+    init {
+        checkInputs(inputs)
     }
-        private set
 
-    fun <T> withRuntime(block: TypstRuntime.() -> T): T = compilerRuntimeLock.withLock {
-        compilerRuntime.block()
-    }
+    private var rememberedInputs = inputs
 
-    fun alterInputs(newInputs: TDict<*>) {
-        library = withRuntime {
-            library(features = setOf(Feature.Html, Feature.A11yExtras))
-                .withInputsOrThrow(newInputs.repr(), fonts, true)
+    fun checkInputs(newInputs: TDict<TValue>) {
+        if (newInputs != rememberedInputs) {
+            runtime?.close()
+            runtime = parentRuntime.inherit {
+                library {
+                    fromDefault()
+                    inputs(newInputs)
+                }
+                fonts {
+                    includeEmbedded = true
+                }
+            }
+            rememberedInputs = newInputs
         }
     }
 }
 
 @Service(Service.Level.PROJECT)
 class ProjectCompilerService(val project: Project) : Disposable {
-    //    private val fonts = runtime.fontCollection(includeSystem = true, includeEmbedded = true, listOf())
-    private val runtimeHolder by lazy { RuntimeHolder(colorsInput()) }
-
-    private var currentMain: String? = null
-    private val lock = ReentrantLock()
+    private val pool = Pool { CompilerRuntimeHolder(colorsInput()) }
 
     private val edited = ConcurrentHashMap<String, Document>()
     fun registerDoc(path: String, doc: Document) = edited.put(path, doc)
@@ -164,8 +170,9 @@ class ProjectCompilerService(val project: Project) : Disposable {
             }
 
             else -> {
-                // Probably add some built-in files
-                RResult.Err(FileError.Package(PackageError.NotFound(file.packageSpec!!)))
+                frontendPool.withResource(true, true) {
+                    resolvePackage(file)
+                }
             }
         }
     }
@@ -179,50 +186,50 @@ class ProjectCompilerService(val project: Project) : Disposable {
         ApplicationManager.getApplication().executeOnPooledThread {
             val currentMain =
                 FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
-            val result = runtimeHolder.withRuntime {
-                val curInputs = colorsInput()
-                if (curInputs != storedInputs) {
-                    storedInputs = curInputs
-                    runtimeHolder.alterInputs(curInputs)
+            pool.withResource(true, true) {
+                checkInputs(colorsInput())
+                val fs = runtime!!.fileContext {
+                    resolveFile(currentMain, mode, it)
                 }
-                fileContext {
-                    resolveFile(currentMain, mode, it).map { Base64Bytes(it) }
-                }.use { fsContext ->
-                    compileSvgRaw(
-                        fsContext, currentMain, stdlib = runtimeHolder.library,
-                        now = Now.System
+                val result = try {
+                    runtime!!.compileSvgRaw(
+                        fs, currentMain,
                     )
+                } finally {
+                    fs.release()
                 }
-            }
-            val warnings = result.warnings
+                val warnings = result.warnings // cheap
 
-            val errors = when (val output = result.output) {
-                is RResult.Ok -> {
-                    ApplicationManager.getApplication().invokeLater {
-                        notify.RENDERER.reload(output.value)
-                        notify.component.repaint()
+                val errors = when (val output = result.output) {
+                    is RResult.Ok -> {
+                        println("Repaint scheduled!")
+                        ApplicationManager.getApplication().invokeLater { // on another thread
+                            println("Repaint happening!")
+                            notify.RENDERER.reload(output.value)
+                            notify.component.repaint()
+                            println("Repaint happened!")
+                        }
+                        listOf()
                     }
-                    listOf()
-                }
 
-                is RResult.Err -> output.error // TypstCompilerException(result.error).printStackTrace()
-            }
-            compiled.compute(file) { _, map ->
-                val map = map ?: ConcurrentHashMap()
-                map.put(project, CompiledDoc(errors, warnings))
-                map
-            }
-            scheduled.remove(file)
-            if (reschedule.remove(file)) {
-                scheduleRecompile(file, notify, mode)
-            } else {
-                runtimeHolder.withRuntime { evictCache(2) }
+                    is RResult.Err -> output.error // TypstCompilerException(result.error).printStackTrace()
+                }
+                compiled.compute(file) { _, map -> // cheap
+                    val map = map ?: ConcurrentHashMap()
+                    map.put(project, CompiledDoc(errors, warnings))
+                    map
+                }
+                scheduled.remove(file) // cheap
+                if (reschedule.remove(file)) {
+                    scheduleRecompile(file, notify, mode) // schedules to another thread
+                } else {
+                    runtime!!.evictCache(2)
+                }
             }
         }
     }
 
     override fun dispose() {
-//        compiler.close() TODO Ensure safety
         compiled.values.forEach { it.remove(project) }
     }
 

@@ -31,15 +31,8 @@ class TypstLexer(val mode: SyntaxMode) : LexerBase() {
         tokenType = null
         stack = mutableListOf()
         val text = buffer.subSequence(startOffset, endOffset).toString()
-        val runtime = frontendPool.takeOrSchedule()
-        marks = if (runtime == null) {
-            fallbackMarkupMarks(text.length)
-        } else {
-            try {
-                runtime.parseSyntax(text, mode).marks
-            } finally {
-                frontendPool.release(runtime)
-            }
+        marks = frontendPool.withResource(true, true) {
+            parseSyntax(text, mode).marks
         }
         curMark = 0
         myState = if (initialState == 0) 0 else throw UnsupportedOperationException("Couldn't restart")
