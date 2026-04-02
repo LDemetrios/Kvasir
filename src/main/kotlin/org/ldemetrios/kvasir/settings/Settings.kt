@@ -7,14 +7,14 @@ import com.intellij.openapi.components.Storage
 import com.intellij.openapi.options.Configurable
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBTextField
+import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.builder.selected
 import org.jetbrains.annotations.Nls
 import javax.swing.JComponent
 import javax.swing.JPanel
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.KProperty
-import com.intellij.ui.dsl.builder.Cell
-import com.intellij.ui.dsl.builder.bindSelected
 import javax.swing.JSpinner
 import kotlin.Double
 import kotlin.Int
@@ -49,7 +49,11 @@ class AppSettingsComponent {
     lateinit var unclippedScrollingComponent: JBCheckBox
     lateinit var scrollingCoeffComponent: JSpinner
     lateinit var zoomingCoeffComponent: JSpinner
+    lateinit var breakGlassTicketEnabledComponent: JBCheckBox
+    lateinit var breakGlassTicketComponent: JBTextField
+    lateinit var suppressPreview: JBCheckBox
     var panel: JPanel = panel {
+        lateinit var breakGlassTicketEnabledCell: Cell<JBCheckBox>
 //        row {
 //            checkBox("Highlight background for parenthesis (expressions, args, arrays, dicts)").putTo(::scopeParenthesisComponent)
 //        }
@@ -84,6 +88,17 @@ class AppSettingsComponent {
             label("Zoom speed:")
             spinner((.0..100.0), .1).putTo(::zoomingCoeffComponent)
         }
+        row {
+            breakGlassTicketEnabledCell = checkBox("Break-glass ticket").putTo(::breakGlassTicketEnabledComponent)
+        }
+        row {
+            label("Ticket:")
+            textField().putTo(::breakGlassTicketComponent)
+        }.enabledIf(breakGlassTicketEnabledCell.selected)
+
+        row{
+            checkBox("Suppress preview").putTo(::suppressPreview)
+        }
     }
 
     //    var scopeParenthesis by JBCheckBoxCell(scopeParenthesisComponent)
@@ -100,6 +115,9 @@ class AppSettingsComponent {
             scrollingCoeffComponent.value = value.also { println("Setting scrolling $it") }
         }
     var zoomingCoeff: Double by JBTextFieldDoubleCell(zoomingCoeffComponent)
+    var breakGlassTicketEnabled: Boolean by JBCheckBoxCell(breakGlassTicketEnabledComponent)
+    var breakGlassTicket: String by JBTextFieldCell(breakGlassTicketComponent)
+    var suppressPreviewOption: Boolean by JBCheckBoxCell(suppressPreview)
     var state: AppSettingsState
         get() = AppSettingsState(
 //            scopeParenthesis,
@@ -113,6 +131,9 @@ class AppSettingsComponent {
             unclippedScrolling,
             scrollingCoeff,
             zoomingCoeff,
+            breakGlassTicketEnabled,
+            breakGlassTicket,
+            suppressPreviewOption,
         )
         set(value) {
 //            scopeParenthesis = value.scopeParenthesis
@@ -125,6 +146,9 @@ class AppSettingsComponent {
             unclippedScrolling = value.unclippedScrolling
             scrollingCoeff = value.scrollingCoeff
             zoomingCoeff = value.zoomingCoeff
+            breakGlassTicketEnabled = value.breakGlassTicketEnabled
+            breakGlassTicket = value.breakGlassTicket
+            suppressPreviewOption = value.suppressPreview
         }
 }
 
@@ -139,6 +163,9 @@ data class AppSettingsState(
     var unclippedScrolling: Boolean = false,
     var scrollingCoeff: Double = 1.0,
     var zoomingCoeff: Double = 1.0,
+    var breakGlassTicketEnabled: Boolean = false,
+    var breakGlassTicket: String = "",
+    val suppressPreview: Boolean = false,
 )
 
 

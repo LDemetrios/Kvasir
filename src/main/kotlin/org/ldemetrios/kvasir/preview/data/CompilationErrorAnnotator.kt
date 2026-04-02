@@ -13,6 +13,7 @@ import org.apache.commons.lang3.SystemProperties
 import org.ldemetrios.kvasir.language.TypstCodeFileType
 import org.ldemetrios.kvasir.language.TypstFileTypeCommon
 import org.ldemetrios.kvasir.language.TypstMathFileType
+import org.ldemetrios.kvasir.settings.AppSettings
 import org.ldemetrios.kvasir.syntax.TypstCodeFile
 import org.ldemetrios.kvasir.syntax.TypstMarkupFile
 import org.ldemetrios.kvasir.syntax.TypstMathFile
@@ -24,6 +25,8 @@ import java.nio.file.Path
 
 class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDoc>>() {
     override fun collectInformation(file: PsiFile): VirtualFile? {
+        if (AppSettings.instance.state.suppressPreview) return null
+
         if (file.fileType !is TypstFileTypeCommon) return null
         return file.virtualFile
     }
@@ -32,12 +35,16 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
         collectInformation(file)
 
     override fun doAnnotate(collectedInfo: VirtualFile?): List<CompiledDoc>? {
+        if (AppSettings.instance.state.suppressPreview) return null
+
         collectedInfo ?: return null
 
         return getCompiled(collectedInfo).values.toList()
     }
 
     override fun apply(file: PsiFile, annotationResult: List<CompiledDoc>?, holder: AnnotationHolder) {
+        if (AppSettings.instance.state.suppressPreview) return
+
         val shift = when (file) {
             is TypstMarkupFile -> 0
             is TypstCodeFile -> 3

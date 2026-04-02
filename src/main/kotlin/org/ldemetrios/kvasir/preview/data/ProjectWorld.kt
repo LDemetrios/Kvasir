@@ -13,18 +13,22 @@ import org.ldemetrios.Pool
 import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
+import org.ldemetrios.kvasir.settings.AppSettings
 import org.ldemetrios.kvasir.util.ConcurrentHashSet
 import org.ldemetrios.kvasir.util.extensions
 import org.ldemetrios.tyko.compiler.*
 import org.ldemetrios.tyko.driver.chicory_based.ChicoryTypstCore
+import org.ldemetrios.tyko.model.TBytes
 import org.ldemetrios.tyko.model.TColor
 import org.ldemetrios.tyko.model.TDict
 import org.ldemetrios.tyko.model.TInt
 import org.ldemetrios.tyko.model.TJvmObject
 import org.ldemetrios.tyko.model.TStr
+import org.ldemetrios.tyko.model.TType
 import org.ldemetrios.tyko.model.TValue
-import org.ldemetrios.tyko.model.repr
 import org.ldemetrios.tyko.model.t
+import org.ldemetrios.tyko.runtime.CreateSessionMode
+import org.ldemetrios.tyko.runtime.LibrarySpecBuilder
 import org.ldemetrios.tyko.runtime.TypstRuntime
 import org.ldemetrios.tyko.runtime.buildWorldSpecification
 import java.io.File
@@ -33,7 +37,6 @@ import java.lang.constant.DirectMethodHandleDesc
 import java.lang.invoke.MethodHandles
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.locks.ReentrantLock
 
 class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : VirtualFileListener {
     override fun contentsChanged(event: VirtualFileEvent) {
@@ -80,9 +83,113 @@ private class CompilerRuntimeHolder(val inputs: TDict<TValue>) {
         }
         library {
             fresh(Feature.all())
-            func("upcall") {
-                title = "Upcall"
-                docs = """
+            defineUpcall()
+        }
+    }) { ChicoryTypstCore() }
+
+    var runtime: TypstRuntime? = null
+
+    init {
+        checkInputs(inputs)
+    }
+
+    private var rememberedInputs = inputs
+
+    fun checkInputs(newInputs: TDict<TValue>) {
+        if (newInputs != rememberedInputs) {
+            runtime?.close()
+            runtime = parentRuntime.inherit {
+                library {
+                    fromDefault()
+                    inputs(newInputs)
+                    defineUpcall()
+                }
+                fonts {
+                    includeEmbedded = true
+                }
+            }
+            rememberedInputs = newInputs
+        }
+    }
+}
+
+private fun LibrarySpecBuilder.defineUpcall() {
+    func("define-class") {
+        title = "Define Class"
+
+        param("breakglass") {
+            docs = "Break-glass ticket"
+            input = NativeCastInfo.type("str")
+            positional = false
+            named = true
+            required = false
+        }
+
+        param("name") {
+            docs = "Class name"
+            input = NativeCastInfo.type("str")
+            positional = true
+            named = false
+            required = true
+        }
+
+        param("content") {
+            docs = "Classfile bytes"
+            input = NativeCastInfo.type("bytes")
+            positional = true
+            named = false
+            required = true
+        }
+
+        returns(TType("jvm-object"))
+
+        pureCatching {
+            val name = it.positional[0] as TStr
+            val content = it.positional[1] as TBytes
+            val breakglass = it.named["breakglass"] as TStr?
+            if (breakglass == null || breakglass.value.isBlank() || breakglass.value != AppSettings.instance.state.breakGlassTicket) {
+                throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
+            }
+            val clazz = BytesClassLoader.define(name.value, content.value)
+            TJvmObject(clazz)
+        }
+    }
+
+    func("lookup-in") {
+        title = "Lookup in particular Class"
+
+        param("breakglass") {
+            docs = "Break-glass ticket"
+            input = NativeCastInfo.type("str")
+            positional = false
+            named = true
+            required = false
+        }
+
+        param("class") {
+            docs = "The class"
+            input = NativeCastInfo.type("jvm-object")
+            positional = true
+            named = false
+            required = true
+        }
+
+        returns(TType("jvm-object"))
+
+        pureCatching {
+            val clazz = it.positional[0] as TJvmObject
+            val breakglass = it.named["breakglass"] as TStr?
+            if (breakglass == null || breakglass.value != AppSettings.instance.state.breakGlassTicket) {
+                throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
+            }
+            val lookup = MethodHandles.privateLookupIn(clazz.value as Class<*>, MethodHandles.lookup())
+            TJvmObject(lookup)
+        }
+    }
+
+    func("upcall") {
+        title = "Upcall"
+        docs = """
                     Resolve and invoke a JVM member through method handles.
                     
                     Signature format: `owner#member:descriptor`
@@ -102,82 +209,56 @@ private class CompilerRuntimeHolder(val inputs: TDict<TValue>) {
                     - `8` constructor
                     - `9` interface virtual
                 """.trimIndent()
-                keywords("java", "jvm", "ffi", "reflection", "method-handle")
+        keywords("java", "jvm", "ffi", "reflection", "method-handle")
 
-                param("lookup") {
-                    docs = "Optional `MethodHandles.Lookup` to resolve the handle with."
-                    input = NativeCastInfo.type("jvm-object")
-                    positional = false
-                    named = true
-                    required = false
-                }
-
-                param("breakglass") {
-                    docs = "Break-glass ticket"
-                    input = NativeCastInfo.type("str")
-                    positional = false
-                    named = true
-                    required = false
-                }
-
-                param("signature") {
-                    docs = "The JVM member signature in `owner#member:descriptor` format."
-                    input = NativeCastInfo.type("str")
-                }
-                param("refkind") {
-                    docs = "The JVM reference kind number."
-                    input = NativeCastInfo.type("int")
-                }
-                param("args") {
-                    docs = "Arguments for the receiver/member invocation."
-                    input = NativeCastInfo.any()
-                    variadic = true
-                    required = false
-                }
-
-                returnsAny()
-
-                pureCatching {
-                    val lookup = it.named["lookup"] as TJvmObject?
-                    val breakglass = it.named["breakglass"] as TStr?
-                    if (breakglass != TODO() /*Obtain breakglass setting from Kvasir*/) {
-                        throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
-                    }
-                    val signature = it.positional[0] as TStr
-                    val refkind = it.positional[1] as TInt
-                    val params = it.positional.drop(2)
-                    reflectiveCall(
-                        lookup?.value?.let { it as MethodHandles.Lookup } ?: MethodHandles.publicLookup(),
-                        signature.value,
-                        DirectMethodHandleDesc.Kind.valueOf(refkind.value.toInt()),
-                        params
-                    )
-                }
-            }
+        param("lookup") {
+            docs = "Optional `MethodHandles.Lookup` to resolve the handle with."
+            input = NativeCastInfo.type("jvm-object")
+            positional = false
+            named = true
+            required = false
         }
-    }) { ChicoryTypstCore() }
 
-    var runtime: TypstRuntime? = null
+        param("breakglass") {
+            docs = "Break-glass ticket"
+            input = NativeCastInfo.type("str")
+            positional = false
+            named = true
+            required = false
+        }
+        param("refkind") {
+            docs = "The JVM reference kind number."
+            input = NativeCastInfo.type("int")
+        }
+        param("signature") {
+            docs = "The JVM member signature in `owner#member:descriptor` format."
+            input = NativeCastInfo.type("str")
+        }
 
-    init {
-        checkInputs(inputs)
-    }
+        param("args") {
+            docs = "Arguments for the receiver/member invocation."
+            input = NativeCastInfo.any()
+            variadic = true
+            required = false
+        }
 
-    private var rememberedInputs = inputs
+        returnsAny()
 
-    fun checkInputs(newInputs: TDict<TValue>) {
-        if (newInputs != rememberedInputs) {
-            runtime?.close()
-            runtime = parentRuntime.inherit {
-                library {
-                    fromDefault()
-                    inputs(newInputs)
-                }
-                fonts {
-                    includeEmbedded = true
-                }
+        pureCatching {
+            val lookup = it.named["lookup"] as TJvmObject?
+            val breakglass = it.named["breakglass"] as TStr?
+            if (breakglass == null || breakglass.value != AppSettings.instance.state.breakGlassTicket) {
+                throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
             }
-            rememberedInputs = newInputs
+            val refkind = it.positional[0] as TInt
+            val signature = it.positional[1] as TStr
+            val params = it.positional.drop(2)
+            reflectiveCall(
+                lookup?.value?.let { it as MethodHandles.Lookup } ?: MethodHandles.publicLookup(),
+                signature.value,
+                DirectMethodHandleDesc.Kind.valueOf(refkind.value.toInt()),
+                params
+            )
         }
     }
 }
@@ -257,6 +338,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
     }
 
     fun scheduleRecompile(file: VirtualFile, notify: TypstPreviewFileEditor, mode: SyntaxMode) {
+        if (AppSettings.instance.state.suppressPreview) return
         val added = scheduled.add(file)
         if (!added) {
             reschedule.add(file)
@@ -267,12 +349,12 @@ class ProjectCompilerService(val project: Project) : Disposable {
                 FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
             pool.withResource(true, true) {
                 checkInputs(colorsInput())
-                val fs = runtime!!.fileContext {
+                val fs = runtime!!.fileContextOf {
                     resolveFile(currentMain, mode, it)
                 }
                 val result = try {
-                    runtime!!.compileSvgRaw(
-                        fs, currentMain,
+                    runtime!!.compileSvg(
+                        fs, currentMain, sessionMode = CreateSessionMode.Yes,
                     )
                 } finally {
                     fs.release()
@@ -281,12 +363,9 @@ class ProjectCompilerService(val project: Project) : Disposable {
 
                 val errors = when (val output = result.output) {
                     is RResult.Ok -> {
-                        println("Repaint scheduled!")
                         ApplicationManager.getApplication().invokeLater { // on another thread
-                            println("Repaint happening!")
                             notify.RENDERER.reload(output.value)
                             notify.component.repaint()
-                            println("Repaint happened!")
                         }
                         listOf()
                     }

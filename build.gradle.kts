@@ -28,12 +28,12 @@ intellij {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    implementation(kotlin("reflect"))
+    api("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    api(kotlin("reflect"))
 
-    implementation("org.ldemetrios:tyko-runtime:0.5.a")
-    implementation("org.ldemetrios:tyko-drivers-chicory-based:0.5.a")
+    api("org.ldemetrios:tyko-runtime:0.5.a")
+    api("org.ldemetrios:tyko-drivers-chicory-based:0.5.a")
 
     api("com.github.weisj:jsvg:1.6.0")
 

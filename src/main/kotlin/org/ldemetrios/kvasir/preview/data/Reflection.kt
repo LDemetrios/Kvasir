@@ -1,5 +1,6 @@
 package org.ldemetrios.kvasir.preview.data
 
+import com.jetbrains.rd.util.ConcurrentHashMap
 import org.ldemetrios.tyko.conversion.java2typst
 import org.ldemetrios.tyko.conversion.typst2java
 import org.ldemetrios.tyko.model.TValue
@@ -94,8 +95,19 @@ fun reflectiveCall(
     return java2typst(handle.invokeWithArguments(converted))
 }
 
-object BytesClassLoader : ClassLoader() {
+private data class ByteArrayW(val b: ByteArray) {
+    override fun equals(other: Any?): Boolean = when {
+        this === other -> true
+        other !is ByteArrayW -> false
+        else -> b.contentEquals(other.b)
+    }
+
+    override fun hashCode(): Int = b.contentHashCode()
+}
+
+object BytesClassLoader : ClassLoader(TValue::class.java.classLoader) {
+    private val map = ConcurrentHashMap<ByteArrayW, Class<*>>()
     fun define(name: String, b: ByteArray): Class<*>? {
-        return defineClass(name, b, 0, b.size)
+        return map.getOrPut(ByteArrayW(b)) { defineClass(name, b, 0, b.size) }
     }
 }

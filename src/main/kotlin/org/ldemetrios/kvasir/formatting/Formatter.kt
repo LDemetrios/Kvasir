@@ -9,6 +9,7 @@ import org.ldemetrios.kvasir.language.TypstCodeFileType
 import org.ldemetrios.kvasir.language.TypstMarkupFileType
 import org.ldemetrios.kvasir.language.TypstMathFileType
 import org.ldemetrios.kvasir.settings.AppSettings
+import org.ldemetrios.tyko.runtime.TypstRuntime
 import java.util.*
 
 abstract class TypstFormatterCommon : AsyncDocumentFormattingService() {
@@ -38,7 +39,6 @@ abstract class TypstFormatterCommon : AsyncDocumentFormattingService() {
     override fun getNotificationGroupId(): String = "Typst"
 
     override fun getName(): String = "Typstyle"
-
 }
 
 private val FEATURES: MutableSet<FormattingService.Feature> =
@@ -47,17 +47,23 @@ private val FEATURES: MutableSet<FormattingService.Feature> =
 class TypstMarkupFormatter : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int) =
         frontendPool.withResource(true, true) {
-            formatSource(text, textWidth, tabSize)
+            checkedFormat(text, textWidth, tabSize)
         }
 
     override fun canFormat(file: PsiFile): Boolean = file.fileType is TypstMarkupFileType
+}
+
+private fun TypstRuntime.checkedFormat(text: String, textWidth: Int, tabSize: Int): String {
+    val result = formatSource(text, textWidth, tabSize)
+    if (result.isBlank() && text.isNotBlank()) return text // Erroneous text
+    return result
 }
 
 abstract class SurroundingFormatter(val prefix: String, val suffix: String) : TypstFormatterCommon() {
     override fun format(text: String, textWidth: Int, tabSize: Int): String {
         val prepared = "#{\n$text\n}"
         val result = frontendPool.withResource(true, true) {
-            formatSource(prepared, textWidth + tabSize, tabSize)
+            checkedFormat(prepared, textWidth + tabSize, tabSize)
         }.trim()
         if (result.lines().size == 1) {
             return result.removePrefix(prefix).removeSuffix(suffix).trim() + "\n"
