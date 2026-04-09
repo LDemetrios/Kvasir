@@ -9,6 +9,9 @@ import com.intellij.openapi.fileEditor.TextEditorWithPreview
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
 import com.intellij.openapi.vfs.*
+import com.intellij.openapi.vfs.newvfs.BulkFileListener
+import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
+import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import org.ldemetrios.Pool
 import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.highlight.defaultScheme
@@ -38,12 +41,18 @@ import java.lang.invoke.MethodHandles
 import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 
-class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : VirtualFileListener {
-    override fun contentsChanged(event: VirtualFileEvent) {
-        if (event.file.extension !in extensions) return
+class KvasirVFSListener(/*private val project: Project*/val mode: SyntaxMode) : BulkFileListener {
+    override fun after(events: MutableList<out VFileEvent>) {
+        val changedFiles = events
+            .filterIsInstance<VFileContentChangeEvent>()
+            .map { it.file }
+            .filter { it.extension in extensions }
+            .distinct()
+
+        if (changedFiles.isEmpty()) return
 
         //We'll need something more robust later
-        val project = ProjectLocator.getInstance().guessProjectForFile(event.file)!!
+        val project = ProjectLocator.getInstance().guessProjectForFile(changedFiles.first())!!
 
         val editorManager = FileEditorManager.getInstance(project)
         val openEditors = editorManager.allEditors

@@ -1,22 +1,15 @@
 package org.ldemetrios.kvasir.highlight
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
-import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey
-import com.intellij.openapi.editor.markup.AttributesFlyweight
-import com.intellij.openapi.editor.markup.EffectType
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.openapi.editor.markup.TextAttributesEffectsBuilder
-import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.options.colors.AttributesDescriptor
-import com.sun.jna.Platform
 import org.ldemetrios.kvasir.preview.ui.clip
 import java.awt.Color
 import java.awt.Font
-import java.util.function.BiConsumer
 
 class TextAttributeHelper(val displayName: String, val parent: TextAttributesKey?) {
     val id: String = "KVASIR_" + displayName
@@ -130,19 +123,5 @@ fun mergeFontType(a: Int, b: Int): Int {
 }
 
 fun TextAttributesKey.resolve() = defaultScheme.getAttributes(this)!!
-
-class DelegatingAttributes(private val func: () -> TextAttributes) : TextAttributes() {
-    override fun getForegroundColor(): Color = func().foregroundColor
-    override fun getBackgroundColor(): Color = func().backgroundColor
-    override fun getEffectColor(): Color = func().effectColor
-    override fun getErrorStripeColor(): Color? = func().errorStripeColor
-    override fun getEffectType(): EffectType? = func().effectType
-    override fun getFontType(): Int = func().fontType
-    override fun forEachAdditionalEffect(consumer: BiConsumer<in EffectType, in Color>) =
-        func().forEachAdditionalEffect(consumer)
-
-    override fun forEachEffect(consumer: BiConsumer<in EffectType, in Color>) = func().forEachEffect(consumer)
-    override fun getFlyweight(): AttributesFlyweight = func().flyweight
-}
 
 val defaultScheme get() = EditorColorsManager.getInstance().globalScheme

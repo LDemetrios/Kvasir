@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "org.ldemetrios"
-version = "0.4.a"
+version = "0.4.0"
 
 repositories {
     mavenCentral()

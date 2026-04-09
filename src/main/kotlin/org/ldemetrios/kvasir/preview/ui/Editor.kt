@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileEditor.*
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.progress.ProcessCanceledException
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
@@ -51,15 +52,16 @@ class TypstWithPreviewProvider : FileEditorProvider, DumbAware {
     override fun getPolicy(): FileEditorPolicy = FileEditorPolicy.HIDE_DEFAULT_EDITOR
 }
 
-class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, val mode: SyntaxMode) : FileEditor, DocumentListener {
+class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, val mode: SyntaxMode) : FileEditor, DocumentListener, Disposable {
     val RENDERER = SvgViewerPanel(listOf() /*For now*/)
     val COMPONENT = ZoomablePanel(RENDERER /*TestPanel(700, 1600)*/)
+    private val vfsListener = KvasirVFSListener(mode)
 
     init {
-        VirtualFileManager.getInstance().addVirtualFileListener(KvasirVFSListener(mode));
+        project.messageBus.connect(this).subscribe(VirtualFileManager.VFS_CHANGES, vfsListener)
         val doc = FileDocumentManager.getInstance().getDocument(f)
         if (doc != null) {
-            doc.addDocumentListener(this)
+            doc.addDocumentListener(this, this)
             ProjectCompilerService.getInstance(project).registerDoc(
                 File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString(),
                 doc
@@ -115,4 +117,3 @@ class TypstPreviewFileEditor(private val f: VirtualFile, val project: Project, v
     override fun removePropertyChangeListener(listener: PropertyChangeListener) = Unit
     override fun getFile(): VirtualFile = f
 }
-

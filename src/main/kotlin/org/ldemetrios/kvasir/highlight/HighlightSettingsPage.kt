@@ -71,11 +71,9 @@ open class HighlightSettingsPageCommon(val mode: SyntaxMode) : ColorSettingsPage
         """.trimIndent()
     }
 
-    fun mix(vararg keys: TextAttributeHelper) = TextAttributesKey.createTextAttributesKey(
+    fun mix(vararg keys: TextAttributeHelper) = TextAttributesKey.createTempTextAttributesKey(
         "tmp${System.nanoTime()}",
-        DelegatingAttributes {
-            mergeAttributes(*keys.reversed().map { it.key.resolve() }.toTypedArray())!!
-        }
+        mergeAttributes(*keys.reversed().map { it.key.resolve() }.toTypedArray())!!
     )
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> {
