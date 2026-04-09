@@ -5,7 +5,7 @@ Languages: <a href="Roadmap-RU.md"><img src="/flags/RU.png" alt="Russian" width=
 ## Roadmap
 (Before opening a feature request make sure it's not already planned)
 
-Listed by group, not by priority (see _Nearest plans_ for those)
+Listed by group, not by priority
 
 - Highlighting
     - [X] Basic Typst formatting
@@ -37,4 +37,4 @@ Listed by group, not by priority (see _Nearest plans_ for those)
     - [ ] Gradle plugin
     - [ ] IDEa project template
     - [ ] Typst project template
-    - [ ] JVM functions support
+    - [X] JVM functions support

@@ -4,6 +4,15 @@ Languages: <a href="Changelog-RU.md"><img src="/flags/RU.png" alt="Russian" widt
 
 ## Changelog
 
+## 0.4.0
+
+- Typst 0.14 is supported
+- Kvasir is now pure-JVM, no native dependencies, no OS processes opened, it's cross-platform as is.
+- Setting for disabling compilation was added
+- Experimental API for JVM interop (and `.jar` plugins) was added. Disabled by default.
+- Bug where `inputs` didn't change without reloading the IDE or the plugin, was fixed.
+- Setting for cross-compilation cache adjustment was added.
+
 ## 0.3.0
 
 - Typst 0.13 is supported.

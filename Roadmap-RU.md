@@ -5,7 +5,7 @@ Languages: <a href="Roadmap-RU.md"><img src="/flags/RU.png" alt="Russian" width=
 ## Roadmap
 (Прежде, чем открывать feature request, удостоверьтесь, что фича не планируется и так)
 
-Сгруппировано по смыслу, не по приоритету (см. _Ближайшие планы_ для приоритетов)
+Сгруппировано по смыслу, не по приоритету
 
 - Подсветка
     - [X] Основной синтаксис разметки
@@ -36,4 +36,4 @@ Languages: <a href="Roadmap-RU.md"><img src="/flags/RU.png" alt="Russian" width=
     - [ ] Gradle плагин
     - [ ] Шаблон проекта JB
     - [ ] Шаблон проекта Typst
-    - [ ] Поддержка JVM функций
+    - [X] Поддержка JVM функций
