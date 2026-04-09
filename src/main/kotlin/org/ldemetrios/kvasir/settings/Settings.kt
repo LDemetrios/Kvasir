@@ -51,7 +51,8 @@ class AppSettingsComponent {
     lateinit var zoomingCoeffComponent: JSpinner
     lateinit var breakGlassTicketEnabledComponent: JBCheckBox
     lateinit var breakGlassTicketComponent: JBTextField
-    lateinit var suppressPreview: JBCheckBox
+    lateinit var suppressCompilationComponent: JBCheckBox
+    lateinit var cacheAgeComponent: JBTextField
     var panel: JPanel = panel {
         lateinit var breakGlassTicketEnabledCell: Cell<JBCheckBox>
 //        row {
@@ -96,8 +97,12 @@ class AppSettingsComponent {
             textField().putTo(::breakGlassTicketComponent)
         }.enabledIf(breakGlassTicketEnabledCell.selected)
 
-        row{
-            checkBox("Suppress preview").putTo(::suppressPreview)
+        row {
+            checkBox("Suppress compilation").putTo(::suppressCompilationComponent)
+        }
+        row {
+            label("Preserved comemo cache age (lower -- more CPU, higher -- more RAM):")
+            intTextField(0 until Int.MAX_VALUE, 1).putTo(::cacheAgeComponent)
         }
     }
 
@@ -117,7 +122,8 @@ class AppSettingsComponent {
     var zoomingCoeff: Double by JBTextFieldDoubleCell(zoomingCoeffComponent)
     var breakGlassTicketEnabled: Boolean by JBCheckBoxCell(breakGlassTicketEnabledComponent)
     var breakGlassTicket: String by JBTextFieldCell(breakGlassTicketComponent)
-    var suppressPreviewOption: Boolean by JBCheckBoxCell(suppressPreview)
+    var suppressCompilationOption: Boolean by JBCheckBoxCell(suppressCompilationComponent)
+    var cacheAge: Int by JBTextFieldIntCell(cacheAgeComponent)
     var state: AppSettingsState
         get() = AppSettingsState(
 //            scopeParenthesis,
@@ -133,7 +139,8 @@ class AppSettingsComponent {
             zoomingCoeff,
             breakGlassTicketEnabled,
             breakGlassTicket,
-            suppressPreviewOption,
+            suppressCompilationOption,
+            cacheAge
         )
         set(value) {
 //            scopeParenthesis = value.scopeParenthesis
@@ -148,7 +155,8 @@ class AppSettingsComponent {
             zoomingCoeff = value.zoomingCoeff
             breakGlassTicketEnabled = value.breakGlassTicketEnabled
             breakGlassTicket = value.breakGlassTicket
-            suppressPreviewOption = value.suppressPreview
+            suppressCompilationOption = value.suppressPreview
+            cacheAge = value.cacheAge
         }
 }
 
@@ -166,8 +174,8 @@ data class AppSettingsState(
     var breakGlassTicketEnabled: Boolean = false,
     var breakGlassTicket: String = "",
     val suppressPreview: Boolean = false,
+    val cacheAge: Int = 20,
 )
-
 
 // ---------------- Boilerplate ----------------
 

@@ -147,7 +147,11 @@ private fun LibrarySpecBuilder.defineUpcall() {
             val name = it.positional[0] as TStr
             val content = it.positional[1] as TBytes
             val breakglass = it.named["breakglass"] as TStr?
-            if (breakglass == null || breakglass.value.isBlank() || breakglass.value != AppSettings.instance.state.breakGlassTicket) {
+            if (breakglass == null ||
+                breakglass.value.isBlank() ||
+                breakglass.value != AppSettings.instance.state.breakGlassTicket ||
+                !AppSettings.instance.state.breakGlassTicketEnabled
+            ) {
                 throw AssertionError("Break-glass access is forbidden (incorrect or missing ticket)")
             }
             val clazz = BytesClassLoader.define(name.value, content.value)
@@ -354,7 +358,11 @@ class ProjectCompilerService(val project: Project) : Disposable {
                 }
                 val result = try {
                     runtime!!.compileSvg(
-                        fs, currentMain, sessionMode = CreateSessionMode.Yes,
+                        fs, currentMain,
+                        sessionMode = if (
+                            AppSettings.instance.state.breakGlassTicket.isBlank() ||
+                            !AppSettings.instance.state.breakGlassTicketEnabled
+                        ) CreateSessionMode.No else CreateSessionMode.Yes,
                     )
                 } finally {
                     fs.release()
@@ -381,7 +389,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
                 if (reschedule.remove(file)) {
                     scheduleRecompile(file, notify, mode) // schedules to another thread
                 } else {
-                    runtime!!.evictCache(2)
+                    runtime!!.evictCache(AppSettings.instance.state.cacheAge.toLong())
                 }
             }
         }
