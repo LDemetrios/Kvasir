@@ -4,6 +4,10 @@ Languages: <a href="Changelog-RU.md"><img src="/flags/RU.png" alt="Russian" widt
 
 ## Changelog
 
+## 0.4.1
+
+- Fixed bug with path separators on Windows
+
 ## 0.4.0
 
 - Typst 0.14 is supported

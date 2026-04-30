@@ -8,10 +8,12 @@ import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.TextEditorWithPreview
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectLocator
-import com.intellij.openapi.vfs.*
+import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
+import com.intellij.openapi.vfs.readBytes
 import org.ldemetrios.Pool
 import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.highlight.defaultScheme
@@ -19,7 +21,13 @@ import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
 import org.ldemetrios.kvasir.settings.AppSettings
 import org.ldemetrios.kvasir.util.ConcurrentHashSet
 import org.ldemetrios.kvasir.util.extensions
-import org.ldemetrios.tyko.compiler.*
+import org.ldemetrios.tyko.compiler.Feature
+import org.ldemetrios.tyko.compiler.FileDescriptor
+import org.ldemetrios.tyko.compiler.FileError
+import org.ldemetrios.tyko.compiler.NativeCastInfo
+import org.ldemetrios.tyko.compiler.RResult
+import org.ldemetrios.tyko.compiler.SourceDiagnostic
+import org.ldemetrios.tyko.compiler.SyntaxMode
 import org.ldemetrios.tyko.driver.chicory_based.ChicoryTypstCore
 import org.ldemetrios.tyko.model.TBytes
 import org.ldemetrios.tyko.model.TColor
@@ -359,7 +367,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
         }
         ApplicationManager.getApplication().executeOnPooledThread {
             val currentMain =
-                FileDescriptor(null, File.separator + Path.of(project.basePath).relativize(file.toNioPath()).toString())
+                FileDescriptor(null, "/" + Path.of(project.basePath).relativize(file.toNioPath()).toString().replace(File.separator, "/"))
             pool.withResource(true, true) {
                 checkInputs(colorsInput())
                 val fs = runtime!!.fileContextOf {

@@ -4,6 +4,10 @@ Languages: <a href="Changelog-RU.md"><img src="/flags/RU.png" alt="Russian" widt
 
 ## Changelog
 
+## 0.4.1
+
+- Исправлен баг с файловым разделителем на Windows
+
 ## 0.4.0
 
 - Поддержан Typst 0.14.

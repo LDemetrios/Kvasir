@@ -6,7 +6,7 @@ Languages: <a href="README-RU.md"><img src="/flags/RU.png" alt="Russian" width="
 
 Kvasir (/kwɑ'zer/) — это (неофициальный) плагин для JetBrains Platform, добавляющий поддержку для языка разметки [Typst](https://typst.app/docs).
 
-Текущая версия в репозитории: **0.4.0**, наконец, совпадает с маркетплейсом.
+Текущая версия в репозитории: **0.4.1**, наконец, совпадает с маркетплейсом.
 
 ![screenshot.png](screenshot1.png)
 ![screenshot.png](screenshot2.png)
