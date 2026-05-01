@@ -303,7 +303,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
         return when (file.packageSpec?.namespace) {
             null -> {
                 // File in project
-                val cached = edited[file.virtualPath]
+                val cached = edited[file.virtualPath.replace("/", File.separator)]
                 if (cached != null) {
                     val text = cached.text
                     RResult.Ok(
@@ -318,7 +318,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
                         }.toByteArray()
                     )
                 } else {
-                    val absolutePath: String = project.basePath + file.virtualPath
+                    val absolutePath: String = project.basePath + file.virtualPath.replace("/", File.separator)
                     val projectFile = LocalFileSystem.getInstance().findFileByPath(absolutePath)
                     when {
                         projectFile == null || !projectFile.exists() -> {

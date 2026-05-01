@@ -75,7 +75,7 @@ class CompilationErrorAnnotator : ExternalAnnotator<VirtualFile, List<CompiledDo
         val errors = annotationResult.flatMap { it.errors }.sumOf { it.trace.size + 1 }
 
         fun annotate(error: Boolean, idx: Int, span: Span, message: String) {
-            val thisFile = span.file?.packageSpec == null && span.file?.virtualPath?.split(File.separator) == filePath
+            val thisFile = span.file?.packageSpec == null && span.file?.virtualPath?.split("/") == filePath
             val range = if (thisFile) {
                 TextRange((span.startInd - shift).resolve(), (span.endInd - shift).resolve())
             } else {
