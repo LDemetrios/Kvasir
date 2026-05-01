@@ -125,4 +125,53 @@
 
         <multiHostInjector implementation="org.ldemetrios.kvasir.misc.RawLangInjector"/>
     </extensions>
+
+    <change-notes><![CDATA[
+        <h3>0.4.1</h3>
+        <ul>
+            <li>Fixed bug with <code>Suppress preview</code> and <code>Cache age</code> settings not persisting after IDE reload</li>
+            <li>Fixed bug with path separators on Windows</li>
+        </ul>
+
+        <h3>0.4.0</h3>
+        <ul>
+            <li>Typst 0.14 is supported</li>
+            <li>Kvasir is now pure-JVM, no native dependencies, no OS processes opened, it's cross-platform as is</li>
+            <li>Setting for disabling compilation was added</li>
+            <li>Experimental API for JVM interop (and <code>.jar</code> plugins) was added. Disabled by default</li>
+            <li>Bug where <code>inputs</code> didn't change without reloading the IDE or the plugin, was fixed</li>
+            <li>Setting for cross-compilation cache adjustment was added</li>
+        </ul>
+
+        <h3>0.3.0</h3>
+        <ul>
+            <li>Typst 0.13 is supported</li>
+            <li>Fixed annoying freezing of various components</li>
+            <li>Three file extensions are now supported: <code>typ</code> for markup, <code>typc</code> for code, <code>typm</code> for math. All share the same set of features (code highlighting, preview, formatter, code actions, etc)</li>
+            <li>Formatter was added (based on <a href="https://github.com/Enter-tainer/typstyle">typstyle</a>). Settings for it can be found in Settings/Tools/Kvasir</li>
+            <li>Primitive code actions were added (commenter, surround-with)</li>
+            <li>Compilation errors are now shown in their trace order, not in location order</li>
+            <li>Preview now works much faster, utilizing native code through JNA</li>
+            <li>Preview now works almost fully with in-memory files, not loading the disk (except for package access)</li>
+            <li><code>inputs</code> (kvasir-preview-foreground, kvasir-preview-background) are now not <code>str</code>s, but <code>color</code>s</li>
+            <li>Syntax highlighting improved, it now mixes styles properly without exponential amount of keys in settings</li>
+            <li>Rainbowifying can now be disabled in plugin settings (Tools/Kvasir)</li>
+            <li>Scrolling and zooming speed can now also be customized</li>
+        </ul>
+
+        <h3>0.2.1, 0.2.2</h3>
+        <ul>
+            <li>Compatibility adjustments</li>
+        </ul>
+
+        <h3>0.2.0</h3>
+        <ul>
+            <li>Preview introduced</li>
+        </ul>
+
+        <h3>0.1.0</h3>
+        <ul>
+            <li>First appearance</li>
+        </ul>
+    ]]></change-notes>
 </idea-plugin>

@@ -7,6 +7,7 @@ Languages: <a href="Changelog-RU.md"><img src="/flags/RU.png" alt="Russian" widt
 ## 0.4.1
 
 - Исправлен баг с файловым разделителем на Windows
+- Исправлен баг, при котором настройки `Suppress compilation` и `Cache age` не сохранялись после перезагрузки IDE.
 
 ## 0.4.0
 

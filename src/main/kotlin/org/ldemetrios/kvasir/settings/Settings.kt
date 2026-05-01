@@ -173,8 +173,8 @@ data class AppSettingsState(
     var zoomingCoeff: Double = 1.0,
     var breakGlassTicketEnabled: Boolean = false,
     var breakGlassTicket: String = "",
-    val suppressPreview: Boolean = false,
-    val cacheAge: Int = 20,
+    var suppressPreview: Boolean = false,
+    var cacheAge: Int = 20,
 )
 
 // ---------------- Boilerplate ----------------
