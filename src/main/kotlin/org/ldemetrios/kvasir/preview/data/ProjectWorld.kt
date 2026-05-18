@@ -19,7 +19,6 @@ import org.ldemetrios.frontendPool
 import org.ldemetrios.kvasir.highlight.defaultScheme
 import org.ldemetrios.kvasir.preview.ui.TypstPreviewFileEditor
 import org.ldemetrios.kvasir.settings.AppSettings
-import org.ldemetrios.kvasir.util.ConcurrentHashSet
 import org.ldemetrios.kvasir.util.extensions
 import org.ldemetrios.tyko.compiler.Feature
 import org.ldemetrios.tyko.compiler.FileDescriptor
@@ -292,8 +291,8 @@ class ProjectCompilerService(val project: Project) : Disposable {
     fun registerDoc(path: String, doc: Document) = edited.put(path, doc)
     fun unregisterDoc(path: String) = edited.remove(path)
 
-    private val scheduled = ConcurrentHashSet<VirtualFile>()
-    private val reschedule = ConcurrentHashSet<VirtualFile>()
+    private val scheduled = ConcurrentHashMap<VirtualFile, Unit>()
+    private val reschedule = ConcurrentHashMap<VirtualFile, Unit>()
 
     fun resolveFile(
         mainFile: FileDescriptor,
@@ -360,9 +359,9 @@ class ProjectCompilerService(val project: Project) : Disposable {
 
     fun scheduleRecompile(file: VirtualFile, notify: TypstPreviewFileEditor, mode: SyntaxMode) {
         if (AppSettings.instance.state.suppressPreview) return
-        val added = scheduled.add(file)
+        val added = scheduled.put(file, Unit) == null
         if (!added) {
-            reschedule.add(file)
+            reschedule.put(file, Unit)
             return
         }
         ApplicationManager.getApplication().executeOnPooledThread {
@@ -403,7 +402,7 @@ class ProjectCompilerService(val project: Project) : Disposable {
                     map
                 }
                 scheduled.remove(file) // cheap
-                if (reschedule.remove(file)) {
+                if (reschedule.remove(file) == Unit) {
                     scheduleRecompile(file, notify, mode) // schedules to another thread
                 } else {
                     runtime!!.evictCache(AppSettings.instance.state.cacheAge.toLong())
