@@ -2,6 +2,14 @@
 Languages: <a href="README-RU.md"><img src="/flags/RU.png" alt="Russian" width="6%"  align="right"></a> <a href="README.md"><img src="/flags/UK.png" alt="English" width="6%" align="right"></a> 
 </p></div>
 
+## Disclaimer 
+
+JetBrains Marketplace deemed me an ~~unworthy~~ undesired party to conduct business with, and threatened to remove the plugin from the Marketplace (at the time you are reading this, they may have already followed through). I disagree with the grounds and handling of this decision, and I think they are intetionally sabotaging the exercise of my GDPR-rights. 
+
+Regardless of the outcome of ongoing discussion, *I'm continuing the development*, since, I have the right to do so without respect to their willingness to "conduct business". The currently existing versions are available under the `distributions` folder, I also consider creating a custom plugin repository for user convinience. 
+
+Currently worked-on features include extensive quick actions (like renaming, inlining, extracting and otherwise refactoring) as well as the support for JVM-based plugins.
+
 # Kvasir
 
 Kvasir (/kwɑ'zer/) is an (unofficial) plugin for JetBrains platform adding support for [Typst](https://typst.app/docs) language.
